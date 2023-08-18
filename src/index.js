@@ -1,10 +1,9 @@
-// test to see if webpack is functioning properly
-function component() {
-    const element = document.createElement('div');
+import Task from "./task";
 
-    element.innerHTML = 'Todo List!';
-
-    return element;
-}
-
-document.body.appendChild(component());
+const gym = new Task("Gym", "8/17/2023");
+console.log(gym.getName());
+console.log(gym.getDate());
+gym.setName("Push Day");
+gym.setDate("8/21/2023");
+console.log(gym.getName());
+console.log(gym.getDate());
