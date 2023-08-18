@@ -1,8 +1,8 @@
 class Task {
-    constructor(name, description, prority, dueDate = 'No date') {
+    constructor(name, description, priority, dueDate = 'No date') {
         this.name = name;
         this.description = description;
-        this.prority = prority;
+        this.priority = priority;
         this.dueDate = dueDate;
     }
 
@@ -22,12 +22,12 @@ class Task {
         return this.description;
     }
 
-    setPrority(prority) {
-        this.prority = prority;
+    setPriority(priority) {
+        this.priority = priority;
     }
 
-    getPrority() {
-        return this.prority;
+    getPriority() {
+        return this.priority;
     }
 
     setDate(dueDate) {
