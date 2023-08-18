@@ -16,7 +16,7 @@
   \**********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n\n\nconst gym = new _task__WEBPACK_IMPORTED_MODULE_0__[\"default\"](\"Gym\", \"8/17/2023\");\nconsole.log(gym.getName());\nconsole.log(gym.getDate());\ngym.setName(\"Push Day\");\ngym.setDate(\"8/21/2023\");\nconsole.log(gym.getName());\nconsole.log(gym.getDate());\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _task__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./task */ \"./src/task.js\");\n\n\nconst gym = new _task__WEBPACK_IMPORTED_MODULE_0__[\"default\"](\"Gym\");\nconsole.log(gym.getName());\nconsole.log(gym.getDate());\nconsole.log(gym.getDescription());\nconsole.log(gym.getPrority());\ngym.setName(\"Push Day\");\ngym.setDate(\"8/21/2023\");\ngym.setDescription(\"Train chest and triceps from 9:45pm to 11:00pm\");\ngym.setPrority(\"High\");\nconsole.log(gym.getName());\nconsole.log(gym.getDate());\nconsole.log(gym.getDescription());\nconsole.log(gym.getPrority());\n\n//# sourceURL=webpack://todo-list/./src/index.js?");
 
 /***/ }),
 
@@ -26,7 +26,7 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _tas
   \*********************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Task {\n    constructor(name, dueDate) {\n        this.name = name;\n        this.dueDate = dueDate;\n    }\n\n    setName(name) {\n        this.name = name;\n    }\n\n    getName() {\n        return this.name;\n    }\n\n    setDate(dueDate) {\n        this.dueDate = dueDate;\n    }\n\n    getDate() {\n        return this.dueDate;\n    }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Task);\n\n//# sourceURL=webpack://todo-list/./src/task.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__)\n/* harmony export */ });\nclass Task {\n    constructor(name, description, prority, dueDate = 'No date') {\n        this.name = name;\n        this.description = description;\n        this.prority = prority;\n        this.dueDate = dueDate;\n    }\n\n    setName(name) {\n        this.name = name;\n    }\n\n    getName() {\n        return this.name;\n    }\n\n    setDescription(description) {\n        this.description = description;\n    }\n\n    getDescription() {\n        return this.description;\n    }\n\n    setPrority(prority) {\n        this.prority = prority;\n    }\n\n    getPrority() {\n        return this.prority;\n    }\n\n    setDate(dueDate) {\n        this.dueDate = dueDate;\n    }\n\n    getDate() {\n        return this.dueDate;\n    }\n}\n\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Task);\n\n//# sourceURL=webpack://todo-list/./src/task.js?");
 
 /***/ })
 
