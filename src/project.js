@@ -12,16 +12,12 @@ class Project {
         return this.name;
     }
 
-    setTasks(tasks) {
-        this.tasks = tasks;
-    }
-
     getTasks() {
         return this.tasks;
     }
 
     getTask(taskName) {
-        return this.tasks.some((task) => task.getName() === taskName);
+        return this.tasks.find((task) => task.getName() === taskName);
     }
 
     addTask(newTask) {
