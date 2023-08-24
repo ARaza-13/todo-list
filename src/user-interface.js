@@ -9,23 +9,14 @@ class UI {
 
     static loadProjects(todoList) {
         todoList.getProjects().forEach((project) => {
-            if (
-                project.name !== 'Inbox' &&
-                project.name !== 'Today' &&
-                project.name !== 'This week' &&
-                project.name !== 'This month' &&
-                project.name !== 'This year'
-            ) {
-                UI.createProject(project.name);
-            }
+            UI.createProject(project.name); 
         });
     }
-
 
     static createProject(name) {
         const projects = document.getElementById('projects');
 
-        const projectName = document.createElement('div');
+        const projectName = document.createElement('button');
         projectName.classList.add('project-name');
         projectName.textContent = `${name}`;
 
