@@ -1,6 +1,7 @@
 import Task from "./task";
 import Project from "./project";
 import TodoList from "./todolist";
+import UI from "./user-interface";
 
 const task = new Task("Gym");
 task.setName("Push Day");
@@ -76,3 +77,5 @@ console.log(todoList.getProjects());
 console.log(todoList.getProject(project.getName()));
 console.log(todoList.getProject(trophyHunting.getName()));
 console.log(todoList.getProject(coding.getName()));
+
+UI.loadHomePage(todoList);
