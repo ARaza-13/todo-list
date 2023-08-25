@@ -4,6 +4,7 @@ class Task {
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
+        this.completed = false;
     }
 
     setName(name) {
