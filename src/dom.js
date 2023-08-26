@@ -66,4 +66,4 @@ class DOMManager {
     }
 }
 
-export default DOMManager
+export default DOMManager;
