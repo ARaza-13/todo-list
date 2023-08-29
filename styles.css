@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+}
+
+.header {
+    text-align: center;
+    padding: 10px 20px;
+}
+
+.main {
+    display: flex;
+}
+
+.side-bar {
+    width: 350px;
+    padding: 20px;
+}
+
+.projects-heading {
+    border-bottom: solid 2px;
+    padding-bottom: 5px;
+}
+
+.project {
+    padding: 10px 20px;
+}
+
+.tasks {
+    flex: 1;
+    padding: 25px 45px;
+}
+
+.project, 
+.task {
+    cursor: pointer;
+}
