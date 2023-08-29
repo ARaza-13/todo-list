@@ -6,8 +6,13 @@ class DOMManager {
         this.taskDetailsContainer = document.createElement('div');
         this.taskDetailsContainer.classList.add('todo-details');
 
+        this.defaultProjectsContainer = document.getElementById('default-projects');
         this.projectsContainer = document.getElementById('projects');
         this.tasksConatiner = document.getElementById('tasks');
+    }
+
+    initialize(todoList) {
+        todoList.getProjects().forEach((project) => this.renderProject(project));
     }
 
     renderProject(project) {
@@ -17,7 +22,11 @@ class DOMManager {
 
         projectConatiner.addEventListener('click', () => this.renderTasks(project));
 
-        this.projectsContainer.appendChild(projectConatiner);
+        if (project.isDefault) {
+            this.defaultProjectsContainer.appendChild(projectConatiner)
+        } else {
+            this.projectsContainer.appendChild(projectConatiner);
+        }
     }
 
     renderTasks(project) {
@@ -47,7 +56,7 @@ class DOMManager {
         dueDateElement.textContent = `Due: ${task.getDate()}`;
 
         const priorityElement = document.createElement('p');
-        priorityElement.textContent = `Priority: ${task.getPriority()};`;
+        priorityElement.textContent = `Priority: ${task.getPriority()}`;
 
         this.taskDetailsContainer.appendChild(titleElement);
         this.taskDetailsContainer.appendChild(descriptionElement);

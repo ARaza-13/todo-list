@@ -61,4 +61,4 @@ todoList.addProject(coding);
 
 const domManager = new DOMManager(todoList, Project, Task);
 
-todoList.getProjects().forEach((project) => domManager.renderProject(project));
+domManager.initialize(todoList);
