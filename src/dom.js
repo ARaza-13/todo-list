@@ -3,8 +3,6 @@ class DOMManager {
         this.todoList = todoList;
         this.Project = Project;
         this.Task = Task;
-        this.taskDetailsContainer = document.createElement('div');
-        this.taskDetailsContainer.classList.add('todo-details');
 
         this.defaultProjectsContainer = document.getElementById('default-projects');
         this.projectsContainer = document.getElementById('projects');
@@ -32,46 +30,54 @@ class DOMManager {
     renderTasks(project) {
         this.clearTasks();
 
+        const projectTitle = document.createElement('div');
+        projectTitle.classList.add('title');
+        projectTitle.textContent = `${project.name}`; 
+
+        this.tasksConatiner.appendChild(projectTitle);
+
         project.getTasks().forEach((task) => {
-            const taskContainer = document.createElement('div');
-            taskContainer.classList.add('task');
-            taskContainer.textContent = task.getName();
-
-            taskContainer.addEventListener('click', () => this.renderTaskDetails(task));
-
-            this.tasksConatiner.appendChild(taskContainer);
+            this.renderTaskDetails(task);
         });
     }
 
     renderTaskDetails(task) {
-        this.clearTaskDetails();
+        const taskContainer = document.createElement('div');
+        taskContainer.classList.add('task');
 
-        const titleElement = document.createElement('h2');
+        const checkBubble = document.createElement('div');
+        checkBubble.classList.add('unchecked');
+
+        const taskDetails = document.createElement('div');
+        taskDetails.classList.add('task-details');
+
+        const titleElement = document.createElement('p');
+        titleElement.classList.add('task-title');
         titleElement.textContent = task.getName();
 
         const descriptionElement = document.createElement('p');
+        descriptionElement.classList.add('task-description');
         descriptionElement.textContent = task.getDescription();
 
+        taskDetails.appendChild(titleElement);
+        taskDetails.appendChild(descriptionElement);
+
         const dueDateElement = document.createElement('p');
-        dueDateElement.textContent = `Due: ${task.getDate()}`;
+        dueDateElement.textContent = `${task.getDate()}`;
 
         const priorityElement = document.createElement('p');
         priorityElement.textContent = `Priority: ${task.getPriority()}`;
 
-        this.taskDetailsContainer.appendChild(titleElement);
-        this.taskDetailsContainer.appendChild(descriptionElement);
-        this.taskDetailsContainer.appendChild(dueDateElement);
-        this.taskDetailsContainer.appendChild(priorityElement);
+        taskContainer.appendChild(checkBubble);
+        taskContainer.appendChild(taskDetails);
+        taskContainer.appendChild(dueDateElement);
+        taskContainer.appendChild(priorityElement);
 
-        this.tasksConatiner.appendChild(this.taskDetailsContainer);
+        this.tasksConatiner.appendChild(taskContainer);
     }
 
     clearTasks() {
         this.tasksConatiner.innerHTML = '';
-    }
-
-    clearTaskDetails() {
-        this.taskDetailsContainer.innerHTML = '';
     }
 }
 
