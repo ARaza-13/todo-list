@@ -6,11 +6,16 @@ class DOMManager {
 
         this.defaultProjectsContainer = document.getElementById('default-projects');
         this.projectsContainer = document.getElementById('projects');
-        this.tasksConatiner = document.getElementById('tasks');
         this.projectForm = document.getElementById('project-form');
-        this.projectNameInput = document.getElementById('input-add-project');
+        this.projectNameInput = document.getElementById('input-add-project-popup');
+        this.addProjectButton = document.getElementById('button-add-project');
+        this.cancelProjectButton = document.getElementById('button-cancel-project-popup');
+
+        this.tasksConatiner = document.getElementById('tasks');
 
         this.projectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
+        this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
+        this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
     }
 
     initialize(todoList) {
@@ -28,7 +33,7 @@ class DOMManager {
         const newProject = new this.Project(projectName);
         this.todoList.addProject(newProject);
         this.renderProject(newProject);
-        this.projectNameInput.value = '';
+        this.toggleProjectForm();
     }
 
     renderProject(project) {
@@ -101,6 +106,12 @@ class DOMManager {
         } else {
             return 'green';
         }
+    }
+
+    toggleProjectForm() {
+        this.projectForm.classList.toggle('hidden');
+        this.addProjectButton.classList.toggle('hidden');
+        this.projectNameInput.value = '';
     }
 
     clearTasks() {

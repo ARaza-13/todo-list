@@ -9,6 +9,17 @@ body {
     min-height: 100vh;
 }
 
+.hidden {
+    display: none;
+}
+
+button {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
 /* heading */
 .header {
     text-align: center;
@@ -36,7 +47,7 @@ body {
 }
 
 /* add project form */
-.input-add-project {
+.input-add-project-popup {
     border: 1px solid #aaa;
     width: 100%;
     border-radius: 5px;
@@ -44,14 +55,10 @@ body {
     margin-bottom: 10px;
 }
 
-.button-add-project {
+.button-add-project-popup {
     border: 1px solid #99dd99;
     background-color: #aaffaa;
     font-weight: bold;
-    width: 100%;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
 }
 
 /* tasks content */
