@@ -4,6 +4,7 @@
     box-sizing: border-box;
 }
 
+/* general */
 body {
     min-height: 100vh;
 }
@@ -32,6 +33,25 @@ body {
 
 .project {
     padding: 10px 20px;
+}
+
+/* add project form */
+.input-add-project {
+    border: 1px solid #aaa;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.button-add-project {
+    border: 1px solid #99dd99;
+    background-color: #aaffaa;
+    font-weight: bold;
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 /* tasks content */
