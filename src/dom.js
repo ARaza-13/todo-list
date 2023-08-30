@@ -65,15 +65,24 @@ class DOMManager {
         const dueDateElement = document.createElement('p');
         dueDateElement.textContent = `${task.getDate()}`;
 
-        const priorityElement = document.createElement('p');
-        priorityElement.textContent = `Priority: ${task.getPriority()}`;
+        const priorityColor = this.getPriorityColor(task.getPriority());
+        taskContainer.style.borderRight = `8px solid ${priorityColor}`;
 
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
-        taskContainer.appendChild(priorityElement);
 
         this.tasksConatiner.appendChild(taskContainer);
+    }
+
+    getPriorityColor(priority) {
+        if (priority === 'High') {
+            return 'red';
+        } else if (priority === 'Medium') {
+            return 'yellow';
+        } else {
+            return 'green';
+        }
     }
 
     clearTasks() {
