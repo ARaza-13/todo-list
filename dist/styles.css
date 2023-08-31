@@ -54,14 +54,18 @@ button {
     padding: 10px 20px;
 }
 
-/* add project form */
-.button-add-project {
+.nav-button {
     text-align: left;
     border: 1px solid transparent;
 }
 
-.button-add-project:hover {
+.nav-button:hover {
     background-color: var(--add-project-task-color);
+}
+
+/* add project form */
+.project-form {
+    padding: 10px;
 }
 
 .input-add-project-popup {

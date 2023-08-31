@@ -37,16 +37,16 @@ class DOMManager {
     }
 
     renderProject(project) {
-        const projectConatiner = document.createElement('div');
-        projectConatiner.classList.add('project');
-        projectConatiner.textContent = project.name;
+        const projectContainer = document.createElement('button');
+        projectContainer.classList.add('project','nav-button');
+        projectContainer.textContent = project.name;
 
-        projectConatiner.addEventListener('click', () => this.renderTasks(project));
+        projectContainer.addEventListener('click', () => this.renderTasks(project));
 
         if (project.isDefault) {
-            this.defaultProjectsContainer.appendChild(projectConatiner)
+            this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
-            this.projectsContainer.appendChild(projectConatiner);
+            this.projectsContainer.appendChild(projectContainer);
         }
     }
 
