@@ -1,3 +1,11 @@
+:root {
+    --add-button-color: #86efac;
+    --add-button-color-dark: #4ade80;
+    --cancel-button-color: #fca5a5;
+    --cancel-button-color-dark: #f87171;
+    --add-project-task-color: #d6d3d1;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -47,6 +55,15 @@ button {
 }
 
 /* add project form */
+.button-add-project {
+    text-align: left;
+    border: 1px solid transparent;
+}
+
+.button-add-project:hover {
+    background-color: var(--add-project-task-color);
+}
+
 .input-add-project-popup {
     border: 1px solid #aaa;
     width: 100%;
@@ -55,10 +72,29 @@ button {
     margin-bottom: 10px;
 }
 
+.add-project-popup-buttons {
+    display: flex;
+    gap: 20px;
+}
+
 .button-add-project-popup {
-    border: 1px solid #99dd99;
-    background-color: #aaffaa;
+    border: 1px solid transparent;
+    background-color: var(--add-button-color);
     font-weight: bold;
+}
+
+.button-add-project-popup:hover {
+    background-color: var(--add-button-color-dark);
+}
+
+.button-cancel-project-popup {
+    border: 1px solid transparent;
+    background-color: var(--cancel-button-color);
+    font-weight: bold;
+}
+
+.button-cancel-project-popup:hover {
+    background-color: var(--cancel-button-color-dark);
 }
 
 /* tasks content */
