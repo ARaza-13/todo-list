@@ -51,6 +51,9 @@ button {
 }
 
 .project {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     padding: 10px 20px;
 }
 
@@ -61,6 +64,11 @@ button {
 
 .nav-button:hover {
     background-color: var(--add-project-task-color);
+}
+
+.project-action:after {
+    content: '\2807';
+    font-size: 24px;
 }
 
 /* add project form */
