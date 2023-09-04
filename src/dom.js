@@ -46,8 +46,35 @@ class DOMManager {
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
+            this.createProjectActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }
+    }
+
+    createProjectActions(projectContainer) {
+        const projectActions = document.createElement('div');
+        projectActions.classList.add('project-actions');
+
+        const projectAction = document.createElement('span');
+        projectAction.classList.add('project-action');
+
+        const projectDropdown = document.createElement('div');
+        projectDropdown.classList.add('project-dropdown', 'hidden');
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('edit-project');
+        editButton.textContent = 'Edit';
+
+        const deleteButton = document.createElement('button')
+        deleteButton.classList.add('delete-project');
+        deleteButton.textContent = 'Delete';
+
+        projectDropdown.appendChild(editButton);
+        projectDropdown.appendChild(deleteButton);
+        projectActions.appendChild(projectAction);
+        projectActions.appendChild(projectDropdown);
+
+        projectContainer.appendChild(projectActions);
     }
 
     renderTasks(project) {
