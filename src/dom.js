@@ -4,28 +4,31 @@ class DOMManager {
         this.Project = Project;
         this.Task = Task;
 
+        // DOM elements
         this.defaultProjectsContainer = document.getElementById('default-projects');
         this.projectsContainer = document.getElementById('projects');
         this.projectForm = document.getElementById('project-form');
         this.projectNameInput = document.getElementById('input-add-project-popup');
         this.addProjectButton = document.getElementById('button-add-project');
         this.cancelProjectButton = document.getElementById('button-cancel-project-popup');
-
         this.tasksConatiner = document.getElementById('tasks');
 
-        this.projectsContainer.addEventListener('click', this.handleProjectActions.bind(this));
-        document.addEventListener('click', this.handleDocumentClick.bind(this));
+        // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
 
+        // Event listeners
+        this.projectsContainer.addEventListener('click', this.handleProjectActions.bind(this));
         this.projectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
+        document.addEventListener('click', this.handleDocumentClick.bind(this));
     }
 
     initialize(todoList) {
         todoList.getProjects().forEach((project) => this.renderProject(project));
     }
 
+    // Handle clicks on project's actions (3 dot icon)
     handleProjectActions(e) {
         const projectActions = e.target.closest('.project-actions');
         if (!projectActions) {
@@ -40,10 +43,10 @@ class DOMManager {
             this.openDropdown.classList.add('hidden');
         }
         
-        // update openDropdown variable
         this.openDropdown = dropdown;
     }
 
+    // Handle clicks outside of dropdowns to hide them
     handleDocumentClick(e) {
         const dropdownButton = e.target.closest('.project-actions .project-action');
         if (!dropdownButton) {
@@ -64,21 +67,6 @@ class DOMManager {
         this.todoList.addProject(newProject);
         this.renderProject(newProject);
         this.toggleProjectForm();
-    }
-
-    renderProject(project) {
-        const projectContainer = document.createElement('button');
-        projectContainer.classList.add('project');
-        projectContainer.textContent = project.name;
-
-        projectContainer.addEventListener('click', () => this.renderTasks(project));
-
-        if (project.isDefault) {
-            this.defaultProjectsContainer.appendChild(projectContainer)
-        } else {
-            this.createProjectActions(projectContainer);
-            this.projectsContainer.appendChild(projectContainer);
-        }
     }
 
     createProjectActions(projectContainer) {
@@ -105,6 +93,21 @@ class DOMManager {
         projectActions.appendChild(projectDropdown);
 
         projectContainer.appendChild(projectActions);
+    }
+
+    renderProject(project) {
+        const projectContainer = document.createElement('button');
+        projectContainer.classList.add('project');
+        projectContainer.textContent = project.name;
+
+        projectContainer.addEventListener('click', () => this.renderTasks(project));
+
+        if (project.isDefault) {
+            this.defaultProjectsContainer.appendChild(projectContainer)
+        } else {
+            this.createProjectActions(projectContainer);
+            this.projectsContainer.appendChild(projectContainer);
+        }
     }
 
     renderTasks(project) {
