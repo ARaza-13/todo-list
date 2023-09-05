@@ -25,7 +25,12 @@ button {
     width: 100%;
     padding: 10px 20px;
     border-radius: 5px;
+    border: 1px solid transparent;
     cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--add-project-task-color);
 }
 
 /* heading */
@@ -54,21 +59,26 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-}
-
-.nav-button {
     text-align: left;
-    border: 1px solid transparent;
-}
-
-.nav-button:hover {
-    background-color: var(--add-project-task-color);
+    padding: 10px 20px;
 }
 
 .project-action:after {
     content: '\2807';
     font-size: 24px;
+}
+
+.project-dropdown {
+    position: absolute;
+    z-index: 2;
+    transform: translate(-85px, -75px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.edit-project,
+.delete-project {
+    padding: 5px;
+    border-radius: 0px;
 }
 
 /* add project form */
