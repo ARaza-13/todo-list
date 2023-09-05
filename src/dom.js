@@ -14,6 +14,8 @@ class DOMManager {
         this.tasksConatiner = document.getElementById('tasks');
 
         this.projectsContainer.addEventListener('click', this.handleProjectActions.bind(this));
+        document.addEventListener('click', this.handleDocumentClick.bind(this));
+        this.openDropdown = null;
 
         this.projectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -32,6 +34,22 @@ class DOMManager {
 
         const dropdown = projectActions.querySelector('.project-dropdown');
         dropdown.classList.toggle('hidden');
+
+        // close previously open dropdown (if any)
+        if (this.openDropdown && this.openDropdown !== dropdown) {
+            this.openDropdown.classList.add('hidden');
+        }
+        
+        // update openDropdown variable
+        this.openDropdown = dropdown;
+    }
+
+    handleDocumentClick(e) {
+        const dropdownButton = e.target.closest('.project-actions .project-action');
+        if (!dropdownButton) {
+            // click was not on the 3-dot menu, hide all dropdowns
+            this.hideOpenDropdown();
+        }
     }
 
     handleProjectFormSubmit(e) {
@@ -155,6 +173,13 @@ class DOMManager {
 
     clearTasks() {
         this.tasksConatiner.innerHTML = '';
+    }
+
+    hideOpenDropdown() {
+        if (this.openDropdown) {
+            this.openDropdown.classList.add('hidden');
+            this.openDropdown = null; // reset openDropdown variable
+        }
     }
 }
 
