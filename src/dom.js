@@ -13,6 +13,8 @@ class DOMManager {
 
         this.tasksConatiner = document.getElementById('tasks');
 
+        this.projectsContainer.addEventListener('click', this.handleProjectActions.bind(this));
+
         this.projectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -20,6 +22,16 @@ class DOMManager {
 
     initialize(todoList) {
         todoList.getProjects().forEach((project) => this.renderProject(project));
+    }
+
+    handleProjectActions(e) {
+        const projectActions = e.target.closest('.project-actions');
+        if (!projectActions) {
+            return;
+        }
+
+        const dropdown = projectActions.querySelector('.project-dropdown');
+        dropdown.classList.toggle('hidden');
     }
 
     handleProjectFormSubmit(e) {
@@ -38,7 +50,7 @@ class DOMManager {
 
     renderProject(project) {
         const projectContainer = document.createElement('button');
-        projectContainer.classList.add('project','nav-button');
+        projectContainer.classList.add('project');
         projectContainer.textContent = project.name;
 
         projectContainer.addEventListener('click', () => this.renderTasks(project));
