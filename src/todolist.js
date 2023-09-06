@@ -23,6 +23,12 @@ class TodoList {
         this.projects.push(newProject);
     }
 
+    editProject(index, newName) {
+        if (index >= 0 && index < this.projects.length) {
+            this.projects[index].name = newName;
+        }
+    }
+
     deleteProject(projectName) {
         this.projects = this.projects.filter((project) => project.name != projectName);
     }
