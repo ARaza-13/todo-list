@@ -25,7 +25,7 @@ class DOMManager {
     }
 
     initialize(todoList) {
-        todoList.getProjects().forEach((project) => this.renderProject(project));
+        this.renderProjects(todoList);
     }
 
     // Handle clicks on project's actions (3 dot icon)
@@ -95,10 +95,30 @@ class DOMManager {
         projectContainer.appendChild(projectActions);
     }
 
+    renderProjects(todoList) {
+        this.clearProjects();
+
+        const homeHeading = document.createElement('h2');
+        homeHeading.classList.add('projects-heading');
+        homeHeading.textContent = 'Home';
+
+        const projectsHeading = document.createElement('h2');
+        projectsHeading.classList.add('projects-heading');
+        projectsHeading.textContent = 'Projects';
+
+        this.defaultProjectsContainer.appendChild(homeHeading);
+        this.projectsContainer.appendChild(projectsHeading);
+
+        todoList.getProjects().forEach((project) => this.renderProject(project));
+    }
+
     renderProject(project) {
         const projectContainer = document.createElement('button');
         projectContainer.classList.add('project');
         projectContainer.textContent = project.name;
+
+        const dataIndex = this.todoList.getProjects().length;
+        projectContainer.setAttribute('data-index', dataIndex);
 
         projectContainer.addEventListener('click', () => this.renderTasks(project));
 
@@ -172,6 +192,10 @@ class DOMManager {
         this.projectForm.classList.toggle('hidden');
         this.addProjectButton.classList.toggle('hidden');
         this.projectNameInput.value = '';
+    }
+
+    clearProjects() {
+        this.projectsContainer.innerHTML = '';
     }
 
     clearTasks() {
