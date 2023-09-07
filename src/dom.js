@@ -1,5 +1,3 @@
-import { ConcatenationScope } from "webpack";
-
 class DOMManager {
     constructor(todoList, Project, Task) {
         this.todoList = todoList;
@@ -20,6 +18,7 @@ class DOMManager {
 
         // Event listeners
         this.projectsContainer.addEventListener('click', this.handleProjectActions.bind(this));
+        this.projectsContainer.addEventListener('click', this.handleEditProject.bind(this));
         this.projectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -70,6 +69,24 @@ class DOMManager {
         this.todoList.addProject(newProject);
         this.renderProject(newProject);
         this.toggleProjectForm();
+    }
+
+    handleEditProject(e) {
+        const editButton = e.target.closest('.edit-project');
+        if (!editButton) {
+            return; // if the clicked element is not the "Edit" button we exit
+        }
+
+        const projectContainer = editButton.closest('.project'); // parent project container of the clicked "Edit" button
+        const projectIndex = projectContainer.getAttribute('data-project');
+        
+        const newName = prompt('Enter the new project name: ', this.todoList.projects[projectIndex].name);
+
+        // check if user provided new name and if it's not empty or canceled
+        if (newName !== null && newName.trim() !== '') {
+            this.todoList.editProject(projectIndex, newName);
+            this.renderProjects(this.todoList);
+        }
     }
 
     createProjectActions(projectContainer) {
