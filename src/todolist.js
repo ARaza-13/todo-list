@@ -3,11 +3,12 @@ import Project from "./project";
 class TodoList {
     constructor() {
         this.projects = [];
-        this.projects.push(new Project('Inbox', true));
-        this.projects.push(new Project('Today', true));
-        this.projects.push(new Project('This week', true));
-        this.projects.push(new Project('This month', true));
-        this.projects.push(new Project('This year', true));
+        this.defaultProjects = [];
+        this.defaultProjects.push(new Project('Inbox', true));
+        this.defaultProjects.push(new Project('Today', true));
+        this.defaultProjects.push(new Project('This week', true));
+        this.defaultProjects.push(new Project('This month', true));
+        this.defaultProjects.push(new Project('This year', true));
     }
 
     getProjects() {

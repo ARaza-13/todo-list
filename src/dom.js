@@ -1,3 +1,5 @@
+import { ConcatenationScope } from "webpack";
+
 class DOMManager {
     constructor(todoList, Project, Task) {
         this.todoList = todoList;
@@ -25,6 +27,7 @@ class DOMManager {
     }
 
     initialize(todoList) {
+        this.renderDefaultProjects(todoList);
         this.renderProjects(todoList);
     }
 
@@ -95,18 +98,23 @@ class DOMManager {
         projectContainer.appendChild(projectActions);
     }
 
-    renderProjects(todoList) {
-        this.clearProjects();
-
+    renderDefaultProjects(todoList) {
         const homeHeading = document.createElement('h2');
         homeHeading.classList.add('projects-heading');
         homeHeading.textContent = 'Home';
+
+        this.defaultProjectsContainer.appendChild(homeHeading);
+
+        todoList.defaultProjects.forEach((project) => this.renderProject(project));
+    }
+
+    renderProjects(todoList) {
+        this.clearProjects();
 
         const projectsHeading = document.createElement('h2');
         projectsHeading.classList.add('projects-heading');
         projectsHeading.textContent = 'Projects';
 
-        this.defaultProjectsContainer.appendChild(homeHeading);
         this.projectsContainer.appendChild(projectsHeading);
 
         todoList.getProjects().forEach((project) => this.renderProject(project));
@@ -117,14 +125,13 @@ class DOMManager {
         projectContainer.classList.add('project');
         projectContainer.textContent = project.name;
 
-        const dataIndex = this.todoList.getProjects().length;
-        projectContainer.setAttribute('data-index', dataIndex);
-
         projectContainer.addEventListener('click', () => this.renderTasks(project));
 
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
+            const dataIndex = this.findNextDataSet();
+            projectContainer.setAttribute('data-project', dataIndex);
             this.createProjectActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }
@@ -176,6 +183,11 @@ class DOMManager {
         taskContainer.appendChild(dueDateElement);
 
         this.tasksConatiner.appendChild(taskContainer);
+    }
+
+    findNextDataSet() {
+        const allProjects = this.projectsContainer.querySelectorAll('[data-project]');
+        return allProjects.length;
     }
 
     getPriorityColor(priority) {
