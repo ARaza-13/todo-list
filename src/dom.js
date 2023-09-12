@@ -15,6 +15,7 @@ class DOMManager {
 
         // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
+        // keeps track of the current project that is being edited
         this.currentlyEditing = null;
 
         // Event listeners
@@ -272,6 +273,7 @@ class DOMManager {
     }
 
     showEditProjectForm(projectContainer) {
+        // closes previously open edit form (if any)
         if (this.currentlyEditing) {
             this.hideEditProjectForm();
         }
@@ -291,7 +293,7 @@ class DOMManager {
         editProjectForm.remove();
         this.currentlyEditing.style.display = 'flex';
 
-        this.currentlyEditing = null;
+        this.currentlyEditing = null; // reset currentlyEditing variable
     }
 
     clearProjects() {
