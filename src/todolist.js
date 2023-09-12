@@ -29,8 +29,8 @@ class TodoList {
         }
     }
 
-    deleteProject(projectName) {
-        this.projects = this.projects.filter((project) => project.name != projectName);
+    deleteProject(index) {
+        this.projects.splice(index, 1);
     }
 }
 
