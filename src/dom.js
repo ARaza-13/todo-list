@@ -55,33 +55,17 @@ class DOMManager {
     }
 
     handleEditProjectForm(e) {
-        const editButton = e.target.closest('.edit-project');
-        if (!editButton) {
-            return; // if the clicked element is not the "Edit" button we exit
-        }
+        e.preventDefault();
 
-        const projectContainer = editButton.closest('.project'); // parent project container of the clicked "Edit" button
+        const editProjectForm = document.getElementById('edit-project-form');
+        const newName = editProjectForm.querySelector('.input-project-popup').value;
+
+        const projectContainer = this.currentlyEditing;
         const projectIndex = projectContainer.getAttribute('data-project');
 
-        this.toggleEditProjectForm(projectContainer);
-
-        // Event listener for editing action
-        this.editProjectButton.addEventListener('click', () => {
-            this.handleEditConfirm(projectIndex, this.editProjectForm);
-            this.toggleEditProjectForm(projectContainer);
-        });
-
-        // Event listener for cancel action
-        this.editProjectCancelButton.addEventListener('click', () => {
-            this.toggleEditProjectForm(projectContainer);
-        });
-    }
-
-    handleEditConfirm(projectIndex, editForm) {
-        const newName = editForm.querySelector('.input-project-popup').value;
-        
         if (newName.trim() !== '') {
             this.todoList.editProject(projectIndex, newName);
+            this.hideEditProjectForm();
             this.renderProjects(this.todoList);
         }
     }
@@ -103,6 +87,7 @@ class DOMManager {
         submitBtn.classList.add('button-project-confirm-popup');
         submitBtn.setAttribute('type', 'submit');
         submitBtn.textContent = 'Edit';
+        submitBtn.onclick = (e) => this.handleEditProjectForm(e);
 
         const cancelBtn = document.createElement('button');
         cancelBtn.classList.add('button-project-cancel-popup');
