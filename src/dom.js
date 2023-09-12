@@ -70,6 +70,12 @@ class DOMManager {
         }
     }
 
+    handleDeleteProject(projectContainer) {
+        const projectIndex = projectContainer.getAttribute('data-project');
+        this.todoList.deleteProject(projectIndex);
+        this.renderProjects(this.todoList);
+    }
+
     createEditProjectForm() {
         const editProjectForm = document.createElement('form');
         editProjectForm.classList.add('project-form', 'hidden');
@@ -122,6 +128,7 @@ class DOMManager {
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-project');
         deleteButton.textContent = 'Delete';
+        deleteButton.onclick = () => this.handleDeleteProject(projectContainer);
 
         projectDropdown.appendChild(editButton);
         projectDropdown.appendChild(deleteButton);
