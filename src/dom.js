@@ -15,6 +15,7 @@ class DOMManager {
 
         // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
+        this.currentlyEditing = null;
 
         // Event listeners
         this.projectsContainer.addEventListener('click', this.toggleProjectActionsMenu.bind(this));
@@ -106,6 +107,7 @@ class DOMManager {
         cancelBtn.classList.add('button-project-cancel-popup');
         cancelBtn.setAttribute('type', 'button');
         cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = () => this.hideEditProjectForm();
 
         buttonsContainer.appendChild(submitBtn);
         buttonsContainer.appendChild(cancelBtn);
@@ -270,17 +272,26 @@ class DOMManager {
     }
 
     showEditProjectForm(projectContainer) {
+        if (this.currentlyEditing) {
+            this.hideEditProjectForm();
+        }
+
         const editProjectForm = this.createEditProjectForm();
         projectContainer.style.display = 'none';
 
         editProjectForm.classList.remove('hidden');
         
         projectContainer.after(editProjectForm);
+        this.currentlyEditing = projectContainer;
     }
 
-    hideEditProjectForm(projectContainer) {
-        this.editProjectForm.classList.add('hidden');
-        projectContainer.style.display = 'flex';
+    hideEditProjectForm() {
+        const editProjectForm = document.getElementById('edit-project-form');
+
+        editProjectForm.remove();
+        this.currentlyEditing.style.display = 'flex';
+
+        this.currentlyEditing = null;
     }
 
     clearProjects() {
