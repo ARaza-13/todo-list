@@ -5,6 +5,7 @@ class DOMManager {
         this.Task = Task;
 
         // DOM elements
+        this.main = document.querySelector('main');
         this.defaultProjectsContainer = document.getElementById('default-projects');
         this.projectsContainer = document.getElementById('projects');
         this.addProjectForm = document.getElementById('add-project-form');
@@ -24,6 +25,9 @@ class DOMManager {
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         document.addEventListener('click', this.handleDocumentClick.bind(this));
+
+        // DOM nodes 
+        this.main.appendChild(this.createDeleteProjectMessage());
     }
 
     initialize(todoList) {
@@ -71,9 +75,38 @@ class DOMManager {
     }
 
     handleDeleteProject(projectContainer) {
+        const message = this.createDeleteProjectMessage();
+
         const projectIndex = projectContainer.getAttribute('data-project');
         this.todoList.deleteProject(projectIndex);
         this.renderProjects(this.todoList);
+    }
+
+    createDeleteProjectMessage() {
+        const message = document.createElement('div');
+        message.classList.add('popup-message', 'hidden');
+
+        const text = document.createElement('p');
+        text.textContent = 'Are you sure you want to delete?';
+
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('project-popup-buttons');
+
+        const deleteBtn = document.createElement('button');
+        deleteBtn.classList.add('button-project-confirm-popup');
+        deleteBtn.textContent = 'Delete';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('button-project-cancel-popup');
+        cancelBtn.textContent = 'Cancel';
+
+        buttonsContainer.appendChild(deleteBtn);
+        buttonsContainer.appendChild(cancelBtn);
+
+        message.appendChild(text);
+        message.appendChild(buttonsContainer);
+
+        return message;
     }
 
     createEditProjectForm() {
