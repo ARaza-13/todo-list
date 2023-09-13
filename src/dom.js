@@ -18,6 +18,8 @@ class DOMManager {
         this.openDropdown = null;
         // keeps track of the current project that is being edited
         this.currentlyEditing = null;
+        //keeps track of the current project that is being confirmed to delete
+        this.currentlyDeleting = null;
 
         // Event listeners
         this.projectsContainer.addEventListener('click', this.toggleProjectActionsMenu.bind(this));
@@ -28,6 +30,7 @@ class DOMManager {
 
         // DOM nodes 
         this.main.appendChild(this.createDeleteProjectMessage());
+        this.main.appendChild(this.createOverlay());
     }
 
     initialize(todoList) {
@@ -74,17 +77,26 @@ class DOMManager {
         }
     }
 
-    handleDeleteProject(projectContainer) {
-        const message = this.createDeleteProjectMessage();
-
+    handleDeleteProject() {
+        const projectContainer = this.currentlyDeleting;
         const projectIndex = projectContainer.getAttribute('data-project');
         this.todoList.deleteProject(projectIndex);
         this.renderProjects(this.todoList);
+        this.hideDeleteProjectMessage();
+    }
+
+    createOverlay() {
+        const overlay = document.createElement('div');
+        overlay.classList.add('overlay', 'hidden');
+        overlay.setAttribute('id', 'overlay');
+
+        return overlay;
     }
 
     createDeleteProjectMessage() {
         const message = document.createElement('div');
         message.classList.add('popup-message', 'hidden');
+        message.setAttribute('id', 'message-popup-confirmation');
 
         const text = document.createElement('p');
         text.textContent = 'Are you sure you want to delete?';
@@ -95,10 +107,12 @@ class DOMManager {
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('button-project-confirm-popup');
         deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = () => this.handleDeleteProject();
 
         const cancelBtn = document.createElement('button');
         cancelBtn.classList.add('button-project-cancel-popup');
         cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = () => this.hideDeleteProjectMessage();
 
         buttonsContainer.appendChild(deleteBtn);
         buttonsContainer.appendChild(cancelBtn);
@@ -161,7 +175,7 @@ class DOMManager {
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-project');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => this.handleDeleteProject(projectContainer);
+        deleteButton.onclick = () => this.showDeleteProjectMessage(projectContainer);
 
         projectDropdown.appendChild(editButton);
         projectDropdown.appendChild(deleteButton);
@@ -312,6 +326,16 @@ class DOMManager {
         this.currentlyEditing = projectContainer;
     }
 
+    showDeleteProjectMessage(projectContainer) {
+        const message = document.getElementById('message-popup-confirmation');
+        message.classList.remove('hidden');
+
+        const overlay = document.getElementById('overlay');
+        overlay.classList.remove('hidden');
+
+        this.currentlyDeleting = projectContainer;
+    }
+
     hideEditProjectForm() {
         const editProjectForm = document.getElementById('edit-project-form');
 
@@ -319,6 +343,16 @@ class DOMManager {
         this.currentlyEditing.classList.remove('hidden');
 
         this.currentlyEditing = null; // reset currentlyEditing variable
+    }
+
+    hideDeleteProjectMessage() {
+        const message = document.getElementById('message-popup-confirmation');
+        message.classList.add('hidden');
+
+        const overlay = document.getElementById('overlay');
+        overlay.classList.add('hidden');
+
+        this.currentlyDeleting = null;
     }
 
     clearProjects() {

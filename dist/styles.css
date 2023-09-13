@@ -4,7 +4,8 @@
     --cancel-button-color: #fca5a5;
     --cancel-button-color-dark: #f87171;
     --add-project-task-color: #d6d3d1;
-    --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4); 
+    --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4);
+    --overlay-bg: rgba(90, 90, 90, 0.5); 
 }
 
 * {
@@ -40,9 +41,26 @@ button:hover {
     justify-content: center;
     align-items: center;
     gap: 20px;
+    background: white;
+    position: fixed;
+    top: 50%;
+    left: 50%;
     width: 350px;
     height: 150px;
+    border-radius: 8px;
     box-shadow: var(--message-outline);
+    z-index: 2;
+}
+
+.overlay {
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: var(--overlay-bg);
+    z-index: 1;
 }
 
 /* heading */
