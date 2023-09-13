@@ -4,6 +4,7 @@
     --cancel-button-color: #fca5a5;
     --cancel-button-color-dark: #f87171;
     --add-project-task-color: #d6d3d1;
+    --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4); 
 }
 
 * {
@@ -18,7 +19,7 @@ body {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
 
 button {
@@ -31,6 +32,17 @@ button {
 
 button:hover {
     background-color: var(--add-project-task-color);
+}
+
+.popup-message {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    width: 350px;
+    height: 150px;
+    box-shadow: var(--message-outline);
 }
 
 /* heading */
@@ -72,7 +84,7 @@ button:hover {
     position: absolute;
     z-index: 2;
     transform: translate(-85px, -75px);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+    box-shadow: var(--message-outline);
 }
 
 .edit-project,
