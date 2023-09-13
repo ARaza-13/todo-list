@@ -304,7 +304,7 @@ class DOMManager {
         }
 
         const editProjectForm = this.createEditProjectForm();
-        projectContainer.style.display = 'none';
+        projectContainer.classList.add('hidden');
 
         editProjectForm.classList.remove('hidden');
         
@@ -316,7 +316,7 @@ class DOMManager {
         const editProjectForm = document.getElementById('edit-project-form');
 
         editProjectForm.remove();
-        this.currentlyEditing.style.display = 'flex';
+        this.currentlyEditing.classList.remove('hidden');
 
         this.currentlyEditing = null; // reset currentlyEditing variable
     }
