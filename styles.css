@@ -35,7 +35,7 @@ button:hover {
     background-color: var(--add-project-task-color);
 }
 
-.popup-message {
+.popup {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -45,11 +45,44 @@ button:hover {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 350px;
-    height: 150px;
     border-radius: 8px;
     box-shadow: var(--message-outline);
     z-index: 2;
+}
+
+.input-popup,
+.select-popup {
+    border: 1px solid #aaa;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.popup-buttons {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.button-confirm-popup {
+    border: 1px solid transparent;
+    background-color: var(--add-button-color);
+    font-weight: bold;
+}
+
+.button-confirm-popup:hover {
+    background-color: var(--add-button-color-dark);
+}
+
+.button-cancel-popup {
+    border: 1px solid transparent;
+    background-color: var(--cancel-button-color);
+    font-weight: bold;
+}
+
+.button-cancel-popup:hover {
+    background-color: var(--cancel-button-color-dark);
 }
 
 .overlay {
@@ -116,37 +149,10 @@ button:hover {
     padding: 10px;
 }
 
-.input-project-popup {
-    border: 1px solid #aaa;
-    width: 100%;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.project-popup-buttons {
-    display: flex;
-    gap: 20px;
-}
-
-.button-project-confirm-popup {
-    border: 1px solid transparent;
-    background-color: var(--add-button-color);
-    font-weight: bold;
-}
-
-.button-project-confirm-popup:hover {
-    background-color: var(--add-button-color-dark);
-}
-
-.button-project-cancel-popup {
-    border: 1px solid transparent;
-    background-color: var(--cancel-button-color);
-    font-weight: bold;
-}
-
-.button-project-cancel-popup:hover {
-    background-color: var(--cancel-button-color-dark);
+.delete-message {
+    width: 350px;
+    height: 150px;
+    padding: 30px 50px;
 }
 
 /* tasks content */
@@ -163,6 +169,11 @@ button:hover {
 .project, 
 .task {
     cursor: pointer;
+}
+
+.task-form {
+    width: 320px;
+    padding: 30px;
 }
 
 /* task card */
