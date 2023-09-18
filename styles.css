@@ -5,7 +5,7 @@
     --cancel-button-color-dark: #f87171;
     --add-project-task-color: #d6d3d1;
     --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4);
-    --overlay-bg: rgba(90, 90, 90, 0.5); 
+    --overlay-bg: rgba(0, 0, 0, 0.3); 
 }
 
 * {
