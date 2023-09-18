@@ -16,10 +16,15 @@ class DOMManager {
 
         // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
+
         // keeps track of the current project that is being edited
         this.currentlyEditing = null;
-        //keeps track of the current project that is being confirmed to delete
+
+        // keeps track of the current project that is being confirmed to delete
         this.currentlyDeleting = null;
+
+        // keeps track of the current project to add the task
+        this.currentProject = null;
 
         // Event listeners
         this.projectsContainer.addEventListener('click', this.toggleProjectActionsMenu.bind(this));
@@ -84,6 +89,28 @@ class DOMManager {
         this.todoList.deleteProject(projectIndex);
         this.renderProjects(this.todoList);
         this.hideDeleteProjectMessage();
+    }
+
+    handleAddTask(e) {
+        e.preventDefault();
+        const newTask = this.getAddTaskInput();
+        const currentProjectName = document.getElementById('project-title').textContent;
+        const currentProject = this.todoList.getProject(currentProjectName);
+
+        currentProject.addTask(newTask);
+        this.toggleAddTaskForm();
+        this.renderTasks(currentProject);
+        console.log(currentProject.getTasks());
+    }
+
+    getAddTaskInput() {
+        const taskNameInput = document.getElementById('add-task-name').value.trim();
+        const taskDescriptionInput = document.getElementById('add-task-description').value.trim();
+        const taskPriorityInput = document.getElementById('add-task-priority').value;
+        let taskDateInput = document.getElementById('add-task-date').value;
+        if (taskDateInput.trim() === '') taskDateInput = 'No date';
+
+        return new this.Task(taskNameInput, taskDescriptionInput, taskPriorityInput, taskDateInput);
     }
 
     createOverlay() {
@@ -197,22 +224,27 @@ class DOMManager {
 
         const taskName = document.createElement('input');
         taskName.classList.add('input-popup', 'task-name');
+        taskName.setAttribute('id', 'add-task-name');
         taskName.setAttribute('type', 'text');
         taskName.setAttribute('placeholder', 'Enter task name');
+        taskName.setAttribute('required', '');
 
         const taskDescription = document.createElement('textarea');
         taskDescription.classList.add('input-popup', 'task-description');
+        taskDescription.setAttribute('id','add-task-description');
         taskDescription.setAttribute('type', 'text');
         taskDescription.setAttribute('rows', '3');
         taskDescription.setAttribute('placeholder', 'Enter task description');
 
         const taskDate = document.createElement('input');
         taskDate.classList.add('input-popup', 'task-date');
+        taskDate.setAttribute('id', 'add-task-date');
         taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
         const taskPriority = document.createElement('select');
         taskPriority.classList.add('select-popup', 'task-priority');
+        taskPriority.setAttribute('id', 'add-task-priority');
 
         const highPriority = document.createElement('option');
         highPriority.setAttribute('value', 'High');
@@ -237,6 +269,7 @@ class DOMManager {
         addBtn.classList.add('button-confirm-popup');
         addBtn.setAttribute('type', 'submit');
         addBtn.textContent = 'Add';
+        addBtn.onclick = (e) => this.handleAddTask(e);
 
         const cancelBtn = document.createElement('button');
         cancelBtn.classList.add('button-cancel-popup');
@@ -310,6 +343,7 @@ class DOMManager {
 
         const projectTitle = document.createElement('div');
         projectTitle.classList.add('title');
+        projectTitle.setAttribute('id', 'project-title');
         projectTitle.textContent = `${project.name}`; 
 
         this.tasksConatiner.appendChild(projectTitle);
@@ -396,8 +430,8 @@ class DOMManager {
 
     toggleAddTaskForm() {
         const addTaskForm = document.getElementById('add-task-form');
-        addTaskForm.classList.toggle('hidden');
         addTaskForm.reset();
+        addTaskForm.classList.toggle('hidden');
 
         const overlay = document.getElementById('overlay');
         overlay.classList.toggle('hidden');
