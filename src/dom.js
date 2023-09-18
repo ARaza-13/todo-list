@@ -200,14 +200,15 @@ class DOMManager {
         taskName.setAttribute('type', 'text');
         taskName.setAttribute('placeholder', 'Enter task name');
 
-        const taskDescription = document.createElement('input');
+        const taskDescription = document.createElement('textarea');
         taskDescription.classList.add('input-popup', 'task-description');
         taskDescription.setAttribute('type', 'text');
+        taskDescription.setAttribute('rows', '3');
         taskDescription.setAttribute('placeholder', 'Enter task description');
 
         const taskDate = document.createElement('input');
         taskDate.classList.add('input-popup', 'task-date');
-        taskDate.setAttribute('type', 'datetime-local');
+        taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
         const taskPriority = document.createElement('select');
