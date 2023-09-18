@@ -16,7 +16,9 @@
 
 /* general */
 body {
-    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
 }
 
 .hidden {
@@ -42,9 +44,10 @@ button:hover {
     align-items: center;
     gap: 20px;
     background: white;
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
+    transform: translate(-50%, -50%);
     border-radius: 8px;
     box-shadow: var(--message-outline);
     z-index: 2;
@@ -105,6 +108,7 @@ button:hover {
 /* content */
 .main {
     display: flex;
+    flex: 1;
 }
 
 /* sidebar projects */
