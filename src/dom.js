@@ -27,7 +27,6 @@ class DOMManager {
         this.currentProject = null;
 
         // Event listeners
-        this.projectsContainer.addEventListener('click', this.toggleProjectActionsMenu.bind(this));
         this.addProjectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -46,7 +45,9 @@ class DOMManager {
 
     // Handle clicks outside of dropdowns to hide them
     handleDocumentClick(e) {
-        const dropdownButton = e.target.closest('.project-actions .project-action');
+        if (!this.openDropdown) return;
+        
+        const dropdownButton = e.target.closest('.dropdown-action');
         if (!dropdownButton) {
             // click was not on the 3-dot menu, hide all dropdowns
             this.hideOpenDropdown();
@@ -185,32 +186,33 @@ class DOMManager {
         return editProjectForm;
     }
 
-    createProjectActions(projectContainer) {
-        const projectActions = document.createElement('div');
-        projectActions.classList.add('project-actions');
+    createDropdownActions(container) {
+        const dropdownActions = document.createElement('div');
+        dropdownActions.classList.add('dropdown-actions');
+        dropdownActions.onclick = (e) => this.toggleActionsMenu(e);
 
-        const projectAction = document.createElement('span');
-        projectAction.classList.add('project-action');
+        const dropdownAction = document.createElement('span');
+        dropdownAction.classList.add('dropdown-action');
 
-        const projectDropdown = document.createElement('div');
-        projectDropdown.classList.add('project-dropdown', 'hidden');
+        const dropdownMenu = document.createElement('div');
+        dropdownMenu.classList.add('dropdown-menu', 'hidden');
 
         const editButton = document.createElement('button');
-        editButton.classList.add('edit-project');
+        editButton.classList.add('edit-dropdown');
         editButton.textContent = 'Edit';
-        editButton.onclick = () => this.showEditProjectForm(projectContainer);
+        editButton.onclick = () => this.showEditProjectForm(container);
 
         const deleteButton = document.createElement('button')
-        deleteButton.classList.add('delete-project');
+        deleteButton.classList.add('delete-dropdown');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => this.showDeleteProjectMessage(projectContainer);
+        deleteButton.onclick = () => this.showDeleteProjectMessage(container);
 
-        projectDropdown.appendChild(editButton);
-        projectDropdown.appendChild(deleteButton);
-        projectActions.appendChild(projectAction);
-        projectActions.appendChild(projectDropdown);
+        dropdownMenu.appendChild(editButton);
+        dropdownMenu.appendChild(deleteButton);
+        dropdownActions.appendChild(dropdownAction);
+        dropdownActions.appendChild(dropdownMenu);
 
-        projectContainer.appendChild(projectActions);
+        container.appendChild(dropdownActions);
     }
 
     createAddTaskForm() {
@@ -333,7 +335,7 @@ class DOMManager {
         } else {
             const dataIndex = this.findNextDataSet();
             projectContainer.setAttribute('data-project', dataIndex);
-            this.createProjectActions(projectContainer);
+            this.createDropdownActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }
     }
@@ -385,6 +387,7 @@ class DOMManager {
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
+        this.createDropdownActions(taskContainer);
 
         this.tasksConatiner.appendChild(taskContainer);
     }
@@ -405,13 +408,8 @@ class DOMManager {
     }
 
      // Handle clicks on project's actions (3 dot icon)
-     toggleProjectActionsMenu(e) {
-        const projectActions = e.target.closest('.project-actions');
-        if (!projectActions) {
-            return;
-        }
-
-        const dropdown = projectActions.querySelector('.project-dropdown');
+     toggleActionsMenu(e) {
+        const dropdown = e.target.closest('.dropdown-actions').querySelector('.dropdown-menu');
         dropdown.classList.toggle('hidden');
 
         // close previously open dropdown (if any)
@@ -462,6 +460,11 @@ class DOMManager {
         this.currentlyDeleting = projectContainer;
     }
 
+    hideOpenDropdown() {
+        this.openDropdown.classList.add('hidden');
+        this.openDropdown = null; // reset openDropdown variable
+    }
+
     hideEditProjectForm() {
         const editProjectForm = document.getElementById('edit-project-form');
 
@@ -487,13 +490,6 @@ class DOMManager {
 
     clearTasks() {
         this.tasksConatiner.innerHTML = '';
-    }
-
-    hideOpenDropdown() {
-        if (this.openDropdown) {
-            this.openDropdown.classList.add('hidden');
-            this.openDropdown = null; // reset openDropdown variable
-        }
     }
 }
 

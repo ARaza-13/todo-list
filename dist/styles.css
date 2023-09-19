@@ -15,7 +15,7 @@
     font-family: 'Alata', sans-serif;
 }
 
-/* general */
+/* Start of general */
 body {
     display: flex;
     flex-direction: column;
@@ -36,6 +36,25 @@ button {
 
 button:hover {
     background-color: var(--add-project-task-color);
+}
+
+/* dropdown menu actions */
+.dropdown-action:after {
+    content: '\2807';
+    font-size: 24px;
+}
+
+.dropdown-menu {
+    position: absolute;
+    z-index: 2;
+    transform: translate(-85px, -75px);
+    box-shadow: var(--message-outline);
+}
+
+.edit-dropdown,
+.delete-dropdown {
+    padding: 5px;
+    border-radius: 0px;
 }
 
 .popup {
@@ -129,24 +148,6 @@ button:hover {
     justify-content: space-between;
     text-align: left;
     padding: 10px 20px;
-}
-
-.project-action:after {
-    content: '\2807';
-    font-size: 24px;
-}
-
-.project-dropdown {
-    position: absolute;
-    z-index: 2;
-    transform: translate(-85px, -75px);
-    box-shadow: var(--message-outline);
-}
-
-.edit-project,
-.delete-project {
-    padding: 5px;
-    border-radius: 0px;
 }
 
 /* add project form */
