@@ -34,6 +34,7 @@ class DOMManager {
 
         // DOM nodes 
         this.main.appendChild(this.createAddTaskForm());
+        this.main.appendChild(this.createEditTaskForm());
         this.main.appendChild(this.createDeleteProjectMessage());
         this.main.appendChild(this.createOverlay());
     }
@@ -112,9 +113,9 @@ class DOMManager {
         }
 
         if (container.classList.contains('project')) {
-            this.showProjectEditForm(container);
+            this.showEditProjectForm(container);
         } else {
-            this.showTaskEditForm(container);
+            this.showEditTaskForm(container);
         }
     }
 
@@ -198,6 +199,83 @@ class DOMManager {
         editProjectForm.appendChild(buttonsContainer);
 
         return editProjectForm;
+    }
+
+    createEditTaskForm() {
+        const editTaskForm = document.createElement('form');
+        editTaskForm.classList.add('task-form', 'popup', 'hidden');
+        editTaskForm.setAttribute('id', 'edit-task-form');
+
+        const formHeader = document.createElement('h1');
+        formHeader.classList.add('form-header');
+        formHeader.textContent = 'Edit Task';
+
+        const taskName = document.createElement('input');
+        taskName.classList.add('input-popup', 'task-name');
+        taskName.setAttribute('id', 'edit-task-name');
+        taskName.setAttribute('type', 'text');
+        taskName.setAttribute('placeholder', 'Enter task name');
+        taskName.setAttribute('required', '');
+
+        const taskDescription = document.createElement('textarea');
+        taskDescription.classList.add('input-popup', 'task-description');
+        taskDescription.setAttribute('id','edit-task-description');
+        taskDescription.setAttribute('type', 'text');
+        taskDescription.setAttribute('rows', '3');
+        taskDescription.setAttribute('placeholder', 'Enter task description');
+
+        const taskDate = document.createElement('input');
+        taskDate.classList.add('input-popup', 'task-date');
+        taskDate.setAttribute('id', 'edit-task-date');
+        taskDate.setAttribute('type', 'date');
+        taskDate.setAttribute('placeholder', 'Enter task date');
+
+        const taskPriority = document.createElement('select');
+        taskPriority.classList.add('select-popup', 'task-priority');
+        taskPriority.setAttribute('id', 'edit-task-priority');
+
+        const highPriority = document.createElement('option');
+        highPriority.setAttribute('value', 'High');
+        highPriority.textContent = 'High';
+
+        const mediumPriority = document.createElement('option');
+        mediumPriority.setAttribute('value', 'Medium');
+        mediumPriority.textContent = 'Medium';
+
+        const lowPriority = document.createElement('option');
+        lowPriority.setAttribute('value', 'Low');
+        lowPriority.textContent = 'Low';
+
+        taskPriority.appendChild(lowPriority);
+        taskPriority.appendChild(mediumPriority);
+        taskPriority.appendChild(highPriority);
+
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('popup-buttons');
+
+        const editBtn = document.createElement('button');
+        editBtn.classList.add('button-confirm-popup');
+        editBtn.setAttribute('type', 'submit');
+        editBtn.textContent = 'Edit';
+        editBtn.onclick = (e) => this.handleEditTask(e);
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('button-cancel-popup');
+        cancelBtn.setAttribute('type', 'button');
+        cancelBtn.textContent = 'Cancel';
+        cancelBtn.onclick = () => this.toggleTaskForm();
+
+        buttonsContainer.appendChild(editBtn);
+        buttonsContainer.appendChild(cancelBtn);
+
+        editTaskForm.appendChild(formHeader);
+        editTaskForm.appendChild(taskName);
+        editTaskForm.appendChild(taskDescription);
+        editTaskForm.appendChild(taskDate);
+        editTaskForm.appendChild(taskPriority);
+        editTaskForm.appendChild(buttonsContainer);
+
+        return editTaskForm;
     }
 
     createDropdownActions(container) {
@@ -449,7 +527,7 @@ class DOMManager {
         overlay.classList.toggle('hidden');
     }
 
-    showProjectEditForm(projectContainer) {
+    showEditProjectForm(projectContainer) {
         const editProjectForm = this.createEditProjectForm();
         projectContainer.classList.add('hidden');
 
@@ -459,9 +537,12 @@ class DOMManager {
         this.currentlyEditing = projectContainer;
     }
 
-    showTaskEditForm(taskContainer) {
-        console.log(taskContainer);
-        console.log('Edit Task');
+    showEditTaskForm(taskContainer) {
+        const editTaskForm = document.getElementById('edit-task-form');
+        editTaskForm.classList.remove('hidden');
+
+        const overlay = document.getElementById('overlay');
+        overlay.classList.remove('hidden');
     }
 
     showDeleteProjectMessage(projectContainer) {
