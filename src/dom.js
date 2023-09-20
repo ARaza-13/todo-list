@@ -17,7 +17,7 @@ class DOMManager {
         // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
 
-        // keeps track of the current project that is being edited
+        // keeps track of the current project/task that is being edited
         this.currentlyEditing = null;
 
         // keeps track of the current project that is being confirmed to delete
@@ -102,6 +102,20 @@ class DOMManager {
         this.toggleAddTaskForm();
         this.renderTasks(currentProject);
         console.log(currentProject.getTasks());
+    }
+
+    // check to see if project or task is being edited
+    handleShowEditForm(container) {
+        // closes previously open edit form (if any)
+        if (this.currentlyEditing) {
+            this.hideEditProjectForm();
+        }
+
+        if (container.classList.contains('project')) {
+            this.showProjectEditForm(container);
+        } else {
+            this.showTaskEditForm(container);
+        }
     }
 
     getAddTaskInput() {
@@ -200,7 +214,7 @@ class DOMManager {
         const editButton = document.createElement('button');
         editButton.classList.add('edit-dropdown');
         editButton.textContent = 'Edit';
-        editButton.onclick = () => this.showEditProjectForm(container);
+        editButton.onclick = () => this.handleShowEditForm(container);
 
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-dropdown');
@@ -435,12 +449,7 @@ class DOMManager {
         overlay.classList.toggle('hidden');
     }
 
-    showEditProjectForm(projectContainer) {
-        // closes previously open edit form (if any)
-        if (this.currentlyEditing) {
-            this.hideEditProjectForm();
-        }
-
+    showProjectEditForm(projectContainer) {
         const editProjectForm = this.createEditProjectForm();
         projectContainer.classList.add('hidden');
 
@@ -448,6 +457,11 @@ class DOMManager {
         
         projectContainer.after(editProjectForm);
         this.currentlyEditing = projectContainer;
+    }
+
+    showTaskEditForm(taskContainer) {
+        console.log(taskContainer);
+        console.log('Edit Task');
     }
 
     showDeleteProjectMessage(projectContainer) {
