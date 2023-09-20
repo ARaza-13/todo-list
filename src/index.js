@@ -8,7 +8,7 @@ project.setName("Gym");
 
 const task = new Task("Gym");
 task.setName("Push Day");
-task.setDate("8/21/2023");
+task.setDate("2023-09-18");
 task.setDescription("Train chest and triceps from 9:45pm to 11:15pm");
 task.setPriority("High");
 
@@ -16,13 +16,13 @@ const task2 = new Task();
 task2.setName("Pull Day");
 task2.setDescription("Train back and biceps from 9:45pm to 11:15pm");
 task2.setPriority("High");
-task2.setDate("8/23/2023");
+task2.setDate("2023-09-20");
 
 const task3 = new Task();
 task3.setName("Leg Day");
 task3.setDescription("Train legs from 9:45pm to 11:00pm");
 task3.setPriority("High");
-task3.setDate("8/25/2023");
+task3.setDate("2023-09-21");
 
 project.addTask(task);
 project.addTask(task2);

@@ -103,16 +103,16 @@ class DOMManager {
     }
 
     // check to see if project or task is being edited
-    handleShowEditForm(container) {
+    handleShowEditForm(container, todoItem) {
         // closes previously open edit form (if any)
         if (this.currentlyEditing) {
             this.hideEditProjectForm();
         }
 
         if (container.classList.contains('project')) {
-            this.showEditProjectForm(container);
+            this.showEditProjectForm(container); // pass over the project container to hide when the form pops up 
         } else {
-            this.showEditTaskForm(container);
+            this.showEditTaskForm(todoItem); // pass over the task object to populate the task inputs on the form
         }
     }
 
@@ -275,7 +275,7 @@ class DOMManager {
         return editTaskForm;
     }
 
-    createDropdownActions(container) {
+    createDropdownActions(container, todoItem) {
         const dropdownActions = document.createElement('div');
         dropdownActions.classList.add('dropdown-actions');
         dropdownActions.onclick = (e) => this.toggleActionsMenu(e);
@@ -289,7 +289,7 @@ class DOMManager {
         const editButton = document.createElement('button');
         editButton.classList.add('edit-dropdown');
         editButton.textContent = 'Edit';
-        editButton.onclick = () => this.handleShowEditForm(container);
+        editButton.onclick = () => this.handleShowEditForm(container, todoItem);
 
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-dropdown');
@@ -424,7 +424,7 @@ class DOMManager {
         } else {
             const dataIndex = this.findNextDataSet();
             projectContainer.setAttribute('data-project', dataIndex);
-            this.createDropdownActions(projectContainer);
+            this.createDropdownActions(projectContainer, project);
             this.projectsContainer.appendChild(projectContainer);
         }
     }
@@ -476,7 +476,7 @@ class DOMManager {
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
-        this.createDropdownActions(taskContainer);
+        this.createDropdownActions(taskContainer, task);
 
         this.tasksConatiner.appendChild(taskContainer);
     }
@@ -494,6 +494,24 @@ class DOMManager {
         } else {
             return 'green';
         }
+    }
+
+    getEditTaskInputs() {
+        return {
+            nameInput: document.getElementById('edit-task-name'),
+            descriptionInput: document.getElementById('edit-task-description'),
+            dateInput: document.getElementById('edit-task-date'),
+            priorityInput: document.getElementById('edit-task-priority')
+        };
+    }
+
+    populateEditTaskForm(task) {
+        const editInputs = this.getEditTaskInputs();
+
+        editInputs.nameInput.value = task.name;
+        editInputs.descriptionInput.value = task.description;
+        editInputs.dateInput.value = task.dueDate;
+        editInputs.priorityInput.value = task.priority;
     }
 
      // Handle clicks on project's actions (3 dot icon)
@@ -534,14 +552,16 @@ class DOMManager {
         this.currentlyEditing = projectContainer;
     }
 
-    showEditTaskForm(taskContainer) {
+    showEditTaskForm(task) {
+        this.populateEditTaskForm(task);
+
         const editTaskForm = document.getElementById('edit-task-form');
         editTaskForm.classList.remove('hidden');
 
         const overlay = document.getElementById('overlay');
         overlay.classList.remove('hidden');
 
-        this.currentlyEditing = taskContainer;
+        this.currentlyEditing = task;
     }
 
     showDeleteProjectMessage(projectContainer) {
