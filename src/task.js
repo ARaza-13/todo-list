@@ -7,6 +7,14 @@ class Task {
         this.completed = false;
     }
 
+    editTask(name, description, priority, dueDate = 'No date') {
+        this.name = name;
+        this.description = description;
+        this.priority = priority;
+        this.dueDate = dueDate;
+        this.completed = false;
+    }
+
     setName(name) {
         this.name = name;
     }
