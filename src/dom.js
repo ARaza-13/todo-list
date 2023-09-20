@@ -23,9 +23,6 @@ class DOMManager {
         // keeps track of the current project that is being confirmed to delete
         this.currentlyDeleting = null;
 
-        // keeps track of the current project to add the task
-        this.currentProject = null;
-
         // Event listeners
         this.addProjectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -263,7 +260,7 @@ class DOMManager {
         cancelBtn.classList.add('button-cancel-popup');
         cancelBtn.setAttribute('type', 'button');
         cancelBtn.textContent = 'Cancel';
-        cancelBtn.onclick = () => this.toggleTaskForm();
+        cancelBtn.onclick = () => this.hideEditTaskForm();
 
         buttonsContainer.appendChild(editBtn);
         buttonsContainer.appendChild(cancelBtn);
@@ -543,6 +540,8 @@ class DOMManager {
 
         const overlay = document.getElementById('overlay');
         overlay.classList.remove('hidden');
+
+        this.currentlyEditing = taskContainer;
     }
 
     showDeleteProjectMessage(projectContainer) {
@@ -567,6 +566,16 @@ class DOMManager {
         this.currentlyEditing.classList.remove('hidden');
 
         this.currentlyEditing = null; // reset currentlyEditing variable
+    }
+
+    hideEditTaskForm() {
+        const editTaskForm = document.getElementById('edit-task-form');
+        editTaskForm.classList.add('hidden');
+
+        const overlay = document.getElementById('overlay');
+        overlay.classList.add('hidden');
+
+        this.currentlyEditing = null;
     }
 
     hideDeleteProjectMessage() {
