@@ -102,6 +102,25 @@ class DOMManager {
         console.log(currentProject.getTasks());
     }
 
+    handleEditTask(e) {
+        e.preventDefault();
+        const editInputs = this.getEditTaskInputs();
+        const updatedName = editInputs.nameInput.value.trim();
+        const updatedDescription = editInputs.descriptionInput.value.trim();
+        const updatedPriority = editInputs.priorityInput.value;
+        let updatedDueDate = editInputs.dateInput.value;
+        if (editInputs.dateInput.value.trim() === '') updatedDueDate = 'No date';
+        
+        const currentTask = this.currentlyEditing;
+        currentTask.updateTask(updatedName, updatedDescription, updatedPriority, updatedDueDate);
+
+        const currentProjectName = document.getElementById('project-title').textContent;
+        const currentProject = this.todoList.getProject(currentProjectName);
+
+        this.renderTasks(currentProject);
+        this.hideEditTaskForm();
+    }
+
     // check to see if project or task is being edited
     handleShowEditForm(container, todoItem) {
         // closes previously open edit form (if any)
@@ -116,6 +135,16 @@ class DOMManager {
         }
     }
 
+    getPriorityColor(priority) {
+        if (priority === 'High') {
+            return 'red';
+        } else if (priority === 'Medium') {
+            return 'yellow';
+        } else {
+            return 'green';
+        }
+    }
+
     getAddTaskInput() {
         const taskNameInput = document.getElementById('add-task-name').value.trim();
         const taskDescriptionInput = document.getElementById('add-task-description').value.trim();
@@ -124,6 +153,24 @@ class DOMManager {
         if (taskDateInput.trim() === '') taskDateInput = 'No date';
 
         return new this.Task(taskNameInput, taskDescriptionInput, taskPriorityInput, taskDateInput);
+    }
+
+    getEditTaskInputs() {
+        return {
+            nameInput: document.getElementById('edit-task-name'),
+            descriptionInput: document.getElementById('edit-task-description'),
+            dateInput: document.getElementById('edit-task-date'),
+            priorityInput: document.getElementById('edit-task-priority')
+        };
+    }
+
+    populateEditTaskForm(task) {
+        const editInputs = this.getEditTaskInputs();
+
+        editInputs.nameInput.value = task.name;
+        editInputs.descriptionInput.value = task.description;
+        editInputs.dateInput.value = task.dueDate;
+        editInputs.priorityInput.value = task.priority;
     }
 
     createOverlay() {
@@ -484,34 +531,6 @@ class DOMManager {
     findNextDataSet() {
         const allProjects = this.projectsContainer.querySelectorAll('[data-project]');
         return allProjects.length;
-    }
-
-    getPriorityColor(priority) {
-        if (priority === 'High') {
-            return 'red';
-        } else if (priority === 'Medium') {
-            return 'yellow';
-        } else {
-            return 'green';
-        }
-    }
-
-    getEditTaskInputs() {
-        return {
-            nameInput: document.getElementById('edit-task-name'),
-            descriptionInput: document.getElementById('edit-task-description'),
-            dateInput: document.getElementById('edit-task-date'),
-            priorityInput: document.getElementById('edit-task-priority')
-        };
-    }
-
-    populateEditTaskForm(task) {
-        const editInputs = this.getEditTaskInputs();
-
-        editInputs.nameInput.value = task.name;
-        editInputs.descriptionInput.value = task.description;
-        editInputs.dateInput.value = task.dueDate;
-        editInputs.priorityInput.value = task.priority;
     }
 
      // Handle clicks on project's actions (3 dot icon)
