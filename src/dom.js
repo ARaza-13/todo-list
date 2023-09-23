@@ -114,18 +114,16 @@ class DOMManager {
         let updatedDueDate = editInputs.dateInput.value;
         if (editInputs.dateInput.value.trim() === '') updatedDueDate = 'No date';
         
-        const currentTask = this.currentlyEditing;
+        const currentTaskContainer = this.currentlyEditing;
+        const currentTask = this.getCurrentTask(currentTaskContainer);
         currentTask.updateTask(updatedName, updatedDescription, updatedPriority, updatedDueDate);
 
-        const currentProjectName = document.getElementById('project-header').textContent;
-        const currentProject = this.todoList.getProject(currentProjectName);
-
-        this.renderTasks(currentProject);
+        this.renderTasks(this.currentProject);
         this.hideEditTaskForm();
     }
 
     // check to see if project or task is being edited
-    handleShowEditForm(container, todoItem) {
+    handleShowEditForm(container) {
         // closes previously open edit form (if any)
         if (this.currentlyEditing) {
             this.hideEditProjectForm();
@@ -134,8 +132,13 @@ class DOMManager {
         if (container.classList.contains('project')) {
             this.showEditProjectForm(container); // pass over the project container to hide when the form pops up 
         } else {
-            this.showEditTaskForm(todoItem); // pass over the task object to populate the task inputs on the form
+            this.showEditTaskForm(container); // pass over the task object to populate the task inputs on the form
         }
+    }
+
+    getCurrentTask(taskContainer) {
+        const taskIndex = taskContainer.getAttribute('data-task');
+        return this.currentProject.getTask(taskIndex);
     }
 
     getPriorityColor(priority) {
@@ -167,7 +170,8 @@ class DOMManager {
         };
     }
 
-    populateEditTaskForm(task) {
+    populateEditTaskForm(taskContainer) {
+        const task = this.getCurrentTask(taskContainer);
         const editInputs = this.getEditTaskInputs();
 
         editInputs.nameInput.value = task.name;
@@ -325,7 +329,7 @@ class DOMManager {
         return editTaskForm;
     }
 
-    createDropdownActions(container, todoItem) {
+    createDropdownActions(container) {
         const dropdownActions = document.createElement('div');
         dropdownActions.classList.add('dropdown-actions');
         dropdownActions.onclick = (e) => this.toggleActionsMenu(e);
@@ -339,7 +343,7 @@ class DOMManager {
         const editButton = document.createElement('button');
         editButton.classList.add('edit-dropdown');
         editButton.textContent = 'Edit';
-        editButton.onclick = () => this.handleShowEditForm(container, todoItem);
+        editButton.onclick = () => this.handleShowEditForm(container);
 
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-dropdown');
@@ -533,7 +537,7 @@ class DOMManager {
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
-        this.createDropdownActions(taskContainer, task);
+        this.createDropdownActions(taskContainer);
 
         this.tasksConatiner.appendChild(taskContainer);
     }
@@ -586,8 +590,8 @@ class DOMManager {
         this.currentlyEditing = projectContainer;
     }
 
-    showEditTaskForm(task) {
-        this.populateEditTaskForm(task);
+    showEditTaskForm(taskContainer) {
+        this.populateEditTaskForm(taskContainer);
 
         const editTaskForm = document.getElementById('edit-task-form');
         editTaskForm.classList.remove('hidden');
@@ -595,7 +599,7 @@ class DOMManager {
         const overlay = document.getElementById('overlay');
         overlay.classList.remove('hidden');
 
-        this.currentlyEditing = task;
+        this.currentlyEditing = taskContainer;
     }
 
     showDeleteProjectMessage(projectContainer) {

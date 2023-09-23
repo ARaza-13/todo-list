@@ -17,8 +17,8 @@ class Project {
         return this.tasks;
     }
 
-    getTask(taskName) {
-        return this.tasks.find((task) => task.getName() === taskName);
+    getTask(index) {
+        return this.tasks[index];
     }
 
     addTask(newTask) {
