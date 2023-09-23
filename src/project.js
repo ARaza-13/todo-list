@@ -25,8 +25,8 @@ class Project {
         this.tasks.push(newTask);
     }
 
-    deleteTask(taskName) {
-        this.tasks = this.tasks.filter((task) => task.name !== taskName);
+    deleteTask(index) {
+        this.tasks.splice(index, 1);
     }
 }
 

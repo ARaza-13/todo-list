@@ -35,7 +35,7 @@ class DOMManager {
         // DOM nodes 
         this.main.appendChild(this.createAddTaskForm());
         this.main.appendChild(this.createEditTaskForm());
-        this.main.appendChild(this.createDeleteProjectMessage());
+        this.main.appendChild(this.createDeleteMessage());
         this.main.appendChild(this.createOverlay());
     }
 
@@ -90,7 +90,15 @@ class DOMManager {
         const projectIndex = projectContainer.getAttribute('data-project');
         this.todoList.deleteProject(projectIndex);
         this.renderProjects(this.todoList);
-        this.hideDeleteProjectMessage();
+        this.hideDeleteMessage();
+    }
+
+    handleDeleteTask() {
+        const taskContainer = this.currentlyDeleting;
+        const taskIndex = taskContainer.getAttribute('data-task');
+        this.currentProject.deleteTask(taskIndex);
+        this.renderTasks(this.currentProject);
+        this.hideDeleteMessage();
     }
 
     handleAddTask(e) {
@@ -188,7 +196,7 @@ class DOMManager {
         return overlay;
     }
 
-    createDeleteProjectMessage() {
+    createDeleteMessage() {
         const message = document.createElement('div');
         message.classList.add('delete-message','popup', 'hidden');
         message.setAttribute('id', 'message-popup-confirmation');
@@ -202,12 +210,18 @@ class DOMManager {
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('button-confirm-popup');
         deleteBtn.textContent = 'Delete';
-        deleteBtn.onclick = () => this.handleDeleteProject();
+        deleteBtn.onclick = () => {
+            if (this.currentlyDeleting.classList.contains('project')) {
+                this.handleDeleteProject();
+            } else {
+                this.handleDeleteTask();
+            }
+        };
 
         const cancelBtn = document.createElement('button');
         cancelBtn.classList.add('button-cancel-popup');
         cancelBtn.textContent = 'Cancel';
-        cancelBtn.onclick = () => this.hideDeleteProjectMessage();
+        cancelBtn.onclick = () => this.hideDeleteMessage();
 
         buttonsContainer.appendChild(deleteBtn);
         buttonsContainer.appendChild(cancelBtn);
@@ -348,7 +362,7 @@ class DOMManager {
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-dropdown');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => this.showDeleteProjectMessage(container);
+        deleteButton.onclick = () => this.showDeleteMessage(container);
 
         dropdownMenu.appendChild(editButton);
         dropdownMenu.appendChild(deleteButton);
@@ -602,14 +616,14 @@ class DOMManager {
         this.currentlyEditing = taskContainer;
     }
 
-    showDeleteProjectMessage(projectContainer) {
+    showDeleteMessage(container) {
         const message = document.getElementById('message-popup-confirmation');
         message.classList.remove('hidden');
 
         const overlay = document.getElementById('overlay');
         overlay.classList.remove('hidden');
 
-        this.currentlyDeleting = projectContainer;
+        this.currentlyDeleting = container;
     }
 
     hideOpenDropdown() {
@@ -636,7 +650,7 @@ class DOMManager {
         this.currentlyEditing = null;
     }
 
-    hideDeleteProjectMessage() {
+    hideDeleteMessage() {
         const message = document.getElementById('message-popup-confirmation');
         message.classList.add('hidden');
 
