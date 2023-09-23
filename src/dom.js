@@ -23,6 +23,9 @@ class DOMManager {
         // keeps track of the current project that is being confirmed to delete
         this.currentlyDeleting = null;
 
+        // keeps track of the current project that is being viewed
+        this.currentProject = null;
+
         // Event listeners
         this.addProjectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
@@ -466,6 +469,7 @@ class DOMManager {
 
         projectContainer.addEventListener('click', () => {
             this.renderTasks(project);
+            this.currentProject = project;
         });
 
         if (project.isDefault) {
