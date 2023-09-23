@@ -162,7 +162,7 @@ button:hover {
 }
 
 /* tasks content */
-.title {
+.project-header {
     font-size: 2rem;
     margin-bottom: 10px;
 }
@@ -206,6 +206,6 @@ button:hover {
     flex: 1;
 }
 
-.task-title {
+.task-name {
     font-size: 1.25rem;
 }

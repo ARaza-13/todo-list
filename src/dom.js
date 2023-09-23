@@ -93,7 +93,7 @@ class DOMManager {
     handleAddTask(e) {
         e.preventDefault();
         const newTask = this.getAddTaskInput();
-        const currentProjectName = document.getElementById('project-title').textContent;
+        const currentProjectName = document.getElementById('project-header').textContent;
         const currentProject = this.todoList.getProject(currentProjectName);
 
         currentProject.addTask(newTask);
@@ -114,7 +114,7 @@ class DOMManager {
         const currentTask = this.currentlyEditing;
         currentTask.updateTask(updatedName, updatedDescription, updatedPriority, updatedDueDate);
 
-        const currentProjectName = document.getElementById('project-title').textContent;
+        const currentProjectName = document.getElementById('project-header').textContent;
         const currentProject = this.todoList.getProject(currentProjectName);
 
         this.renderTasks(currentProject);
@@ -255,27 +255,27 @@ class DOMManager {
         formHeader.textContent = 'Edit Task';
 
         const taskName = document.createElement('input');
-        taskName.classList.add('input-popup', 'task-name');
+        taskName.classList.add('input-popup', 'task-name-input');
         taskName.setAttribute('id', 'edit-task-name');
         taskName.setAttribute('type', 'text');
         taskName.setAttribute('placeholder', 'Enter task name');
         taskName.setAttribute('required', '');
 
         const taskDescription = document.createElement('textarea');
-        taskDescription.classList.add('input-popup', 'task-description');
+        taskDescription.classList.add('input-popup', 'task-description-input');
         taskDescription.setAttribute('id','edit-task-description');
         taskDescription.setAttribute('type', 'text');
         taskDescription.setAttribute('rows', '3');
         taskDescription.setAttribute('placeholder', 'Enter task description');
 
         const taskDate = document.createElement('input');
-        taskDate.classList.add('input-popup', 'task-date');
+        taskDate.classList.add('input-popup', 'task-date-input');
         taskDate.setAttribute('id', 'edit-task-date');
         taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
         const taskPriority = document.createElement('select');
-        taskPriority.classList.add('select-popup', 'task-priority');
+        taskPriority.classList.add('select-popup', 'task-priority-input');
         taskPriority.setAttribute('id', 'edit-task-priority');
 
         const highPriority = document.createElement('option');
@@ -361,27 +361,27 @@ class DOMManager {
         formHeader.textContent = 'Add Task';
 
         const taskName = document.createElement('input');
-        taskName.classList.add('input-popup', 'task-name');
+        taskName.classList.add('input-popup', 'task-name-input');
         taskName.setAttribute('id', 'add-task-name');
         taskName.setAttribute('type', 'text');
         taskName.setAttribute('placeholder', 'Enter task name');
         taskName.setAttribute('required', '');
 
         const taskDescription = document.createElement('textarea');
-        taskDescription.classList.add('input-popup', 'task-description');
+        taskDescription.classList.add('input-popup', 'task-description-input');
         taskDescription.setAttribute('id','add-task-description');
         taskDescription.setAttribute('type', 'text');
         taskDescription.setAttribute('rows', '3');
         taskDescription.setAttribute('placeholder', 'Enter task description');
 
         const taskDate = document.createElement('input');
-        taskDate.classList.add('input-popup', 'task-date');
+        taskDate.classList.add('input-popup', 'task-date-input');
         taskDate.setAttribute('id', 'add-task-date');
         taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
         const taskPriority = document.createElement('select');
-        taskPriority.classList.add('select-popup', 'task-priority');
+        taskPriority.classList.add('select-popup', 'task-priority-input');
         taskPriority.setAttribute('id', 'add-task-priority');
 
         const highPriority = document.createElement('option');
@@ -464,14 +464,16 @@ class DOMManager {
         projectContainer.classList.add('project');
         projectContainer.textContent = project.name;
 
-        projectContainer.addEventListener('click', () => this.renderTasks(project));
+        projectContainer.addEventListener('click', () => {
+            this.renderTasks(project);
+        });
 
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
-            const dataIndex = this.findNextDataSet();
+            const dataIndex = this.findNextDataProject();
             projectContainer.setAttribute('data-project', dataIndex);
-            this.createDropdownActions(projectContainer, project);
+            this.createDropdownActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }
     }
@@ -479,12 +481,12 @@ class DOMManager {
     renderTasks(project) {
         this.clearTasks();
 
-        const projectTitle = document.createElement('div');
-        projectTitle.classList.add('title');
-        projectTitle.setAttribute('id', 'project-title');
-        projectTitle.textContent = `${project.name}`; 
+        const projectHeader = document.createElement('div');
+        projectHeader.classList.add('project-header');
+        projectHeader.setAttribute('id', 'project-header');
+        projectHeader.textContent = `${project.name}`; 
 
-        this.tasksConatiner.appendChild(projectTitle);
+        this.tasksConatiner.appendChild(projectHeader);
 
         project.getTasks().forEach((task) => {
             this.renderTaskDetails(task);
@@ -497,6 +499,9 @@ class DOMManager {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task');
 
+        const dataIndex = this.findNextDataTask();
+        taskContainer.setAttribute('data-task', dataIndex);
+
         const checkBubble = document.createElement('div');
         checkBubble.classList.add('unchecked');
 
@@ -504,7 +509,8 @@ class DOMManager {
         taskDetails.classList.add('task-details');
 
         const titleElement = document.createElement('p');
-        titleElement.classList.add('task-title');
+        titleElement.classList.add('task-name');
+        titleElement.setAttribute('id', 'task-name');
         titleElement.textContent = task.getName();
 
         const descriptionElement = document.createElement('p');
@@ -528,9 +534,14 @@ class DOMManager {
         this.tasksConatiner.appendChild(taskContainer);
     }
 
-    findNextDataSet() {
+    findNextDataProject() {
         const allProjects = this.projectsContainer.querySelectorAll('[data-project]');
         return allProjects.length;
+    }
+
+    findNextDataTask() {
+        const allTasks = this.tasksConatiner.querySelectorAll('[data-task]');
+        return allTasks.length;
     }
 
      // Handle clicks on project's actions (3 dot icon)
