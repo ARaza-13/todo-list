@@ -531,6 +531,11 @@ class DOMManager {
         const taskDetails = document.createElement('div');
         taskDetails.classList.add('task-details');
 
+        if (task.completed) {
+            checkBubble.classList.add('checked');
+            taskDetails.classList.add('line-through', 'faded');
+        };
+
         const titleElement = document.createElement('p');
         titleElement.classList.add('task-name');
         titleElement.setAttribute('id', 'task-name');
@@ -575,10 +580,12 @@ class DOMManager {
             task.completed = true;
             checkBubble.classList.add('checked');
             taskDetails.classList.add('line-through', 'faded');
+            console.log(task);
         } else {
             task.completed = false;
             checkBubble.classList.remove('checked');
             taskDetails.classList.remove('line-through', 'faded');
+            console.log(task);
         }
     }
 
