@@ -526,6 +526,7 @@ class DOMManager {
 
         const checkBubble = document.createElement('div');
         checkBubble.classList.add('unchecked');
+        checkBubble.onclick = (e) => this.toggleTaskComplete(e, task);
 
         const taskDetails = document.createElement('div');
         taskDetails.classList.add('task-details');
@@ -564,6 +565,21 @@ class DOMManager {
     findNextDataTask() {
         const allTasks = this.tasksConatiner.querySelectorAll('[data-task]');
         return allTasks.length;
+    }
+
+    toggleTaskComplete(e, task) {
+        const checkBubble = e.target;
+        const taskDetails = e.target.closest('.task').querySelector('.task-details');
+
+        if (!task.completed) {
+            task.completed = true;
+            checkBubble.classList.add('checked');
+            taskDetails.classList.add('line-through', 'faded');
+        } else {
+            task.completed = false;
+            checkBubble.classList.remove('checked');
+            taskDetails.classList.remove('line-through', 'faded');
+        }
     }
 
      // Handle clicks on project's actions (3 dot icon)
