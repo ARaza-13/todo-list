@@ -7,8 +7,9 @@ class TodoList {
         this.defaultProjects.push(new Project('Inbox', true));
         this.defaultProjects.push(new Project('Today', true));
         this.defaultProjects.push(new Project('This week', true));
-        this.defaultProjects.push(new Project('This month', true));
-        this.defaultProjects.push(new Project('This year', true));
+        this.defaultProjects.push(new Project('Low Priority', true));
+        this.defaultProjects.push(new Project('Medium Priority', true));
+        this.defaultProjects.push(new Project('High Priority', true));
     }
 
     getProjects() {
