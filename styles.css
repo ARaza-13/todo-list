@@ -39,6 +39,10 @@ button:hover {
 }
 
 /* dropdown menu actions */
+.dropdown-actions {
+    cursor: pointer;
+}
+
 .dropdown-action:after {
     content: '\2807';
     font-size: 24px;
@@ -148,6 +152,7 @@ button:hover {
     justify-content: space-between;
     text-align: left;
     padding: 10px 20px;
+    cursor: pointer;
 }
 
 /* add project form */
@@ -172,11 +177,6 @@ button:hover {
     padding: 25px 45px;
 }
 
-.project, 
-.task {
-    cursor: pointer;
-}
-
 .task-form {
     width: 320px;
     padding: 30px;
@@ -199,6 +199,7 @@ button:hover {
     height: 13px;
     border: solid 2px;
     border-radius: 50%;
+    cursor: pointer;
 }
 
 .checked {
