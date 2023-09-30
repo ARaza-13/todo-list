@@ -42,6 +42,7 @@ class DOMManager {
     initialize(todoList) {
         this.renderDefaultProjects(todoList);
         this.renderProjects(todoList);
+        todoList.initializeInbox();
     }
 
     // Handle clicks outside of dropdowns to hide them

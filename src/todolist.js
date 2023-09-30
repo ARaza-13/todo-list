@@ -4,12 +4,33 @@ class TodoList {
     constructor() {
         this.projects = [];
         this.defaultProjects = [];
-        this.defaultProjects.push(new Project('Inbox', true));
-        this.defaultProjects.push(new Project('Today', true));
-        this.defaultProjects.push(new Project('This week', true));
-        this.defaultProjects.push(new Project('Low Priority', true));
-        this.defaultProjects.push(new Project('Medium Priority', true));
-        this.defaultProjects.push(new Project('High Priority', true));
+
+        // create default projects
+        this.inbox = new Project('Inbox', true);
+        this.today = new Project('Today', true);
+        this.thisWeek = new Project('This week', true);
+        this.lowPriority = new Project('Low Priority', true);
+        this.mediumPriority = new Project('Medium Priority', true);
+        this.highPriority = new Project('High Priority', true);
+
+        // add default projects to array
+        this.defaultProjects.push(this.inbox);
+        this.defaultProjects.push(this.today);
+        this.defaultProjects.push(this.thisWeek);
+        this.defaultProjects.push(this.lowPriority);
+        this.defaultProjects.push(this.mediumPriority);
+        this.defaultProjects.push(this.highPriority);
+    }
+
+    initializeInbox() {
+        this.inbox.tasks = [];
+
+        this.projects.forEach((project) => {
+            const allTasks = project.getTasks();
+            allTasks.forEach((task) => this.inbox.addTask(task));
+        });
+
+        console.log(this.inbox.getTasks());
     }
 
     getProjects() {
@@ -32,6 +53,7 @@ class TodoList {
 
     deleteProject(index) {
         this.projects.splice(index, 1);
+        this.initializeInbox();
     }
 }
 
