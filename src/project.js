@@ -1,8 +1,9 @@
 class Project {
-    constructor(name, isDefault = false) {
+    constructor(name, isDefault = false, projectId) {
         this.name = name;
         this.tasks = [];
         this.isDefault = isDefault;
+        this.projectId = projectId;
     }
 
     setName(name) {

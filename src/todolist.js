@@ -55,6 +55,16 @@ class TodoList {
         this.projects.splice(index, 1);
         this.initializeInbox();
     }
+
+    addTaskToProject(project, task) {
+        if (project) project.addTask(task);
+        this.initializeInbox();
+    }
+
+    deleteTaskFromProject(project, taskIndex) {
+        if (project) project.deleteTask(taskIndex);
+        this.initializeInbox();
+    };
 }
 
 export default TodoList;

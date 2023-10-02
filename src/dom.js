@@ -97,7 +97,7 @@ class DOMManager {
     handleDeleteTask() {
         const taskContainer = this.currentlyDeleting;
         const taskIndex = taskContainer.getAttribute('data-task');
-        this.currentProject.deleteTask(taskIndex);
+        this.todoList.deleteTaskFromProject(this.currentProject, taskIndex);
         this.renderTasks(this.currentProject);
         this.hideDeleteMessage();
     }
@@ -107,8 +107,8 @@ class DOMManager {
         const newTask = this.getAddTaskInput();
         const currentProjectName = document.getElementById('project-header').textContent;
         const currentProject = this.todoList.getProject(currentProjectName);
-
-        currentProject.addTask(newTask);
+        
+        this.todoList.addTaskToProject(currentProject, newTask);
         this.toggleAddTaskForm();
         this.renderTasks(currentProject);
         console.log(currentProject.getTasks());
@@ -495,6 +495,7 @@ class DOMManager {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
             const dataIndex = this.findNextDataProject();
+            project.projectId = dataIndex;
             projectContainer.setAttribute('data-project', dataIndex);
             this.createDropdownActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
@@ -503,7 +504,7 @@ class DOMManager {
 
     renderTasks(project) {
         this.clearTasks();
-
+        console.log(project);
         const projectHeader = document.createElement('div');
         projectHeader.classList.add('project-header');
         projectHeader.setAttribute('id', 'project-header');
@@ -512,6 +513,7 @@ class DOMManager {
         this.tasksConatiner.appendChild(projectHeader);
 
         project.getTasks().forEach((task) => {
+            task.projectId = project.projectId;
             this.renderTaskDetails(task);
         });
 
