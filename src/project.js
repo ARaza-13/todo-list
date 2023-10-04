@@ -18,16 +18,21 @@ class Project {
         return this.tasks;
     }
 
-    getTask(index) {
-        return this.tasks[index];
+    getTask(taskId) {
+        return this.tasks.find(task => task.taskId === taskId);
+    }
+
+    getTaskIndex(taskId) {
+        return this.tasks.findIndex(task => task.taskId === taskId);
     }
 
     addTask(newTask) {
         this.tasks.push(newTask);
     }
 
-    deleteTask(index) {
-        this.tasks.splice(index, 1);
+    deleteTask(taskId) {
+        const taskIndex = this.getTaskIndex(taskId);
+        this.tasks.splice(taskIndex, 1);
     }
 }
 

@@ -77,10 +77,10 @@ class DOMManager {
         const newName = editProjectForm.querySelector('.input-popup').value;
 
         const projectContainer = this.currentlyEditing;
-        const projectIndex = projectContainer.getAttribute('data-project');
+        const projectId = Number(projectContainer.getAttribute('data-project'));
 
         if (newName.trim() !== '') {
-            this.todoList.editProject(projectIndex, newName);
+            this.todoList.editProject(projectId, newName);
             this.hideEditProjectForm();
             this.renderProjects(this.todoList);
         }
@@ -88,30 +88,32 @@ class DOMManager {
 
     handleDeleteProject() {
         const projectContainer = this.currentlyDeleting;
-        const projectIndex = projectContainer.getAttribute('data-project');
-        this.todoList.deleteProject(projectIndex);
+        const projectId = Number(projectContainer.getAttribute('data-project'));
+        this.todoList.deleteProject(projectId);
         this.renderProjects(this.todoList);
         this.hideDeleteMessage();
     }
 
     handleDeleteTask() {
         const taskContainer = this.currentlyDeleting;
-        const taskIndex = taskContainer.getAttribute('data-task');
-        this.todoList.deleteTaskFromProject(this.currentProject, taskIndex);
+        const taskId = Number(taskContainer.getAttribute('data-task'));
+        const projectId = this.getCurrentTask(taskContainer).projectId;
+        const currentProject = this.todoList.getProject(projectId);
+        
+        this.todoList.deleteTaskFromProject(currentProject, taskId);
         this.renderTasks(this.currentProject);
+        console.log(this.currentProject.getTasks());
         this.hideDeleteMessage();
     }
 
     handleAddTask(e) {
         e.preventDefault();
         const newTask = this.getAddTaskInput();
-        const currentProjectName = document.getElementById('project-header').textContent;
-        const currentProject = this.todoList.getProject(currentProjectName);
         
-        this.todoList.addTaskToProject(currentProject, newTask);
+        this.todoList.addTaskToProject(this.currentProject, newTask);
         this.toggleAddTaskForm();
-        this.renderTasks(currentProject);
-        console.log(currentProject.getTasks());
+        this.renderTasks(this.currentProject);
+        console.log(this.currentProject.getTasks());
     }
 
     handleEditTask(e) {
@@ -146,8 +148,8 @@ class DOMManager {
     }
 
     getCurrentTask(taskContainer) {
-        const taskIndex = taskContainer.getAttribute('data-task');
-        return this.currentProject.getTask(taskIndex);
+        const taskId = Number(taskContainer.getAttribute('data-task'));
+        return this.currentProject.getTask(taskId);
     }
 
     getPriorityColor(priority) {
@@ -494,9 +496,7 @@ class DOMManager {
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
-            const dataIndex = this.findNextDataProject();
-            project.projectId = dataIndex;
-            projectContainer.setAttribute('data-project', dataIndex);
+            projectContainer.setAttribute('data-project', project.projectId);
             this.createDropdownActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }
@@ -513,7 +513,6 @@ class DOMManager {
         this.tasksConatiner.appendChild(projectHeader);
 
         project.getTasks().forEach((task) => {
-            task.projectId = project.projectId;
             this.renderTaskDetails(task);
         });
 
@@ -524,8 +523,7 @@ class DOMManager {
         const taskContainer = document.createElement('div');
         taskContainer.classList.add('task');
 
-        const dataIndex = this.findNextDataTask();
-        taskContainer.setAttribute('data-task', dataIndex);
+        taskContainer.setAttribute('data-task', task.taskId);
 
         const checkBubble = document.createElement('div');
         checkBubble.classList.add('unchecked');
@@ -563,16 +561,6 @@ class DOMManager {
         this.createDropdownActions(taskContainer);
 
         this.tasksConatiner.appendChild(taskContainer);
-    }
-
-    findNextDataProject() {
-        const allProjects = this.projectsContainer.querySelectorAll('[data-project]');
-        return allProjects.length;
-    }
-
-    findNextDataTask() {
-        const allTasks = this.tasksConatiner.querySelectorAll('[data-task]');
-        return allTasks.length;
     }
 
     toggleTaskComplete(e, task) {

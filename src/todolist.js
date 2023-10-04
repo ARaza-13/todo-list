@@ -4,6 +4,8 @@ class TodoList {
     constructor() {
         this.projects = [];
         this.defaultProjects = [];
+        this.nextProjectId = 0;
+        this.nextTaskId = 0;
 
         // create default projects
         this.inbox = new Project('Inbox', true);
@@ -37,32 +39,52 @@ class TodoList {
         return this.projects;
     }
 
-    getProject(projectName) {
-        return this.projects.find((project) => project.getName() === projectName);
+    getProject(projectId) {
+        return this.projects.find(project => project.projectId === projectId);
+    }
+
+    getProjectIndex(projectId) {
+        return this.projects.findIndex(project => project.projectId === projectId);
+    }
+
+    getNextProjectId() {
+        return this.nextProjectId += 1;
+    }
+
+    getNextTaskId() {
+        return this.nextTaskId += 1;
     }
 
     addProject(newProject) {
+        newProject.projectId = this.getNextProjectId();
         this.projects.push(newProject);
     }
 
-    editProject(index, newName) {
-        if (index >= 0 && index < this.projects.length) {
-            this.projects[index].name = newName;
+    editProject(projectId, newName) {
+        const projectIndex = this.getProjectIndex(projectId);
+        if (projectIndex >= 0 && projectIndex < this.projects.length) {
+            this.projects[projectIndex].name = newName;
         }
     }
 
-    deleteProject(index) {
-        this.projects.splice(index, 1);
+    deleteProject(projectId) {
+        const projectIndex = this.getProjectIndex(projectId);
+        this.projects.splice(projectIndex, 1);
         this.initializeInbox();
     }
 
     addTaskToProject(project, task) {
-        if (project) project.addTask(task);
+        if (project) {
+            task.projectId = project.projectId;
+            task.taskId = this.getNextTaskId();
+
+            project.addTask(task);
+        }
         this.initializeInbox();
     }
 
-    deleteTaskFromProject(project, taskIndex) {
-        if (project) project.deleteTask(taskIndex);
+    deleteTaskFromProject(project, taskId) {
+        if (project) project.deleteTask(taskId);
         this.initializeInbox();
     };
 }

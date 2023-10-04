@@ -1,11 +1,12 @@
 class Task {
-    constructor(name, description, priority, dueDate = 'No date', projectId) {
+    constructor(name, description, priority, dueDate = 'No date', projectId, taskId) {
         this.name = name;
         this.description = description;
         this.priority = priority;
         this.dueDate = dueDate;
         this.completed = false;
         this.projectId = projectId;
+        this.taskId = taskId;
     }
 
     updateTask(name, description, priority, dueDate = 'No date') {
