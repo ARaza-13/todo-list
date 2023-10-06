@@ -43,9 +43,7 @@ class TodoList {
     }
 
     deleteProjectTasksFromInbox(projectId) {
-        this.inbox.tasks.forEach((task) => {
-            if (task.projectId === projectId) this.inbox.deleteTask(task.taskId);
-        })
+        return this.inbox.tasks.filter((task) => task.projectId !== projectId);
     }
 
     getProjects() {
@@ -84,7 +82,7 @@ class TodoList {
     deleteProject(projectId) {
         const projectIndex = this.getProjectIndex(projectId);
         this.projects.splice(projectIndex, 1);
-        this.deleteProjectTasksFromInbox(projectId);
+        this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
 
     addTaskToProject(project, task) {
