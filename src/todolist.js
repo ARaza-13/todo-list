@@ -9,6 +9,7 @@ class TodoList {
 
         // create default projects
         this.inbox = new Project('Inbox', true);
+        this.inbox.projectId = 'inbox';
         this.today = new Project('Today', true);
         this.thisWeek = new Project('This week', true);
         this.lowPriority = new Project('Low Priority', true);
@@ -31,8 +32,20 @@ class TodoList {
             const allTasks = project.getTasks();
             allTasks.forEach((task) => this.inbox.addTask(task));
         });
+    }
 
-        console.log(this.inbox.getTasks());
+    addTaskToInbox(task) {
+        this.inbox.addTask(task);
+    }
+
+    deleteTaskFromInbox(task) {
+        this.inbox.deleteTask(task);
+    }
+
+    deleteProjectTasksFromInbox(projectId) {
+        this.inbox.tasks.forEach((task) => {
+            if (task.projectId === projectId) this.inbox.deleteTask(task.taskId);
+        })
     }
 
     getProjects() {
@@ -40,7 +53,8 @@ class TodoList {
     }
 
     getProject(projectId) {
-        return this.projects.find(project => project.projectId === projectId);
+        return (this.projects.find(project => project.projectId === projectId) 
+        || this.defaultProjects.find(project => project.projectId === projectId));
     }
 
     getProjectIndex(projectId) {
@@ -70,7 +84,7 @@ class TodoList {
     deleteProject(projectId) {
         const projectIndex = this.getProjectIndex(projectId);
         this.projects.splice(projectIndex, 1);
-        this.initializeInbox();
+        this.deleteProjectTasksFromInbox(projectId);
     }
 
     addTaskToProject(project, task) {
@@ -80,12 +94,24 @@ class TodoList {
 
             project.addTask(task);
         }
-        this.initializeInbox();
+
+        // if the project is not the "Inbox", add the task to the Inbox project
+        if (project.projectId !== 'inbox') {
+            this.addTaskToInbox(task);
+        }
     }
 
     deleteTaskFromProject(project, taskId) {
-        if (project) project.deleteTask(taskId);
-        this.initializeInbox();
+        console.log(project);
+        console.log(project.projectId);
+        if (project) {
+            project.deleteTask(taskId);
+        }
+
+        // if the project is not the "Inbox", delete the task to the Inbox project
+        if (project.projectId !== 'inbox') {
+            this.deleteTaskFromInbox(taskId);
+        }
     };
 }
 

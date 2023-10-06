@@ -98,6 +98,7 @@ class DOMManager {
         const taskContainer = this.currentlyDeleting;
         const taskId = Number(taskContainer.getAttribute('data-task'));
         const projectId = this.getCurrentTask(taskContainer).projectId;
+        // UNDEFINED FOR INBOX CUS CHECKING PROJECTS ARRAY
         const currentProject = this.todoList.getProject(projectId);
         
         this.todoList.deleteTaskFromProject(currentProject, taskId);
