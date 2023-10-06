@@ -43,10 +43,14 @@ class DOMManager {
         this.renderDefaultProjects(todoList);
         this.renderProjects(todoList);
         todoList.initializeInbox();
+        this.displayInbox();
     }
 
     displayInbox() {
-        null;
+        // const inbox = document.querySelector('[data-project="inbox"]');
+        const inbox = this.todoList.getProject('inbox');
+        this.renderTasks(inbox);
+        this.currentProject = inbox;
     }
 
     // Handle clicks outside of dropdowns to hide them
@@ -96,6 +100,7 @@ class DOMManager {
         this.todoList.deleteProject(projectId);
         this.renderProjects(this.todoList);
         this.hideDeleteMessage();
+        this.displayInbox();
     }
 
     handleDeleteTask() {
