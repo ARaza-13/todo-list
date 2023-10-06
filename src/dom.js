@@ -45,6 +45,10 @@ class DOMManager {
         todoList.initializeInbox();
     }
 
+    displayInbox() {
+        null;
+    }
+
     // Handle clicks outside of dropdowns to hide them
     handleDocumentClick(e) {
         if (!this.openDropdown) return;
@@ -486,6 +490,7 @@ class DOMManager {
     renderProject(project) {
         const projectContainer = document.createElement('button');
         projectContainer.classList.add('project');
+        projectContainer.setAttribute('data-project', project.projectId);
         projectContainer.textContent = project.name;
 
         projectContainer.addEventListener('click', () => {
@@ -496,7 +501,6 @@ class DOMManager {
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
-            projectContainer.setAttribute('data-project', project.projectId);
             this.createDropdownActions(projectContainer);
             this.projectsContainer.appendChild(projectContainer);
         }

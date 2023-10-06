@@ -9,12 +9,19 @@ class TodoList {
 
         // create default projects
         this.inbox = new Project('Inbox', true);
-        this.inbox.projectId = 'inbox';
         this.today = new Project('Today', true);
         this.thisWeek = new Project('This week', true);
         this.lowPriority = new Project('Low Priority', true);
         this.mediumPriority = new Project('Medium Priority', true);
         this.highPriority = new Project('High Priority', true);
+
+        // add projectId to default projects
+        this.inbox.projectId = 'inbox';
+        this.today.projectId = 'today';
+        this.thisWeek.projectId = 'week';
+        this.lowPriority.projectId = 'low';
+        this.mediumPriority.projectId = 'medium';
+        this.highPriority.projectId = 'high';
 
         // add default projects to array
         this.defaultProjects.push(this.inbox);
