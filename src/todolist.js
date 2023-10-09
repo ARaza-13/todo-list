@@ -36,8 +36,8 @@ class TodoList {
         this.inbox.addTask(task);
     }
 
-    deleteTaskFromInbox(task) {
-        this.inbox.deleteTask(task);
+    deleteTaskFromInbox(taskId) {
+        this.inbox.deleteTask(taskId);
     }
 
     deleteProjectTasksFromInbox(projectId) {
@@ -51,6 +51,16 @@ class TodoList {
             this.mediumPriority.addTask(task);
         } else {
             this.highPriority.addTask(task);
+        }
+    }
+
+    deleteTaskBasedOnPriority(task) {
+        if (task.priority === 'Low') {
+            this.lowPriority.deleteTask(task.taskId);
+        } else if (task.priority === 'Medium') {
+            this.mediumPriority.deleteTask(task.taskId);
+        } else {
+            this.highPriority.deleteTask(task.taskId);
         }
     }
 
@@ -109,10 +119,10 @@ class TodoList {
     }
 
     deleteTaskFromProject(project, taskId) {
-        console.log(project);
-        console.log(project.projectId);
         if (project) {
+            const task = project.getTask(taskId);
             project.deleteTask(taskId);
+            this.deleteTaskBasedOnPriority(task);
         }
 
         // if the project is not the "Inbox", delete the task to the Inbox project
