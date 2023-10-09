@@ -53,6 +53,21 @@ class TodoList {
         return this.inbox.tasks.filter((task) => task.projectId !== projectId);
     }
 
+    initializePriority() {
+        this.projects.forEach((project) => {
+            const allTasks = project.getTasks();
+            allTasks.forEach((task) => {
+                if (task.priority === 'Low') {
+                    this.lowPriority.addTask(task);
+                } else if (task.priority === 'Medium') {
+                    this.mediumPriority.addTask(task);
+                } else {
+                    this.highPriority.addTask(task);
+                }
+            });
+        });
+    }
+
     getProjects() {
         return this.projects;
     }
