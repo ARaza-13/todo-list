@@ -42,8 +42,6 @@ class DOMManager {
     initialize(todoList) {
         this.renderDefaultProjects(todoList);
         this.renderProjects(todoList);
-        todoList.initializeInbox();
-        todoList.initializePriority();
         this.displayInbox();
     }
 

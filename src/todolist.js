@@ -32,15 +32,6 @@ class TodoList {
         this.defaultProjects.push(this.highPriority);
     }
 
-    initializeInbox() {
-        this.inbox.tasks = [];
-
-        this.projects.forEach((project) => {
-            const allTasks = project.getTasks();
-            allTasks.forEach((task) => this.inbox.addTask(task));
-        });
-    }
-
     addTaskToInbox(task) {
         this.inbox.addTask(task);
     }
@@ -53,19 +44,14 @@ class TodoList {
         return this.inbox.tasks.filter((task) => task.projectId !== projectId);
     }
 
-    initializePriority() {
-        this.projects.forEach((project) => {
-            const allTasks = project.getTasks();
-            allTasks.forEach((task) => {
-                if (task.priority === 'Low') {
-                    this.lowPriority.addTask(task);
-                } else if (task.priority === 'Medium') {
-                    this.mediumPriority.addTask(task);
-                } else {
-                    this.highPriority.addTask(task);
-                }
-            });
-        });
+    addTaskBasedOnPriority(task) {
+        if (task.priority === 'Low') {
+            this.lowPriority.addTask(task);
+        } else if (task.priority === 'Medium') {
+            this.mediumPriority.addTask(task);
+        } else {
+            this.highPriority.addTask(task);
+        }
     }
 
     getProjects() {
@@ -113,6 +99,7 @@ class TodoList {
             task.taskId = this.getNextTaskId();
 
             project.addTask(task);
+            this.addTaskBasedOnPriority(task);  // add task to correct priority project
         }
 
         // if the project is not the "Inbox", add the task to the Inbox project
