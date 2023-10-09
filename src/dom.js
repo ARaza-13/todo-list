@@ -525,7 +525,10 @@ class DOMManager {
             this.renderTaskDetails(task);
         });
 
-        this.tasksConatiner.appendChild(this.createAddTaskBtn());
+        // create the add task button for only the inbox and user generated projects
+        if (!project.isDefault || project.projectId === 'inbox') {
+            this.tasksConatiner.appendChild(this.createAddTaskBtn());
+        }
     }
 
     renderTaskDetails(task) {
