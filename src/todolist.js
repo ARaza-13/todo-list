@@ -54,6 +54,16 @@ class TodoList {
         project.deleteTask(task.taskId);
     }
 
+    updatePriorityProject(task, previousPriority) {
+        if (task.priority === previousPriority) {
+            return;
+        }
+
+        const project = this.getProject(previousPriority.toLowerCase());
+        project.deleteTask(task.taskId);
+        this.addTaskBasedOnPriority(task);
+    }
+
     getProjects() {
         return this.projects;
     }
