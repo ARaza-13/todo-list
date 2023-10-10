@@ -45,23 +45,13 @@ class TodoList {
     }
 
     addTaskBasedOnPriority(task) {
-        if (task.priority === 'Low') {
-            this.lowPriority.addTask(task);
-        } else if (task.priority === 'Medium') {
-            this.mediumPriority.addTask(task);
-        } else {
-            this.highPriority.addTask(task);
-        }
+        const project = this.getProject(task.priority.toLowerCase());
+        project.addTask(task);
     }
 
     deleteTaskBasedOnPriority(task) {
-        if (task.priority === 'Low') {
-            this.lowPriority.deleteTask(task.taskId);
-        } else if (task.priority === 'Medium') {
-            this.mediumPriority.deleteTask(task.taskId);
-        } else {
-            this.highPriority.deleteTask(task.taskId);
-        }
+        const project = this.getProject(task.priority.toLowerCase());
+        project.deleteTask(task.taskId);
     }
 
     getProjects() {

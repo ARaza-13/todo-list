@@ -133,8 +133,7 @@ class DOMManager {
         let updatedDueDate = editInputs.dateInput.value;
         if (editInputs.dateInput.value.trim() === '') updatedDueDate = 'No date';
         
-        const currentTaskContainer = this.currentlyEditing;
-        const currentTask = this.getCurrentTask(currentTaskContainer);
+        const currentTask = this.getCurrentTask(this.currentlyEditing);
         currentTask.updateTask(updatedName, updatedDescription, updatedPriority, updatedDueDate);
 
         this.renderTasks(this.currentProject);
