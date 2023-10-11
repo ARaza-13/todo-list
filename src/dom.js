@@ -521,6 +521,7 @@ class DOMManager {
 
         this.tasksConatiner.appendChild(projectHeader);
 
+        this.todoList.getTasksToday();
         project.getTasks().forEach((task) => {
             this.renderTaskDetails(task);
         });

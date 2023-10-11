@@ -1,4 +1,5 @@
 import Project from "./project";
+import { parse, format, isEqual, parseISO } from "date-fns";
 
 class TodoList {
     constructor() {
@@ -32,38 +33,7 @@ class TodoList {
         this.defaultProjects.push(this.highPriority);
     }
 
-    addTaskToInbox(task) {
-        this.inbox.addTask(task);
-    }
-
-    deleteTaskFromInbox(taskId) {
-        this.inbox.deleteTask(taskId);
-    }
-
-    deleteProjectTasksFromInbox(projectId) {
-        return this.inbox.tasks.filter((task) => task.projectId !== projectId);
-    }
-
-    addTaskBasedOnPriority(task) {
-        const project = this.getProject(task.priority.toLowerCase());
-        project.addTask(task);
-    }
-
-    deleteTaskBasedOnPriority(task) {
-        const project = this.getProject(task.priority.toLowerCase());
-        project.deleteTask(task.taskId);
-    }
-
-    updatePriorityProject(task, previousPriority) {
-        if (task.priority === previousPriority) {
-            return;
-        }
-
-        const project = this.getProject(previousPriority.toLowerCase());
-        project.deleteTask(task.taskId);
-        this.addTaskBasedOnPriority(task);
-    }
-
+    // methods for retrieving project data
     getProjects() {
         return this.projects;
     }
@@ -85,6 +55,54 @@ class TodoList {
         return this.nextTaskId += 1;
     }
 
+    // methods for handling inbox project
+    addTaskToInbox(task) {
+        this.inbox.addTask(task);
+    }
+
+    deleteTaskFromInbox(taskId) {
+        this.inbox.deleteTask(taskId);
+    }
+
+    deleteProjectTasksFromInbox(projectId) {
+        return this.inbox.tasks.filter((task) => task.projectId !== projectId);
+    }
+
+    // methods for handling priority projects
+    addTaskBasedOnPriority(task) {
+        const project = this.getProject(task.priority.toLowerCase());
+        project.addTask(task);
+    }
+
+    deleteTaskBasedOnPriority(task) {
+        const project = this.getProject(task.priority.toLowerCase());
+        project.deleteTask(task.taskId);
+    }
+
+    updatePriorityProject(task, previousPriority) {
+        if (task.priority === previousPriority) {
+            return;
+        }
+
+        const project = this.getProject(previousPriority.toLowerCase());
+        project.deleteTask(task.taskId);
+        this.addTaskBasedOnPriority(task);
+    }
+
+    // methods for handling date specific project
+    getTasksToday() {
+        this.today.tasks = [];
+        let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
+
+        this.inbox.tasks.forEach((task) => {
+            let date = Date.parse(task.dueDate);
+            if (isEqual(date, today)) {
+                this.today.addTask(task);
+            }
+        });
+    }
+
+    // methods for handling user projects
     addProject(newProject) {
         newProject.projectId = this.getNextProjectId();
         this.projects.push(newProject);
@@ -103,6 +121,7 @@ class TodoList {
         this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
 
+    // methods for handling user tasks
     addTaskToProject(project, task) {
         if (project) {
             task.projectId = project.projectId;
