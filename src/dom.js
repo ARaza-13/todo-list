@@ -513,7 +513,7 @@ class DOMManager {
 
     renderTasks(project) {
         this.clearTasks();
-        
+
         const projectHeader = document.createElement('div');
         projectHeader.classList.add('project-header');
         projectHeader.setAttribute('id', 'project-header');
@@ -521,7 +521,8 @@ class DOMManager {
 
         this.tasksConatiner.appendChild(projectHeader);
 
-        this.todoList.getTasksToday();
+        this.todoList.setTasksToday();
+        this.todoList.setTasksThisWeek();
         project.getTasks().forEach((task) => {
             this.renderTaskDetails(task);
         });
@@ -530,6 +531,8 @@ class DOMManager {
         if (!project.isDefault || project.projectId === 'inbox') {
             this.tasksConatiner.appendChild(this.createAddTaskBtn());
         }
+
+        console.log(project);
     }
 
     renderTaskDetails(task) {

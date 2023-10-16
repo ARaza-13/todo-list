@@ -90,7 +90,7 @@ class TodoList {
     }
 
     // methods for handling date specific project
-    getTasksToday() {
+    setTasksToday() {
         this.today.tasks = [];
         let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
 
@@ -102,21 +102,35 @@ class TodoList {
         });
     }
 
-    getTasksThisWeek() {
+    setTasksThisWeek() {
         this.thisWeek.tasks = [];
+        const currentWeek = this.getCurrentWeek();
 
+        this.inbox.tasks.forEach((task) => {
+            // get the wekk number of the task using the logic from getCurrentWeek()
+            let taskDate = new Date(task.dueDate.replace(/-/g, '\/'));  // change date format from yyyy-mm-dd to yyyy/mm//dd
+            let startDate = new Date(taskDate.getFullYear(), 0, 1); 
+            let days = Math.floor(((taskDate - startDate) / (24 * 60 * 60 * 1000)) + 1);  // +1 at the end to account being a day behind
+            let taskWeek = Math.ceil(days / 7);
+            
+            if (taskWeek === currentWeek) {
+                this.thisWeek.addTask(task);
+            }
+        });
+    }
+
+    getCurrentWeek() {
         // get the current date and starting date of the current year
-        const currentDate = new Date();
-        const startDate = new Date(currentDate.getFullYear(), 0, 1); 
+        let currentDate = new Date();
+        let startDate = new Date(currentDate.getFullYear(), 0, 1); 
         
         // calculate the difference between the two dates (in milliseconds)
         // divide the result by total milliseconds in a day to get the difference converted in days
-        const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+        let days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
         
         // divide the number of days by 7 to get the current week number
-        const currentWeek = Math.ceil(days / 7);
-
-        console.log(currentWeek);
+        let currentWeek = Math.ceil(days / 7);
+        return currentWeek;
     }
 
     // methods for handling user projects
@@ -152,8 +166,6 @@ class TodoList {
         if (project.projectId !== 'inbox') {
             this.addTaskToInbox(task);
         }
-
-        this.getTasksThisWeek();
     }
 
     deleteTaskFromProject(project, taskId) {
