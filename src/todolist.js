@@ -1,5 +1,5 @@
 import Project from "./project";
-import { parse, format, isEqual, parseISO } from "date-fns";
+import { parse, format, isEqual, parseISO, addDays } from "date-fns";
 
 class TodoList {
     constructor() {
@@ -102,6 +102,23 @@ class TodoList {
         });
     }
 
+    getTasksThisWeek() {
+        this.thisWeek.tasks = [];
+
+        // get the current date and starting date of the current year
+        const currentDate = new Date();
+        const startDate = new Date(currentDate.getFullYear(), 0, 1); 
+        
+        // calculate the difference between the two dates (in milliseconds)
+        // divide the result by total milliseconds in a day to get the difference converted in days
+        const days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+        
+        // divide the number of days by 7 to get the current week number
+        const currentWeek = Math.ceil(days / 7);
+
+        console.log(currentWeek);
+    }
+
     // methods for handling user projects
     addProject(newProject) {
         newProject.projectId = this.getNextProjectId();
@@ -135,6 +152,8 @@ class TodoList {
         if (project.projectId !== 'inbox') {
             this.addTaskToInbox(task);
         }
+
+        this.getTasksThisWeek();
     }
 
     deleteTaskFromProject(project, taskId) {

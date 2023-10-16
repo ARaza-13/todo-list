@@ -11,7 +11,7 @@ todoList.addProject(gym);
 
 const push = new Task("Gym");
 push.setName("Push Day");
-push.setDate("2023-09-18");
+push.setDate("2023-10-09");
 push.setDescription("Train chest and triceps from 9:45pm to 11:15pm");
 push.setPriority("High");
 
@@ -19,13 +19,13 @@ const pull = new Task();
 pull.setName("Pull Day");
 pull.setDescription("Train back and biceps from 9:45pm to 11:15pm");
 pull.setPriority("High");
-pull.setDate("2023-09-20");
+pull.setDate("2023-10-11");
 
 const legs = new Task();
 legs.setName("Leg Day");
 legs.setDescription("Train legs from 9:45pm to 11:00pm");
 legs.setPriority("High");
-legs.setDate("2023-09-21");
+legs.setDate("2023-10-12");
 
 todoList.addTaskToProject(gym, push);
 todoList.addTaskToProject(gym, pull);

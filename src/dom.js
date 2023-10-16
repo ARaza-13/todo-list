@@ -513,7 +513,7 @@ class DOMManager {
 
     renderTasks(project) {
         this.clearTasks();
-        console.log(project);
+        
         const projectHeader = document.createElement('div');
         projectHeader.classList.add('project-header');
         projectHeader.setAttribute('id', 'project-header');
