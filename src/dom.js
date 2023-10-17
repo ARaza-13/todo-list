@@ -129,14 +129,11 @@ class DOMManager {
         const editInputs = this.getEditTaskInputs();
         const updatedName = editInputs.nameInput.value.trim();
         const updatedDescription = editInputs.descriptionInput.value.trim();
-        const updatedPriority = editInputs.priorityInput.value;
         let updatedDueDate = editInputs.dateInput.value;
         if (editInputs.dateInput.value.trim() === '') updatedDueDate = 'No date';
         
         const currentTask = this.getCurrentTask(this.currentlyEditing);
-        const previousPriority = currentTask.priority;
-        currentTask.updateTask(updatedName, updatedDescription, updatedPriority, updatedDueDate);
-        this.todoList.updatePriorityProject(currentTask, previousPriority);
+        currentTask.updateTask(updatedName, updatedDescription, updatedDueDate);
 
         this.renderTasks(this.currentProject);
         this.hideEditTaskForm();
@@ -161,32 +158,20 @@ class DOMManager {
         return this.currentProject.getTask(taskId);
     }
 
-    getPriorityColor(priority) {
-        if (priority === 'High') {
-            return 'red';
-        } else if (priority === 'Medium') {
-            return 'yellow';
-        } else {
-            return 'green';
-        }
-    }
-
     getAddTaskInput() {
         const taskNameInput = document.getElementById('add-task-name').value.trim();
         const taskDescriptionInput = document.getElementById('add-task-description').value.trim();
-        const taskPriorityInput = document.getElementById('add-task-priority').value;
         let taskDateInput = document.getElementById('add-task-date').value;
         if (taskDateInput.trim() === '') taskDateInput = 'No date';
 
-        return new this.Task(taskNameInput, taskDescriptionInput, taskPriorityInput, taskDateInput);
+        return new this.Task(taskNameInput, taskDescriptionInput, taskDateInput);
     }
 
     getEditTaskInputs() {
         return {
             nameInput: document.getElementById('edit-task-name'),
             descriptionInput: document.getElementById('edit-task-description'),
-            dateInput: document.getElementById('edit-task-date'),
-            priorityInput: document.getElementById('edit-task-priority')
+            dateInput: document.getElementById('edit-task-date')
         };
     }
 
@@ -197,7 +182,6 @@ class DOMManager {
         editInputs.nameInput.value = task.name;
         editInputs.descriptionInput.value = task.description;
         editInputs.dateInput.value = task.dueDate;
-        editInputs.priorityInput.value = task.priority;
     }
 
     createOverlay() {
@@ -307,26 +291,6 @@ class DOMManager {
         taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
-        const taskPriority = document.createElement('select');
-        taskPriority.classList.add('select-popup', 'task-priority-input');
-        taskPriority.setAttribute('id', 'edit-task-priority');
-
-        const highPriority = document.createElement('option');
-        highPriority.setAttribute('value', 'High');
-        highPriority.textContent = 'High';
-
-        const mediumPriority = document.createElement('option');
-        mediumPriority.setAttribute('value', 'Medium');
-        mediumPriority.textContent = 'Medium';
-
-        const lowPriority = document.createElement('option');
-        lowPriority.setAttribute('value', 'Low');
-        lowPriority.textContent = 'Low';
-
-        taskPriority.appendChild(lowPriority);
-        taskPriority.appendChild(mediumPriority);
-        taskPriority.appendChild(highPriority);
-
         const buttonsContainer = document.createElement('div');
         buttonsContainer.classList.add('popup-buttons');
 
@@ -349,7 +313,6 @@ class DOMManager {
         editTaskForm.appendChild(taskName);
         editTaskForm.appendChild(taskDescription);
         editTaskForm.appendChild(taskDate);
-        editTaskForm.appendChild(taskPriority);
         editTaskForm.appendChild(buttonsContainer);
 
         return editTaskForm;
@@ -413,26 +376,6 @@ class DOMManager {
         taskDate.setAttribute('type', 'date');
         taskDate.setAttribute('placeholder', 'Enter task date');
 
-        const taskPriority = document.createElement('select');
-        taskPriority.classList.add('select-popup', 'task-priority-input');
-        taskPriority.setAttribute('id', 'add-task-priority');
-
-        const highPriority = document.createElement('option');
-        highPriority.setAttribute('value', 'High');
-        highPriority.textContent = 'High';
-
-        const mediumPriority = document.createElement('option');
-        mediumPriority.setAttribute('value', 'Medium');
-        mediumPriority.textContent = 'Medium';
-
-        const lowPriority = document.createElement('option');
-        lowPriority.setAttribute('value', 'Low');
-        lowPriority.textContent = 'Low';
-
-        taskPriority.appendChild(lowPriority);
-        taskPriority.appendChild(mediumPriority);
-        taskPriority.appendChild(highPriority);
-
         const buttonsContainer = document.createElement('div');
         buttonsContainer.classList.add('popup-buttons');
 
@@ -455,7 +398,6 @@ class DOMManager {
         addTaskForm.appendChild(taskName);
         addTaskForm.appendChild(taskDescription);
         addTaskForm.appendChild(taskDate);
-        addTaskForm.appendChild(taskPriority);
         addTaskForm.appendChild(buttonsContainer);
 
         return addTaskForm;
@@ -553,23 +495,23 @@ class DOMManager {
             taskDetails.classList.add('line-through', 'faded');
         };
 
-        const titleElement = document.createElement('p');
+        const titleElement = document.createElement('div');
         titleElement.classList.add('task-name');
         titleElement.setAttribute('id', 'task-name');
         titleElement.textContent = task.getName();
 
-        const descriptionElement = document.createElement('p');
+        const descriptionElement = document.createElement('div');
         descriptionElement.classList.add('task-description');
         descriptionElement.textContent = task.getDescription();
 
         taskDetails.appendChild(titleElement);
         taskDetails.appendChild(descriptionElement);
 
-        const dueDateElement = document.createElement('p');
+        const dueDateElement = document.createElement('div');
         dueDateElement.textContent = `${task.getDate()}`;
 
-        const priorityColor = this.getPriorityColor(task.priority);
-        taskContainer.style.borderRight = `8px solid ${priorityColor}`;
+        // const priorityColor = this.getPriorityColor(task.priority);
+        // taskContainer.style.borderRight = `8px solid ${priorityColor}`;
 
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);

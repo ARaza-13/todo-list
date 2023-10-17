@@ -12,25 +12,19 @@ class TodoList {
         this.inbox = new Project('Inbox', true);
         this.today = new Project('Today', true);
         this.thisWeek = new Project('This week', true);
-        this.lowPriority = new Project('Low Priority', true);
-        this.mediumPriority = new Project('Medium Priority', true);
-        this.highPriority = new Project('High Priority', true);
+        this.important = new Project('Important', true);
 
         // add projectId to default projects
         this.inbox.projectId = 'inbox';
         this.today.projectId = 'today';
         this.thisWeek.projectId = 'week';
-        this.lowPriority.projectId = 'low';
-        this.mediumPriority.projectId = 'medium';
-        this.highPriority.projectId = 'high';
+        this.important.projectId = 'important';
 
         // add default projects to array
         this.defaultProjects.push(this.inbox);
         this.defaultProjects.push(this.today);
         this.defaultProjects.push(this.thisWeek);
-        this.defaultProjects.push(this.lowPriority);
-        this.defaultProjects.push(this.mediumPriority);
-        this.defaultProjects.push(this.highPriority);
+        this.defaultProjects.push(this.important);
     }
 
     // methods for retrieving project data
@@ -69,25 +63,25 @@ class TodoList {
     }
 
     // methods for handling priority projects
-    addTaskBasedOnPriority(task) {
-        const project = this.getProject(task.priority.toLowerCase());
-        project.addTask(task);
-    }
+    // addTaskBasedOnPriority(task) {
+    //     const project = this.getProject(task.priority.toLowerCase());
+    //     project.addTask(task);
+    // }
 
-    deleteTaskBasedOnPriority(task) {
-        const project = this.getProject(task.priority.toLowerCase());
-        project.deleteTask(task.taskId);
-    }
+    // deleteTaskBasedOnPriority(task) {
+    //     const project = this.getProject(task.priority.toLowerCase());
+    //     project.deleteTask(task.taskId);
+    // }
 
-    updatePriorityProject(task, previousPriority) {
-        if (task.priority === previousPriority) {
-            return;
-        }
+    // updatePriorityProject(task, previousPriority) {
+    //     if (task.priority === previousPriority) {
+    //         return;
+    //     }
 
-        const project = this.getProject(previousPriority.toLowerCase());
-        project.deleteTask(task.taskId);
-        this.addTaskBasedOnPriority(task);
-    }
+    //     const project = this.getProject(previousPriority.toLowerCase());
+    //     project.deleteTask(task.taskId);
+    //     this.addTaskBasedOnPriority(task);
+    // }
 
     // methods for handling date specific project
     setTasksToday() {
@@ -159,7 +153,6 @@ class TodoList {
             task.taskId = this.getNextTaskId();
 
             project.addTask(task);
-            this.addTaskBasedOnPriority(task);  // add task to correct priority project
         }
 
         // if the project is not the "Inbox", add the task to the Inbox project
@@ -172,7 +165,6 @@ class TodoList {
         if (project) {
             const task = project.getTask(taskId);
             project.deleteTask(taskId);
-            this.deleteTaskBasedOnPriority(task);
         }
 
         // if the project is not the "Inbox", delete the task to the Inbox project
