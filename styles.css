@@ -43,11 +43,6 @@ button:hover {
     cursor: pointer;
 }
 
-.dropdown-action:after {
-    content: '\2807';
-    font-size: 24px;
-}
-
 .dropdown-menu {
     position: absolute;
     z-index: 2;
