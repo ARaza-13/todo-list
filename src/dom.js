@@ -324,7 +324,8 @@ class DOMManager {
         dropdownActions.onclick = (e) => this.toggleActionsMenu(e);
 
         const dropdownAction = document.createElement('span');
-        dropdownAction.classList.add('dropdown-action');
+        dropdownAction.classList.add('material-symbols-outlined', 'dropdown-action');
+        dropdownAction.textContent = 'more_vert';
 
         const dropdownMenu = document.createElement('div');
         dropdownMenu.classList.add('dropdown-menu', 'hidden');
