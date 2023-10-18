@@ -62,27 +62,6 @@ class TodoList {
         return this.inbox.tasks.filter((task) => task.projectId !== projectId);
     }
 
-    // methods for handling priority projects
-    // addTaskBasedOnPriority(task) {
-    //     const project = this.getProject(task.priority.toLowerCase());
-    //     project.addTask(task);
-    // }
-
-    // deleteTaskBasedOnPriority(task) {
-    //     const project = this.getProject(task.priority.toLowerCase());
-    //     project.deleteTask(task.taskId);
-    // }
-
-    // updatePriorityProject(task, previousPriority) {
-    //     if (task.priority === previousPriority) {
-    //         return;
-    //     }
-
-    //     const project = this.getProject(previousPriority.toLowerCase());
-    //     project.deleteTask(task.taskId);
-    //     this.addTaskBasedOnPriority(task);
-    // }
-
     // methods for handling date specific project
     setTasksToday() {
         this.today.tasks = [];
@@ -125,6 +104,16 @@ class TodoList {
         // divide the number of days by 7 to get the current week number
         let currentWeek = Math.ceil(days / 7);
         return currentWeek;
+    }
+
+    setTaskAsImportant(task) {
+        task.important = true;
+        this.important.addTask(task);
+    }
+
+    setTaskAsNotImportant(task) {
+        task.important = false;
+        this.important.deleteTask(task.taskId);
     }
 
     // methods for handling user projects

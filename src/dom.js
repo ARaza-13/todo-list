@@ -514,6 +514,9 @@ class DOMManager {
         const starIcon = document.createElement('span');
         starIcon.classList.add('material-symbols-outlined');
         starIcon.textContent = 'star';
+        starIcon.addEventListener('click', (e) => this.toggleTaskImportant(e, task));
+
+        if (task.important) starIcon.classList.add('important');
 
         const taskActions = document.createElement('div');
         taskActions.classList.add('task-actions');
@@ -534,13 +537,26 @@ class DOMManager {
 
         if (!task.completed) {
             task.completed = true;
-            checkBubble.classList.add('checked');
-            taskDetails.classList.add('line-through', 'faded');
         } else {
             task.completed = false;
-            checkBubble.classList.remove('checked');
-            taskDetails.classList.remove('line-through', 'faded');
         }
+
+        checkBubble.classList.toggle('checked');
+        taskDetails.classList.toggle('line-through');
+        taskDetails.classList.toggle('faded');
+    }
+
+    toggleTaskImportant(e, task) {
+        const star = e.target;
+        
+        if (!task.important) {
+            this.todoList.setTaskAsImportant(task);
+        } else {
+            this.todoList.setTaskAsNotImportant(task);
+        }
+
+        star.classList.toggle('important');
+        this.renderTasks(this.currentProject);
     }
 
      // Handle clicks on project's actions (3 dot icon)
