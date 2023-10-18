@@ -39,6 +39,10 @@ button:hover {
 }
 
 /* dropdown menu actions */
+.task-actions {
+    display: flex;
+}
+
 .dropdown-actions {
     cursor: pointer;
 }

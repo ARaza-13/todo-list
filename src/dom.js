@@ -345,7 +345,7 @@ class DOMManager {
         dropdownActions.appendChild(dropdownAction);
         dropdownActions.appendChild(dropdownMenu);
 
-        container.appendChild(dropdownActions);
+        return dropdownActions;
     }
 
     createAddTaskForm() {
@@ -511,13 +511,19 @@ class DOMManager {
         const dueDateElement = document.createElement('div');
         dueDateElement.textContent = `${task.getDate()}`;
 
-        // const priorityColor = this.getPriorityColor(task.priority);
-        // taskContainer.style.borderRight = `8px solid ${priorityColor}`;
+        const starIcon = document.createElement('span');
+        starIcon.classList.add('material-symbols-outlined');
+        starIcon.textContent = 'star';
+
+        const taskActions = document.createElement('div');
+        taskActions.classList.add('task-actions');
+        taskActions.appendChild(starIcon);
+        taskActions.appendChild(this.createDropdownActions(taskContainer));
 
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
-        this.createDropdownActions(taskContainer);
+        taskContainer.appendChild(taskActions);
 
         this.tasksConatiner.appendChild(taskContainer);
     }
