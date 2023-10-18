@@ -449,7 +449,7 @@ class DOMManager {
         if (project.isDefault) {
             this.defaultProjectsContainer.appendChild(projectContainer)
         } else {
-            this.createDropdownActions(projectContainer);
+            projectContainer.appendChild(this.createDropdownActions(projectContainer));
             this.projectsContainer.appendChild(projectContainer);
         }
     }
