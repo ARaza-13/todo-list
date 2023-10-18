@@ -4,6 +4,7 @@
     --cancel-button-color: #fca5a5;
     --cancel-button-color-dark: #f87171;
     --add-project-task-color: #d6d3d1;
+    --important-color: #fec810;
     --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4);
     --overlay-bg: rgba(0, 0, 0, 0.3); 
 }
@@ -43,7 +44,7 @@ button:hover {
     display: flex;
 }
 
-.dropdown-actions {
+.material-symbols-outlined {
     cursor: pointer;
 }
 
@@ -225,4 +226,8 @@ button:hover {
 
 .line-through {
     text-decoration: line-through;
+}
+
+.important {
+    color: var(--important-color);
 }
