@@ -1,9 +1,10 @@
 class Project {
     constructor(name, isDefault = false, projectId) {
         this.name = name;
-        this.tasks = [];
         this.isDefault = isDefault;
         this.projectId = projectId;
+        this.tasks = [];
+        this.nextTaskId = 0;
     }
 
     setName(name) {
@@ -12,6 +13,10 @@ class Project {
 
     getName() {
         return this.name;
+    }
+
+    setTasks(tasks) {
+        this.tasks = tasks;
     }
 
     getTasks() {
@@ -26,7 +31,12 @@ class Project {
         return this.tasks.findIndex(task => task.taskId === taskId);
     }
 
+    getNextTaskId() {
+        return this.nextTaskId += 1;
+    }
+
     addTask(newTask) {
+        newTask.taskId = this.getNextTaskId();
         this.tasks.push(newTask);
     }
 

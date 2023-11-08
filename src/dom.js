@@ -1,8 +1,12 @@
+import Task from "./task";
+import Project from "./project";
+import TodoList from "./todolist";
+import Storage from "./storage";
+
 class DOMManager {
-    constructor(todoList, Project, Task) {
-        this.todoList = todoList;
-        this.Project = Project;
-        this.Task = Task;
+    constructor() {
+        this.storage = new Storage();
+        this.todoList = this.storage.getTodoList();
 
         // DOM elements
         this.main = document.querySelector('main');
@@ -39,9 +43,14 @@ class DOMManager {
         this.main.appendChild(this.createOverlay());
     }
 
-    initialize(todoList) {
-        this.renderDefaultProjects(todoList);
-        this.renderProjects(todoList);
+    initializeApp() {
+        const savedData = this.storage.getTodoList();
+        console.log(savedData);
+    }
+
+    initialize() {
+        this.renderDefaultProjects();
+        this.renderProjects();
         this.displayInbox();
     }
 
@@ -71,8 +80,8 @@ class DOMManager {
             alert('Please enter a valid Project name');
             return;
         }
-        const newProject = new this.Project(projectName);
-        this.todoList.addProject(newProject);
+        const newProject = new Project(projectName);
+        this.storage.addProject(newProject);
         this.renderProject(newProject);
         this.toggleProjectForm();
     }
@@ -87,17 +96,17 @@ class DOMManager {
         const projectId = Number(projectContainer.getAttribute('data-project'));
 
         if (newName.trim() !== '') {
-            this.todoList.editProject(projectId, newName);
+            this.storage.editProject(projectId, newName);
             this.hideEditProjectForm();
-            this.renderProjects(this.todoList);
+            this.renderProjects();
         }
     }
 
     handleDeleteProject() {
         const projectContainer = this.currentlyDeleting;
         const projectId = Number(projectContainer.getAttribute('data-project'));
-        this.todoList.deleteProject(projectId);
-        this.renderProjects(this.todoList);
+        this.storage.deleteProject(projectId);
+        this.renderProjects();
         this.hideDeleteMessage();
         this.displayInbox();
     }
@@ -108,7 +117,7 @@ class DOMManager {
         const projectId = this.getCurrentTask(taskContainer).projectId;
         const currentProject = this.todoList.getProject(projectId);
         
-        this.todoList.deleteTaskFromProject(currentProject, taskId);
+        this.storage.deleteTaskFromProject(currentProject, taskId);
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
         this.hideDeleteMessage();
@@ -118,7 +127,8 @@ class DOMManager {
         e.preventDefault();
         const newTask = this.getAddTaskInput();
         
-        this.todoList.addTaskToProject(this.currentProject, newTask);
+        newTask.projectId = this.currentProject.projectId;
+        this.storage.addTask(this.currentProject, newTask);
         this.toggleAddTaskForm();
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
@@ -164,7 +174,7 @@ class DOMManager {
         let taskDateInput = document.getElementById('add-task-date').value;
         if (taskDateInput.trim() === '') taskDateInput = 'No date';
 
-        return new this.Task(taskNameInput, taskDescriptionInput, taskDateInput);
+        return new Task(taskNameInput, taskDescriptionInput, taskDateInput);
     }
 
     getEditTaskInputs() {
@@ -413,17 +423,22 @@ class DOMManager {
         return addTaskBtn;
     }
 
-    renderDefaultProjects(todoList) {
+    renderDefaultProjects() {
         const homeHeading = document.createElement('h2');
         homeHeading.classList.add('projects-heading');
         homeHeading.textContent = 'Home';
 
         this.defaultProjectsContainer.appendChild(homeHeading);
 
-        todoList.defaultProjects.forEach((project) => this.renderProject(project));
+        this.todoList.getProjects().forEach((project) => {
+            console.log(project);
+            if (project.isDefault) {
+                this.renderProject(project);
+            }
+        });
     }
 
-    renderProjects(todoList) {
+    renderProjects() {
         this.clearProjects();
 
         const projectsHeading = document.createElement('h2');
@@ -432,7 +447,11 @@ class DOMManager {
 
         this.projectsContainer.appendChild(projectsHeading);
 
-        todoList.getProjects().forEach((project) => this.renderProject(project));
+        this.todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                this.renderProject(project);
+            }
+        });
     }
 
     renderProject(project) {
@@ -456,6 +475,7 @@ class DOMManager {
 
     renderTasks(project) {
         this.clearTasks();
+        console.log(project);
 
         const projectHeader = document.createElement('div');
         projectHeader.classList.add('project-header');

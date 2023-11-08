@@ -7,12 +7,44 @@ class Storage {
         this.localStorageKey = 'todoList';
     }
 
-    saveData(data) {
+    saveTodoList(data) {
         localStorage.setItem(this.localStorageKey, JSON.stringify(data));
     }
 
-    loadData() {
-        const data = localStorage.getItem(this.localStorageKey);
-        return data ? JSON.parse(data) : null;  // returns data as object or null if data is not found
+    getTodoList() {
+        const todoList = Object.assign(
+            new TodoList(), 
+            JSON.parse(localStorage.getItem(this.localStorageKey))
+        );
+
+        todoList.setProjects(
+            todoList.getProjects().map(
+                (project) => Object.assign(new Project(), project)
+            )
+        );
+
+        todoList.getProjects().forEach(
+            (project) => project.setTasks(
+                project.getTasks().map(
+                    (task) => Object.assign(new Task(), task)
+                )
+            )
+        );
+
+        return todoList;
+    }
+
+    addProject(project) {
+        const todoList = this.getTodoList();
+        todoList.addProject(project);
+        this.saveTodoList(todoList);
+    }
+
+    addTask(project, task) {
+        const todoList = this.getTodoList();
+        todoList.getProject(project.projectId).addTask(task);
+        this.saveTodoList(todoList);
     }
 }
+
+export default Storage;

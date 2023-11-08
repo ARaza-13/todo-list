@@ -4,9 +4,7 @@ import { parse, format, isEqual, parseISO, addDays } from "date-fns";
 class TodoList {
     constructor() {
         this.projects = [];
-        this.defaultProjects = [];
         this.nextProjectId = 0;
-        this.nextTaskId = 0;
 
         // create default projects
         this.inbox = new Project('Inbox', true);
@@ -21,20 +19,23 @@ class TodoList {
         this.important.projectId = 'important';
 
         // add default projects to array
-        this.defaultProjects.push(this.inbox);
-        this.defaultProjects.push(this.today);
-        this.defaultProjects.push(this.thisWeek);
-        this.defaultProjects.push(this.important);
+        this.projects.push(this.inbox);
+        this.projects.push(this.today);
+        this.projects.push(this.thisWeek);
+        this.projects.push(this.important);
     }
 
     // methods for retrieving project data
+    setProjects(projects) {
+        this.projects = projects;
+    }
+
     getProjects() {
         return this.projects;
     }
 
     getProject(projectId) {
-        return (this.projects.find(project => project.projectId === projectId) 
-        || this.defaultProjects.find(project => project.projectId === projectId));
+        return this.projects.find(project => project.projectId === projectId);
     }
 
     getProjectIndex(projectId) {
@@ -43,10 +44,6 @@ class TodoList {
 
     getNextProjectId() {
         return this.nextProjectId += 1;
-    }
-
-    getNextTaskId() {
-        return this.nextTaskId += 1;
     }
 
     // methods for handling inbox project
@@ -136,25 +133,20 @@ class TodoList {
     }
 
     // methods for handling user tasks
-    addTaskToProject(project, task) {
-        if (project) {
-            task.projectId = project.projectId;
-            task.taskId = this.getNextTaskId();
+    addTask(project, task) {
+        task.projectId = project.projectId;
+        task.taskId = this.getNextTaskId();
 
-            project.addTask(task);
-        }
-
+        project.addTask(task);
+        
         // if the project is not the "Inbox", add the task to the Inbox project
-        if (project.projectId !== 'inbox') {
-            this.addTaskToInbox(task);
-        }
+        // if (project.projectId !== 'inbox') {
+        //     this.addTaskToInbox(task);
+        // }
     }
 
     deleteTaskFromProject(project, taskId) {
-        if (project) {
-            const task = project.getTask(taskId);
-            project.deleteTask(taskId);
-        }
+        project.deleteTask(taskId);
 
         // if the project is not the "Inbox", delete the task to the Inbox project
         if (project.projectId !== 'inbox') {
