@@ -111,12 +111,9 @@ class DOMManager {
     }
 
     handleDeleteTask() {
-        const taskContainer = this.currentlyDeleting;
-        const taskId = Number(taskContainer.getAttribute('data-task'));
-        // const projectId = this.getCurrentTask(taskContainer).projectId;
-        // const currentProject = this.storage.getTodoList().getProject(projectId);
-        
+        const taskId = Number(this.currentlyDeleting.getAttribute('data-task'));
         this.storage.deleteTask(this.currentProject.projectId, taskId);
+        
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
         this.hideDeleteMessage();
@@ -136,13 +133,13 @@ class DOMManager {
     handleEditTask(e) {
         e.preventDefault();
         const editInputs = this.getEditTaskInputs();
-        const updatedName = editInputs.nameInput.value.trim();
-        const updatedDescription = editInputs.descriptionInput.value.trim();
-        let updatedDueDate = editInputs.dateInput.value;
-        if (editInputs.dateInput.value.trim() === '') updatedDueDate = 'No date';
+        const editedName = editInputs.nameInput.value.trim();
+        const editedDescription = editInputs.descriptionInput.value.trim();
+        let editedDueDate = editInputs.dateInput.value;
+        if (editInputs.dateInput.value.trim() === '') editedDueDate = 'No date';
         
         const currentTask = this.getCurrentTask(this.currentlyEditing);
-        currentTask.updateTask(updatedName, updatedDescription, updatedDueDate);
+        this.storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
 
         this.renderTasks(this.currentProject);
         this.hideEditTaskForm();
@@ -164,7 +161,7 @@ class DOMManager {
 
     getCurrentTask(taskContainer) {
         const taskId = Number(taskContainer.getAttribute('data-task'));
-        return this.currentProject.getTask(taskId);
+        return this.storage.getTodoList().getProject(this.currentProject.projectId).getTask(taskId);
     }
 
     getAddTaskInput() {

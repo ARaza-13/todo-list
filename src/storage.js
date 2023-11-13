@@ -52,6 +52,12 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
+    editTask(task, editedName, editedDescription, editedDueDate) {
+        const todoList = this.getTodoList();
+        todoList.getProject(task.projectId).getTask(task.taskId).editTask(editedName, editedDescription, editedDueDate);
+        this.saveTodoList(todoList);
+    }
+
     toggleTaskCompleted(task) {
         const todoList = this.getTodoList();
         todoList.getProject(task.projectId).getTask(task.taskId).setComplete();

@@ -9,7 +9,7 @@ class Task {
         this.completed = false;
     }
 
-    updateTask(name, description, dueDate = 'No date') {
+    editTask(name, description, dueDate = 'No date') {
         this.name = name;
         this.description = description;
         this.dueDate = dueDate;
