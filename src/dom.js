@@ -113,10 +113,10 @@ class DOMManager {
     handleDeleteTask() {
         const taskContainer = this.currentlyDeleting;
         const taskId = Number(taskContainer.getAttribute('data-task'));
-        const projectId = this.getCurrentTask(taskContainer).projectId;
-        const currentProject = this.storage.getTodoList().getProject(projectId);
+        // const projectId = this.getCurrentTask(taskContainer).projectId;
+        // const currentProject = this.storage.getTodoList().getProject(projectId);
         
-        this.storage.deleteTaskFromProject(currentProject, taskId);
+        this.storage.deleteTask(this.currentProject.projectId, taskId);
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
         this.hideDeleteMessage();
@@ -127,7 +127,7 @@ class DOMManager {
         const newTask = this.getAddTaskInput();
         
         newTask.projectId = this.currentProject.projectId;
-        this.storage.addTask(this.currentProject, newTask);
+        this.storage.addTask(this.currentProject.projectId, newTask);
         this.toggleAddTaskForm();
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());

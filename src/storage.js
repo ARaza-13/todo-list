@@ -40,9 +40,15 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    addTask(project, task) {
+    addTask(projectId, task) {
         const todoList = this.getTodoList();
-        todoList.getProject(project.projectId).addTask(task);
+        todoList.getProject(projectId).addTask(task);
+        this.saveTodoList(todoList);
+    }
+
+    deleteTask(projectId, taskId) {
+        const todoList = this.getTodoList();
+        todoList.getProject(projectId).deleteTask(taskId);
         this.saveTodoList(todoList);
     }
 

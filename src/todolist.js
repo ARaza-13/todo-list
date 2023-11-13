@@ -131,15 +131,6 @@ class TodoList {
         this.projects.splice(projectIndex, 1);
         this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
-
-    deleteTaskFromProject(project, taskId) {
-        project.deleteTask(taskId);
-
-        // if the project is not the "Inbox", delete the task to the Inbox project
-        if (project.projectId !== 'inbox') {
-            this.deleteTaskFromInbox(taskId);
-        }
-    };
 }
 
 export default TodoList;
