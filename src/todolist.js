@@ -132,19 +132,6 @@ class TodoList {
         this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
 
-    // methods for handling user tasks
-    addTask(project, task) {
-        task.projectId = project.projectId;
-        task.taskId = this.getNextTaskId();
-
-        project.addTask(task);
-        
-        // if the project is not the "Inbox", add the task to the Inbox project
-        // if (project.projectId !== 'inbox') {
-        //     this.addTaskToInbox(task);
-        // }
-    }
-
     deleteTaskFromProject(project, taskId) {
         project.deleteTask(taskId);
 

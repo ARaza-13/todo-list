@@ -38,6 +38,14 @@ class Task {
     getDate() {
         return this.dueDate;
     }
+
+    setComplete() {
+        if (!this.completed) {
+            this.completed = true;
+        } else {
+            this.completed = false;
+        }
+    }
 }
 
 export default Task;

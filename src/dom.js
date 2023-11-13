@@ -553,11 +553,7 @@ class DOMManager {
         const checkBubble = e.target;
         const taskDetails = e.target.closest('.task').querySelector('.task-details');
 
-        if (!task.completed) {
-            task.completed = true;
-        } else {
-            task.completed = false;
-        }
+        this.storage.toggleTaskCompleted(task);
 
         checkBubble.classList.toggle('checked');
         taskDetails.classList.toggle('line-through');

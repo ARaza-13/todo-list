@@ -45,6 +45,12 @@ class Storage {
         todoList.getProject(project.projectId).addTask(task);
         this.saveTodoList(todoList);
     }
+
+    toggleTaskCompleted(task) {
+        const todoList = this.getTodoList();
+        todoList.getProject(task.projectId).getTask(task.taskId).setComplete();
+        this.saveTodoList(todoList);
+    }
 }
 
 export default Storage;
