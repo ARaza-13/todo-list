@@ -6,7 +6,6 @@ import Storage from "./storage";
 class DOMManager {
     constructor() {
         this.storage = new Storage();
-        this.todoList = this.storage.getTodoList();
 
         // DOM elements
         this.main = document.querySelector('main');
@@ -56,7 +55,7 @@ class DOMManager {
 
     displayInbox() {
         // const inbox = document.querySelector('[data-project="inbox"]');
-        const inbox = this.todoList.getProject('inbox');
+        const inbox = this.storage.getTodoList().getProject('inbox');
         this.renderTasks(inbox);
         this.currentProject = inbox;
     }
@@ -115,7 +114,7 @@ class DOMManager {
         const taskContainer = this.currentlyDeleting;
         const taskId = Number(taskContainer.getAttribute('data-task'));
         const projectId = this.getCurrentTask(taskContainer).projectId;
-        const currentProject = this.todoList.getProject(projectId);
+        const currentProject = this.storage.getTodoList().getProject(projectId);
         
         this.storage.deleteTaskFromProject(currentProject, taskId);
         this.renderTasks(this.currentProject);
@@ -430,7 +429,7 @@ class DOMManager {
 
         this.defaultProjectsContainer.appendChild(homeHeading);
 
-        this.todoList.getProjects().forEach((project) => {
+        this.storage.getTodoList().getProjects().forEach((project) => {
             console.log(project);
             if (project.isDefault) {
                 this.renderProject(project);
@@ -447,7 +446,7 @@ class DOMManager {
 
         this.projectsContainer.appendChild(projectsHeading);
 
-        this.todoList.getProjects().forEach((project) => {
+        this.storage.getTodoList().getProjects().forEach((project) => {
             if (!project.isDefault) {
                 this.renderProject(project);
             }
@@ -484,9 +483,10 @@ class DOMManager {
 
         this.tasksConatiner.appendChild(projectHeader);
 
-        this.todoList.setTasksToday();
-        this.todoList.setTasksThisWeek();
-        project.getTasks().forEach((task) => {
+        this.storage.getTodoList().setTasksToday();
+        this.storage.getTodoList().setTasksThisWeek();
+        this.storage.getTodoList().getProject(project.projectId).getTasks().forEach((task) => {
+            console.log(task);
             this.renderTaskDetails(task);
         });
 
@@ -494,8 +494,6 @@ class DOMManager {
         if (!project.isDefault || project.projectId === 'inbox') {
             this.tasksConatiner.appendChild(this.createAddTaskBtn());
         }
-
-        console.log(project);
     }
 
     renderTaskDetails(task) {
@@ -570,9 +568,9 @@ class DOMManager {
         const star = e.target;
         
         if (!task.important) {
-            this.todoList.setTaskAsImportant(task);
+            this.storage.getTodoList().setTaskAsImportant(task);
         } else {
-            this.todoList.setTaskAsNotImportant(task);
+            this.storage.getTodoList().setTaskAsNotImportant(task);
         }
 
         star.classList.toggle('important');
