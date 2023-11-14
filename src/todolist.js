@@ -119,13 +119,6 @@ class TodoList {
         this.projects.push(newProject);
     }
 
-    editProject(projectId, newName) {
-        const projectIndex = this.getProjectIndex(projectId);
-        if (projectIndex >= 0 && projectIndex < this.projects.length) {
-            this.projects[projectIndex].name = newName;
-        }
-    }
-
     deleteProject(projectId) {
         const projectIndex = this.getProjectIndex(projectId);
         this.projects.splice(projectIndex, 1);

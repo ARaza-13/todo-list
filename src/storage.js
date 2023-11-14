@@ -46,6 +46,12 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
+    editProject(projectId, newName) {
+        const todoList = this.getTodoList();
+        todoList.getProject(projectId).setName(newName);
+        this.saveTodoList(todoList);
+    }
+
     addTask(projectId, task) {
         const todoList = this.getTodoList();
         todoList.getProject(projectId).addTask(task);
