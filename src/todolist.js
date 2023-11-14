@@ -129,7 +129,7 @@ class TodoList {
     deleteProject(projectId) {
         const projectIndex = this.getProjectIndex(projectId);
         this.projects.splice(projectIndex, 1);
-        this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
+        // this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
 }
 
