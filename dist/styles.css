@@ -178,8 +178,7 @@ button:hover {
 }
 
 .task-form {
-    width: 320px;
-    padding: 30px;
+    text-align: center;
 }
 
 /* task card */

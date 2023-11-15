@@ -15,7 +15,7 @@ class DOMManager {
         this.projectNameInput = document.getElementById('input-project-add-popup');
         this.addProjectButton = document.getElementById('button-project-add');
         this.cancelProjectButton = document.getElementById('button-project-cancel-popup');
-        this.tasksConatiner = document.getElementById('tasks');
+        this.tasksContainer = document.getElementById('tasks');
 
         // Initialize openDropdown to keep track of the currently open dropdown
         this.openDropdown = null;
@@ -36,7 +36,6 @@ class DOMManager {
         document.addEventListener('click', this.handleDocumentClick.bind(this));
 
         // DOM nodes 
-        this.main.appendChild(this.createAddTaskForm());
         this.main.appendChild(this.createEditTaskForm());
         this.main.appendChild(this.createDeleteMessage());
         this.main.appendChild(this.createOverlay());
@@ -356,7 +355,7 @@ class DOMManager {
 
     createAddTaskForm() {
         const addTaskForm = document.createElement('form');
-        addTaskForm.classList.add('task-form', 'popup', 'hidden');
+        addTaskForm.classList.add('task-form', 'hidden');
         addTaskForm.setAttribute('id', 'add-task-form');
 
         const formHeader = document.createElement('h1');
@@ -413,6 +412,7 @@ class DOMManager {
     createAddTaskBtn() {
         const addTaskBtn = document.createElement('button');
         addTaskBtn.classList.add('button-task-add');
+        addTaskBtn.setAttribute('id', 'add-task-btn');
         addTaskBtn.textContent = '+ Add Task';
         addTaskBtn.onclick = () => this.toggleAddTaskForm();
 
@@ -478,7 +478,7 @@ class DOMManager {
         projectHeader.setAttribute('id', 'project-header');
         projectHeader.textContent = `${project.name}`; 
 
-        this.tasksConatiner.appendChild(projectHeader);
+        this.tasksContainer.appendChild(projectHeader);
 
         this.storage.getTodoList().setTasksToday();
         this.storage.getTodoList().setTasksThisWeek();
@@ -489,7 +489,8 @@ class DOMManager {
 
         // create the add task button for only the inbox and user generated projects
         if (!project.isDefault || project.projectId === 'inbox') {
-            this.tasksConatiner.appendChild(this.createAddTaskBtn());
+            this.tasksContainer.appendChild(this.createAddTaskBtn());
+            this.tasksContainer.appendChild(this.createAddTaskForm());
         }
     }
 
@@ -543,7 +544,7 @@ class DOMManager {
         taskContainer.appendChild(dueDateElement);
         taskContainer.appendChild(taskActions);
 
-        this.tasksConatiner.appendChild(taskContainer);
+        this.tasksContainer.appendChild(taskContainer);
     }
 
     toggleTaskComplete(e, task) {
@@ -591,11 +592,11 @@ class DOMManager {
 
     toggleAddTaskForm() {
         const addTaskForm = document.getElementById('add-task-form');
-        addTaskForm.reset();
-        addTaskForm.classList.toggle('hidden');
+        const addTaskBtn = document.getElementById('add-task-btn');
 
-        const overlay = document.getElementById('overlay');
-        overlay.classList.toggle('hidden');
+        addTaskForm.reset();
+        addTaskBtn.classList.toggle('hidden');
+        addTaskForm.classList.toggle('hidden');
     }
 
     showEditProjectForm(projectContainer) {
@@ -669,7 +670,7 @@ class DOMManager {
     }
 
     clearTasks() {
-        this.tasksConatiner.innerHTML = '';
+        this.tasksContainer.innerHTML = '';
     }
 }
 
