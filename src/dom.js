@@ -36,7 +36,6 @@ class DOMManager {
         document.addEventListener('click', this.handleDocumentClick.bind(this));
 
         // DOM nodes 
-        this.main.appendChild(this.createEditTaskForm());
         this.main.appendChild(this.createDeleteMessage());
         this.main.appendChild(this.createOverlay());
     }
@@ -140,8 +139,8 @@ class DOMManager {
         const currentTask = this.getCurrentTask(this.currentlyEditing);
         this.storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
 
-        this.renderTasks(this.currentProject);
         this.hideEditTaskForm();
+        this.renderTasks(this.currentProject);
     }
 
     // check to see if project or task is being edited
@@ -269,7 +268,7 @@ class DOMManager {
 
     createEditTaskForm() {
         const editTaskForm = document.createElement('form');
-        editTaskForm.classList.add('task-form', 'popup', 'hidden');
+        editTaskForm.classList.add('task-form', 'hidden');
         editTaskForm.setAttribute('id', 'edit-task-form');
 
         const formHeader = document.createElement('h1');
@@ -601,22 +600,21 @@ class DOMManager {
 
     showEditProjectForm(projectContainer) {
         const editProjectForm = this.createEditProjectForm();
-        projectContainer.classList.add('hidden');
+        projectContainer.after(editProjectForm);
 
+        projectContainer.classList.add('hidden');
         editProjectForm.classList.remove('hidden');
         
-        projectContainer.after(editProjectForm);
         this.currentlyEditing = projectContainer;
     }
 
     showEditTaskForm(taskContainer) {
+        const editTaskForm = this.createEditTaskForm();
+        taskContainer.after(editTaskForm);
         this.populateEditTaskForm(taskContainer);
 
-        const editTaskForm = document.getElementById('edit-task-form');
+        taskContainer.classList.add('hidden');
         editTaskForm.classList.remove('hidden');
-
-        const overlay = document.getElementById('overlay');
-        overlay.classList.remove('hidden');
 
         this.currentlyEditing = taskContainer;
     }
@@ -638,20 +636,17 @@ class DOMManager {
 
     hideEditProjectForm() {
         const editProjectForm = document.getElementById('edit-project-form');
-
         editProjectForm.remove();
-        this.currentlyEditing.classList.remove('hidden');
 
+        this.currentlyEditing.classList.remove('hidden');
         this.currentlyEditing = null; // reset currentlyEditing variable
     }
 
     hideEditTaskForm() {
         const editTaskForm = document.getElementById('edit-task-form');
-        editTaskForm.classList.add('hidden');
-
-        const overlay = document.getElementById('overlay');
-        overlay.classList.add('hidden');
-
+        editTaskForm.remove();
+        
+        this.currentlyEditing.classList.remove('hidden');
         this.currentlyEditing = null;
     }
 
