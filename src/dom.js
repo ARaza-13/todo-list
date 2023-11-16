@@ -147,8 +147,12 @@ class DOMManager {
     handleShowEditForm(container) {
         // closes previously open edit form (if any)
         if (this.currentlyEditing) {
-            this.hideEditProjectForm();
-        }
+            if (this.currentlyEditing.classList.contains('project')) {
+                this.hideEditProjectForm();
+            } else {
+                this.hideEditTaskForm();
+            }
+        } 
 
         if (container.classList.contains('project')) {
             this.showEditProjectForm(container); // pass over the project container to hide when the form pops up 
@@ -456,8 +460,11 @@ class DOMManager {
         projectContainer.textContent = project.name;
 
         projectContainer.addEventListener('click', () => {
-            this.renderTasks(project);
+            if (this.currentlyEditing && this.currentlyEditing.classList.contains('task')) {
+                this.hideEditTaskForm();
+            }
             this.currentProject = project;
+            this.renderTasks(project);
         });
 
         if (project.isDefault) {
