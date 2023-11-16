@@ -146,13 +146,8 @@ class DOMManager {
     // check to see if project or task is being edited
     handleShowEditForm(container) {
         // closes previously open edit form (if any)
-        if (this.currentlyEditing) {
-            if (this.currentlyEditing.classList.contains('project')) {
-                this.hideEditProjectForm();
-            } else {
-                this.hideEditTaskForm();
-            }
-        } 
+        this.hideEditProjectForm();
+        this.hideEditTaskForm();
 
         if (container.classList.contains('project')) {
             this.showEditProjectForm(container); // pass over the project container to hide when the form pops up 
@@ -460,9 +455,6 @@ class DOMManager {
         projectContainer.textContent = project.name;
 
         projectContainer.addEventListener('click', () => {
-            if (this.currentlyEditing && this.currentlyEditing.classList.contains('task')) {
-                this.hideEditTaskForm();
-            }
             this.currentProject = project;
             this.renderTasks(project);
         });
@@ -476,6 +468,7 @@ class DOMManager {
     }
 
     renderTasks(project) {
+        this.hideEditTaskForm();
         this.clearTasks();
         console.log(project);
 
@@ -642,6 +635,11 @@ class DOMManager {
     }
 
     hideEditProjectForm() {
+        // if there are no project forms opened, we exit the function
+        if (!this.currentlyEditing || !this.currentlyEditing.classList.contains('project')) {
+            return;
+        }
+
         const editProjectForm = document.getElementById('edit-project-form');
         editProjectForm.remove();
 
@@ -650,6 +648,11 @@ class DOMManager {
     }
 
     hideEditTaskForm() {
+        // if there are no tasks forms opened, we exit the function
+        if (!this.currentlyEditing || !this.currentlyEditing.classList.contains('task')) {
+            return;
+        }
+
         const editTaskForm = document.getElementById('edit-task-form');
         editTaskForm.remove();
         
