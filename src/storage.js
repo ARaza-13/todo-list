@@ -75,6 +75,25 @@ class Storage {
         todoList.getProject(task.projectId).getTask(task.taskId).setComplete();
         this.saveTodoList(todoList);
     }
+
+    toggleTaskImportant(task) {
+        const todoList = this.getTodoList();
+        todoList.getProject(task.projectId).getTask(task.taskId).setImportant();
+        this.saveTodoList(todoList);
+    }
+
+    displayImportant() {
+        const todoList = this.getTodoList();
+        todoList.getProject('important').setTasks([]);
+        todoList.getProjects().forEach(
+            (project) => project.getTasks().forEach(
+                (task) => {
+                    if (task.important) todoList.getProject('important').addTask(task);
+                }
+            )
+        );
+        this.saveTodoList(todoList);
+    }
 }
 
 export default Storage;

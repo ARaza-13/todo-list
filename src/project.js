@@ -36,7 +36,9 @@ class Project {
     }
 
     addTask(newTask) {
-        newTask.taskId = this.getNextTaskId();
+        if (!newTask.taskId) {
+            newTask.taskId = this.getNextTaskId();
+        }
         this.tasks.push(newTask);
     }
 

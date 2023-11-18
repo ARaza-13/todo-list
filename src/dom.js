@@ -103,14 +103,17 @@ class DOMManager {
         const projectContainer = this.currentlyDeleting;
         const projectId = Number(projectContainer.getAttribute('data-project'));
         this.storage.deleteProject(projectId);
+        this.storage.displayImportant();
+
         this.renderProjects();
         this.hideDeleteMessage();
         this.displayInbox();
     }
 
     handleDeleteTask() {
-        const taskId = Number(this.currentlyDeleting.getAttribute('data-task'));
-        this.storage.deleteTask(this.currentProject.projectId, taskId);
+        const task = this.getCurrentTask(this.currentlyDeleting);
+        this.storage.deleteTask(task.projectId, task.taskId);
+        this.storage.displayImportant();
         
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
@@ -482,7 +485,6 @@ class DOMManager {
         this.storage.getTodoList().setTasksToday();
         this.storage.getTodoList().setTasksThisWeek();
         this.storage.getTodoList().getProject(project.projectId).getTasks().forEach((task) => {
-            console.log(task);
             this.renderTaskDetails(task);
         });
 
@@ -560,11 +562,8 @@ class DOMManager {
     toggleTaskImportant(e, task) {
         const star = e.target;
         
-        if (!task.important) {
-            this.storage.getTodoList().setTaskAsImportant(task);
-        } else {
-            this.storage.getTodoList().setTaskAsNotImportant(task);
-        }
+        this.storage.toggleTaskImportant(task);
+        this.storage.displayImportant();
 
         star.classList.toggle('important');
         this.renderTasks(this.currentProject);

@@ -103,16 +103,6 @@ class TodoList {
         return currentWeek;
     }
 
-    setTaskAsImportant(task) {
-        task.important = true;
-        this.important.addTask(task);
-    }
-
-    setTaskAsNotImportant(task) {
-        task.important = false;
-        this.important.deleteTask(task.taskId);
-    }
-
     // methods for handling user projects
     addProject(newProject) {
         newProject.projectId = this.getNextProjectId();

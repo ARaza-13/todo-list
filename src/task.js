@@ -46,6 +46,14 @@ class Task {
             this.completed = false;
         }
     }
+
+    setImportant() {
+        if (!this.important) {
+            this.important = true;
+        } else {
+            this.important = false;
+        }
+    }
 }
 
 export default Task;
