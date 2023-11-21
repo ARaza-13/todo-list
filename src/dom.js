@@ -52,6 +52,7 @@ class DOMManager {
 
     updateDefaultProjects() {
         this.storage.displayToday();
+        this.storage.displayThisWeek();
         this.storage.displayImportant();
     }
 

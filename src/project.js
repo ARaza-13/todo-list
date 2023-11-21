@@ -40,6 +40,14 @@ class Project {
         });
     }
 
+    getTasksThisWeek() {
+        const currentWeek = this.getCurrentWeek();
+        return this.tasks.filter((task) => {
+            const taskWeek = task.getTaskWeek();
+            if (taskWeek === currentWeek) return taskWeek;
+        });
+    }
+
     addTask(newTask) {
         this.tasks.push(newTask);
     }
@@ -47,6 +55,20 @@ class Project {
     deleteTask(taskId) {
         const taskIndex = this.getTaskIndex(taskId);
         this.tasks.splice(taskIndex, 1);
+    }
+
+    getCurrentWeek() {
+        // get the current date and starting date of the current year
+        let currentDate = new Date();
+        let startDate = new Date(currentDate.getFullYear(), 0, 1); 
+        
+        // calculate the difference between the two dates (in milliseconds)
+        // divide the result by total milliseconds in a day to get the difference converted in days
+        let days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
+        
+        // divide the number of days by 7 to get the current week number
+        let currentWeek = Math.ceil(days / 7);
+        return currentWeek;
     }
 }
 

@@ -104,6 +104,21 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
+    displayThisWeek() {
+        const todoList = this.getTodoList();
+        todoList.getProject('week').setTasks([])
+
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                const weekTasks = project.getTasksThisWeek();
+                weekTasks.forEach((task) => {
+                    todoList.getProject('week').addTask(task);
+                });
+            }
+        }); 
+        this.saveTodoList(todoList);
+    }
+
     displayImportant() {
         const todoList = this.getTodoList();
         todoList.getProject('important').setTasks([]);

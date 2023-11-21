@@ -63,37 +63,6 @@ class TodoList {
         return this.inbox.tasks.filter((task) => task.projectId !== projectId);
     }
 
-    setTasksThisWeek() {
-        this.thisWeek.tasks = [];
-        const currentWeek = this.getCurrentWeek();
-
-        this.inbox.tasks.forEach((task) => {
-            // get the wekk number of the task using the logic from getCurrentWeek()
-            let taskDate = new Date(task.dueDate.replace(/-/g, '\/'));  // change date format from yyyy-mm-dd to yyyy/mm//dd
-            let startDate = new Date(taskDate.getFullYear(), 0, 1); 
-            let days = Math.floor(((taskDate - startDate) / (24 * 60 * 60 * 1000)) + 1);  // +1 at the end to account being a day behind
-            let taskWeek = Math.ceil(days / 7);
-            
-            if (taskWeek === currentWeek) {
-                this.thisWeek.addTask(task);
-            }
-        });
-    }
-
-    getCurrentWeek() {
-        // get the current date and starting date of the current year
-        let currentDate = new Date();
-        let startDate = new Date(currentDate.getFullYear(), 0, 1); 
-        
-        // calculate the difference between the two dates (in milliseconds)
-        // divide the result by total milliseconds in a day to get the difference converted in days
-        let days = Math.floor((currentDate - startDate) / (24 * 60 * 60 * 1000));
-        
-        // divide the number of days by 7 to get the current week number
-        let currentWeek = Math.ceil(days / 7);
-        return currentWeek;
-    }
-
     // methods for handling user projects
     addProject(newProject) {
         this.projects.push(newProject);
