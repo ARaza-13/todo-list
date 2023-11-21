@@ -39,6 +39,14 @@ class Task {
         return this.dueDate;
     }
 
+    getDateFormatted() {
+        return Date.parse(this.dueDate);
+    }
+
+    setNextTaskId(taskId) {
+        this.taskId = taskId;
+    }
+
     setComplete() {
         if (!this.completed) {
             this.completed = true;

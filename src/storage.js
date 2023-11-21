@@ -1,6 +1,7 @@
 import Task from "./task";
 import Project from "./project";
 import TodoList from "./todolist";
+import { format, isEqual } from "date-fns";
 
 class Storage {
     constructor() {
@@ -36,7 +37,10 @@ class Storage {
 
     addProject(project) {
         const todoList = this.getTodoList();
+
+        todoList.setNextProjectId(project);
         todoList.addProject(project);
+
         this.saveTodoList(todoList);
     }
 
@@ -54,7 +58,10 @@ class Storage {
 
     addTask(projectId, task) {
         const todoList = this.getTodoList();
+
         todoList.getProject(projectId).addTask(task);
+        todoList.setNextTaskId(task);
+
         this.saveTodoList(todoList);
     }
 
@@ -82,16 +89,33 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
+    displayToday() {
+        const todoList = this.getTodoList();
+        todoList.getProject('today').setTasks([])
+
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                const todayTasks = project.getTasksToday();
+                todayTasks.forEach((task) => {
+                    todoList.getProject('today').addTask(task);
+                });
+            }
+        }); 
+        this.saveTodoList(todoList);
+    }
+
     displayImportant() {
         const todoList = this.getTodoList();
         todoList.getProject('important').setTasks([]);
-        todoList.getProjects().forEach(
-            (project) => project.getTasks().forEach(
-                (task) => {
-                    if (task.important) todoList.getProject('important').addTask(task);
-                }
-            )
-        );
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                project.getTasks().forEach(
+                    (task) => {
+                        if (task.important) todoList.getProject('important').addTask(task);
+                    }
+                );
+            }
+        }); 
         this.saveTodoList(todoList);
     }
 }

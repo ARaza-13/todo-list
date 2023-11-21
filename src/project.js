@@ -1,10 +1,11 @@
+import { format, isEqual } from "date-fns";
+
 class Project {
     constructor(name, isDefault = false, projectId) {
         this.name = name;
         this.isDefault = isDefault;
         this.projectId = projectId;
         this.tasks = [];
-        this.nextTaskId = 0;
     }
 
     setName(name) {
@@ -31,14 +32,15 @@ class Project {
         return this.tasks.findIndex(task => task.taskId === taskId);
     }
 
-    getNextTaskId() {
-        return this.nextTaskId += 1;
+    getTasksToday() {
+        return this.tasks.filter((task) => {
+            let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
+            const taskDate = task.getDateFormatted();
+            if (isEqual(taskDate, today)) return taskDate;
+        });
     }
 
     addTask(newTask) {
-        if (!newTask.taskId) {
-            newTask.taskId = this.getNextTaskId();
-        }
         this.tasks.push(newTask);
     }
 

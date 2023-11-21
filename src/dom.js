@@ -48,7 +48,11 @@ class DOMManager {
     initialize() {
         this.renderDefaultProjects();
         this.renderProjects();
-        this.displayInbox();
+    }
+
+    updateDefaultProjects() {
+        this.storage.displayToday();
+        this.storage.displayImportant();
     }
 
     displayInbox() {
@@ -103,7 +107,7 @@ class DOMManager {
         const projectContainer = this.currentlyDeleting;
         const projectId = Number(projectContainer.getAttribute('data-project'));
         this.storage.deleteProject(projectId);
-        this.storage.displayImportant();
+        this.updateDefaultProjects();
 
         this.renderProjects();
         this.hideDeleteMessage();
@@ -113,7 +117,7 @@ class DOMManager {
     handleDeleteTask() {
         const task = this.getCurrentTask(this.currentlyDeleting);
         this.storage.deleteTask(task.projectId, task.taskId);
-        this.storage.displayImportant();
+        this.updateDefaultProjects();
         
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
@@ -123,12 +127,13 @@ class DOMManager {
     handleAddTask(e) {
         e.preventDefault();
         const newTask = this.getAddTaskInput();
-        
         newTask.projectId = this.currentProject.projectId;
+
         this.storage.addTask(this.currentProject.projectId, newTask);
+        this.updateDefaultProjects();
+
         this.toggleAddTaskForm();
         this.renderTasks(this.currentProject);
-        console.log(this.currentProject.getTasks());
     }
 
     handleEditTask(e) {
@@ -141,6 +146,7 @@ class DOMManager {
         
         const currentTask = this.getCurrentTask(this.currentlyEditing);
         this.storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
+        this.updateDefaultProjects();
 
         this.hideEditTaskForm();
         this.renderTasks(this.currentProject);
@@ -482,8 +488,6 @@ class DOMManager {
 
         this.tasksContainer.appendChild(projectHeader);
 
-        this.storage.getTodoList().setTasksToday();
-        this.storage.getTodoList().setTasksThisWeek();
         this.storage.getTodoList().getProject(project.projectId).getTasks().forEach((task) => {
             this.renderTaskDetails(task);
         });
@@ -553,6 +557,7 @@ class DOMManager {
         const taskDetails = e.target.closest('.task').querySelector('.task-details');
 
         this.storage.toggleTaskCompleted(task);
+        this.updateDefaultProjects();
 
         checkBubble.classList.toggle('checked');
         taskDetails.classList.toggle('line-through');
@@ -563,7 +568,7 @@ class DOMManager {
         const star = e.target;
         
         this.storage.toggleTaskImportant(task);
-        this.storage.displayImportant();
+        this.updateDefaultProjects();
 
         star.classList.toggle('important');
         this.renderTasks(this.currentProject);

@@ -1,10 +1,10 @@
 import Project from "./project";
-import { parse, format, isEqual, parseISO, addDays } from "date-fns";
 
 class TodoList {
     constructor() {
         this.projects = [];
         this.nextProjectId = 0;
+        this.nextTaskId = 0;
 
         // create default projects
         this.inbox = new Project('Inbox', true);
@@ -42,8 +42,12 @@ class TodoList {
         return this.projects.findIndex(project => project.projectId === projectId);
     }
 
-    getNextProjectId() {
-        return this.nextProjectId += 1;
+    setNextProjectId(project) {
+        project.projectId = this.nextProjectId += 1;
+    }
+
+    setNextTaskId(task) {
+        task.taskId = this.nextTaskId += 1;
     }
 
     // methods for handling inbox project
@@ -57,19 +61,6 @@ class TodoList {
 
     deleteProjectTasksFromInbox(projectId) {
         return this.inbox.tasks.filter((task) => task.projectId !== projectId);
-    }
-
-    // methods for handling date specific project
-    setTasksToday() {
-        this.today.tasks = [];
-        let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
-
-        this.inbox.tasks.forEach((task) => {
-            let date = Date.parse(task.dueDate);
-            if (isEqual(date, today)) {
-                this.today.addTask(task);
-            }
-        });
     }
 
     setTasksThisWeek() {
@@ -105,7 +96,6 @@ class TodoList {
 
     // methods for handling user projects
     addProject(newProject) {
-        newProject.projectId = this.getNextProjectId();
         this.projects.push(newProject);
     }
 
