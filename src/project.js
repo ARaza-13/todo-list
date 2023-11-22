@@ -32,6 +32,12 @@ class Project {
         return this.tasks.findIndex(task => task.taskId === taskId);
     }
 
+    getTasksInbox() {
+        return this.tasks.filter((task) => {
+            if (task.projectId === 'inbox') return task;
+        })
+    }
+
     getTasksToday() {
         return this.tasks.filter((task) => {
             let today = Date.parse(format(new Date(), 'yyyy-MM-dd'));
@@ -46,6 +52,10 @@ class Project {
             const taskWeek = task.getTaskWeek();
             if (taskWeek === currentWeek) return taskWeek;
         });
+    }
+
+    addTasksToInbox(tasks) {
+        Array.prototype.push.apply(this.tasks, tasks);
     }
 
     addTask(newTask) {

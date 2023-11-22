@@ -50,19 +50,6 @@ class TodoList {
         task.taskId = this.nextTaskId += 1;
     }
 
-    // methods for handling inbox project
-    addTaskToInbox(task) {
-        this.inbox.addTask(task);
-    }
-
-    deleteTaskFromInbox(taskId) {
-        this.inbox.deleteTask(taskId);
-    }
-
-    deleteProjectTasksFromInbox(projectId) {
-        return this.inbox.tasks.filter((task) => task.projectId !== projectId);
-    }
-
     // methods for handling user projects
     addProject(newProject) {
         this.projects.push(newProject);
@@ -71,7 +58,6 @@ class TodoList {
     deleteProject(projectId) {
         const projectIndex = this.getProjectIndex(projectId);
         this.projects.splice(projectIndex, 1);
-        // this.inbox.tasks = this.deleteProjectTasksFromInbox(projectId);
     }
 }
 

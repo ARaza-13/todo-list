@@ -89,9 +89,24 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
+    displayInbox() {
+        const todoList = this.getTodoList();
+        const inboxTasks = todoList.getProject('inbox').getTasksInbox();
+        todoList.getProject('inbox').setTasks([]);
+
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                const tasks = project.getTasks();
+                todoList.getProject('inbox').addTasksToInbox(tasks);
+            }
+        });
+        todoList.getProject('inbox').addTasksToInbox(inboxTasks);
+        this.saveTodoList(todoList);
+    }
+
     displayToday() {
         const todoList = this.getTodoList();
-        todoList.getProject('today').setTasks([])
+        todoList.getProject('today').setTasks([]);
 
         todoList.getProjects().forEach((project) => {
             if (!project.isDefault) {

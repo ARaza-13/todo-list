@@ -48,16 +48,17 @@ class DOMManager {
     initialize() {
         this.renderDefaultProjects();
         this.renderProjects();
+        this.displayInbox();
     }
 
     updateDefaultProjects() {
+        this.storage.displayInbox();
         this.storage.displayToday();
         this.storage.displayThisWeek();
         this.storage.displayImportant();
     }
 
     displayInbox() {
-        // const inbox = document.querySelector('[data-project="inbox"]');
         const inbox = this.storage.getTodoList().getProject('inbox');
         this.renderTasks(inbox);
         this.currentProject = inbox;
