@@ -108,13 +108,8 @@ class Storage {
         const todoList = this.getTodoList();
         todoList.getProject('today').setTasks([]);
 
-        todoList.getProjects().forEach((project) => {
-            if (!project.isDefault) {
-                const todayTasks = project.getTasksToday();
-                todayTasks.forEach((task) => {
-                    todoList.getProject('today').addTask(task);
-                });
-            }
+        todoList.getProject('inbox').getTasksToday().forEach((task) => {
+            todoList.getProject('today').addTask(task);
         }); 
         this.saveTodoList(todoList);
     }
@@ -123,13 +118,8 @@ class Storage {
         const todoList = this.getTodoList();
         todoList.getProject('week').setTasks([])
 
-        todoList.getProjects().forEach((project) => {
-            if (!project.isDefault) {
-                const weekTasks = project.getTasksThisWeek();
-                weekTasks.forEach((task) => {
-                    todoList.getProject('week').addTask(task);
-                });
-            }
+        todoList.getProject('inbox').getTasksThisWeek().forEach((task) => {
+            todoList.getProject('week').addTask(task);
         }); 
         this.saveTodoList(todoList);
     }
@@ -137,15 +127,10 @@ class Storage {
     displayImportant() {
         const todoList = this.getTodoList();
         todoList.getProject('important').setTasks([]);
-        todoList.getProjects().forEach((project) => {
-            if (!project.isDefault) {
-                project.getTasks().forEach(
-                    (task) => {
-                        if (task.important) todoList.getProject('important').addTask(task);
-                    }
-                );
-            }
-        }); 
+
+        todoList.getProject('inbox').getTasksImportant().forEach((task) => {
+            todoList.getProject('important').addTask(task);
+        });
         this.saveTodoList(todoList);
     }
 }

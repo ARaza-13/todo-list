@@ -54,6 +54,12 @@ class Project {
         });
     }
 
+    getTasksImportant() {
+        return this.tasks.filter((task) => {
+            if (task.important) return task;
+        });
+    }
+
     addTasksToInbox(tasks) {
         Array.prototype.push.apply(this.tasks, tasks);
     }
