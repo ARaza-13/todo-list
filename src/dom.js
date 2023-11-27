@@ -489,16 +489,15 @@ class DOMManager {
         projectHeader.textContent = `${project.name}`; 
 
         this.tasksContainer.appendChild(projectHeader);
-
-        this.storage.getTodoList().getProject(project.projectId).getTasks().forEach((task) => {
-            this.renderTaskDetails(task);
-        });
-
         // create the add task button for only the inbox and user generated projects
         if (!project.isDefault || project.projectId === 'inbox') {
             this.tasksContainer.appendChild(this.createAddTaskBtn());
             this.tasksContainer.appendChild(this.createAddTaskForm());
         }
+
+        this.storage.getTodoList().getProject(project.projectId).getTasks().forEach((task) => {
+            this.renderTaskDetails(task);
+        });
     }
 
     renderTaskDetails(task) {
