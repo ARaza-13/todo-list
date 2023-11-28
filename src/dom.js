@@ -436,7 +436,6 @@ class DOMManager {
         this.defaultProjectsContainer.appendChild(homeHeading);
 
         this.storage.getTodoList().getProjects().forEach((project) => {
-            console.log(project);
             if (project.isDefault) {
                 this.renderProject(project);
             }

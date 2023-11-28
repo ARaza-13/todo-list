@@ -65,7 +65,7 @@ class Project {
     }
 
     addTask(newTask) {
-        this.tasks.push(newTask);
+        this.tasks.unshift(newTask);
     }
 
     deleteTask(taskId) {
