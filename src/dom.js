@@ -34,10 +34,6 @@ class DOMManager {
         this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
         document.addEventListener('click', this.handleDocumentClick.bind(this));
-
-        // DOM nodes 
-        this.main.appendChild(this.createDeleteMessage());
-        this.main.appendChild(this.createOverlay());
     }
 
     initializeApp() {
@@ -100,30 +96,29 @@ class DOMManager {
 
         if (newName.trim() !== '') {
             this.storage.editProject(projectId, newName);
-            this.hideEditProjectForm();
+            this.hideAllForms();
             this.renderProjects();
         }
     }
 
-    handleDeleteProject() {
-        const projectContainer = this.currentlyDeleting;
+    handleDeleteProject(projectContainer) {
         const projectId = Number(projectContainer.getAttribute('data-project'));
         this.storage.deleteProject(projectId);
         this.updateDefaultProjects();
 
+        this.hideAllForms();
         this.renderProjects();
-        this.hideDeleteMessage();
         this.displayInbox();
     }
 
-    handleDeleteTask() {
-        const task = this.getCurrentTask(this.currentlyDeleting);
+    handleDeleteTask(taskContainer) {
+        const task = this.getCurrentTask(taskContainer);
         this.storage.deleteTask(task.projectId, task.taskId);
         this.updateDefaultProjects();
         
+        this.hideAllForms();
         this.renderTasks(this.currentProject);
         console.log(this.currentProject.getTasks());
-        this.hideDeleteMessage();
     }
 
     handleAddTask(e) {
@@ -150,15 +145,14 @@ class DOMManager {
         this.storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
         this.updateDefaultProjects();
 
-        this.hideEditTaskForm();
+        this.hideAllForms();
         this.renderTasks(this.currentProject);
     }
 
     // check to see if project or task is being edited
     handleShowEditForm(container) {
-        // closes previously open edit form (if any)
-        this.hideEditProjectForm();
-        this.hideEditTaskForm();
+        // closes previously open forms (if any)
+        this.hideAllForms();
 
         if (container.classList.contains('project')) {
             this.showEditProjectForm(container); // pass over the project container to hide when the form pops up 
@@ -198,18 +192,10 @@ class DOMManager {
         editInputs.dateInput.value = task.dueDate;
     }
 
-    createOverlay() {
-        const overlay = document.createElement('div');
-        overlay.classList.add('overlay', 'hidden');
-        overlay.setAttribute('id', 'overlay');
-
-        return overlay;
-    }
-
     createDeleteMessage() {
         const message = document.createElement('div');
-        message.classList.add('delete-message','popup', 'hidden');
-        message.setAttribute('id', 'message-popup-confirmation');
+        message.classList.add('delete-message-popup', 'hidden');
+        message.setAttribute('id', 'delete-message');
 
         const text = document.createElement('p');
         text.textContent = 'Are you sure you want to delete?';
@@ -352,7 +338,13 @@ class DOMManager {
         const deleteButton = document.createElement('button')
         deleteButton.classList.add('delete-dropdown');
         deleteButton.textContent = 'Delete';
-        deleteButton.onclick = () => this.showDeleteMessage(container);
+        deleteButton.onclick = () => {
+            if (container.classList.contains('project')) {
+                this.handleDeleteProject(container);
+            } else {
+                this.handleDeleteTask(container);
+            }
+        };
 
         dropdownMenu.appendChild(editButton);
         dropdownMenu.appendChild(deleteButton);
@@ -478,7 +470,7 @@ class DOMManager {
     }
 
     renderTasks(project) {
-        this.hideEditTaskForm();
+        this.hideAllForms();
         this.clearTasks();
         console.log(project);
 
@@ -624,11 +616,13 @@ class DOMManager {
     }
 
     showDeleteMessage(container) {
-        const message = document.getElementById('message-popup-confirmation');
-        message.classList.remove('hidden');
+        this.hideAllForms();
 
-        const overlay = document.getElementById('overlay');
-        overlay.classList.remove('hidden');
+        const deleteMessage = this.createDeleteMessage();
+        container.after(deleteMessage);
+
+        container.classList.add('hidden');
+        deleteMessage.classList.remove('hidden');
 
         this.currentlyDeleting = container;
     }
@@ -642,7 +636,7 @@ class DOMManager {
         // if there are no project forms opened, we exit the function
         if (!this.currentlyEditing || !this.currentlyEditing.classList.contains('project')) {
             return;
-        }
+        };
 
         const editProjectForm = document.getElementById('edit-project-form');
         editProjectForm.remove();
@@ -655,7 +649,7 @@ class DOMManager {
         // if there are no tasks forms opened, we exit the function
         if (!this.currentlyEditing || !this.currentlyEditing.classList.contains('task')) {
             return;
-        }
+        };
 
         const editTaskForm = document.getElementById('edit-task-form');
         editTaskForm.remove();
@@ -665,13 +659,22 @@ class DOMManager {
     }
 
     hideDeleteMessage() {
-        const message = document.getElementById('message-popup-confirmation');
-        message.classList.add('hidden');
+        // if there are no delete messages opened, we exit the function
+        if (!this.currentlyDeleting) {
+            return;
+        };
 
-        const overlay = document.getElementById('overlay');
-        overlay.classList.add('hidden');
+        const deleteMessage = document.getElementById('delete-message');
+        deleteMessage.remove();
 
+        this.currentlyDeleting.classList.remove('hidden');
         this.currentlyDeleting = null;
+    }
+
+    hideAllForms() {
+        this.hideEditTaskForm();
+        this.hideEditProjectForm();
+        this.hideDeleteMessage();
     }
 
     clearProjects() {
