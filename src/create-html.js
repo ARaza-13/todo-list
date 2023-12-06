@@ -20,4 +20,12 @@ class CreateHtml {
 
         return defaultProjects;
     }
+
+    createProjects() {
+        const projects = document.createElement('div');
+        projects.classList.add('projects');
+        projects.setAttribute('id', 'projects');
+
+        return projects;
+    }
 }
