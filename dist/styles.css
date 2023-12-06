@@ -135,8 +135,8 @@ button:hover {
     flex: 1;
 }
 
-/* sidebar projects */
-.side-bar {
+/* nav projects */
+.nav {
     width: 350px;
     padding: 20px;
 }
