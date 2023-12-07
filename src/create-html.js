@@ -59,4 +59,37 @@ class CreateHtml {
 
         return addProjectBtn;
     }
+
+    createAddProjectForm() {
+        const addProjectForm = document.createElement('form');
+        addProjectForm.classList.add('project-form', 'hidden');
+        addProjectForm.setAttribute('id', 'add-project-form');
+
+        const projectName = document.createElement('input');
+        projectName.classList.add('input-popup');
+        projectName.setAttribute('id', 'add-project-input')
+        projectName.setAttribute('type', 'text');
+        projectName.setAttribute('placeholder', 'Project Name');
+        projectName.setAttribute('required');
+
+        const submitBtn = document.createElement('button');
+        submitBtn.classList.add('submit-btn');
+        submitBtn.setAttribute('type', 'submit');
+        submitBtn.textContent = 'Add';
+
+        const cancelBtn = document.createElement('button');
+        cancelBtn.classList.add('cancel-btn');
+        cancelBtn.setAttribute('type', 'button');
+        cancelBtn.textContent = 'Cancel';
+
+        const formBtns = document.createElement('div');
+        formBtns.classList.add('form-btns');
+        formBtns.appendChild(submitBtn);
+        formBtns.appendChild(cancelBtn);
+
+        addProjectForm.appendChild(projectName);
+        addProjectForm.appendChild(formBtns);
+
+        return addProjectForm;
+    }
 }
