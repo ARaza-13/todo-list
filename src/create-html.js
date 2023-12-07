@@ -50,4 +50,13 @@ class CreateHtml {
         const projectsList = document.getElementById('projects');
         projectsList.appendChild(projectContainer);
     }
+
+    createAddProjectBtn() {
+        const addProjectBtn = document.createElement('button');
+        addProjectBtn.classList.add('add-project-btn');
+        addProjectBtn.setAttribute('id', 'add-project-btn');
+        addProjectBtn.textContent = '+ Add Project';
+
+        return addProjectBtn;
+    }
 }
