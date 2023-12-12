@@ -1,8 +1,16 @@
 import Storage from "./storage";
 
-class CreateHtml {
+export default class CreateHtml {
     constructor() {
         this.main = document.querySelector('main');
+    }
+
+    initializeHtml() {
+        this.createNav();
+        this.createDefaultProjects();
+        this.createProjects();
+        this.createAddProjectBtn();
+        this.createAddProjectForm();
     }
 
     createNav() {
@@ -10,7 +18,7 @@ class CreateHtml {
         nav.classList.add('nav');
         nav.setAttribute('id', 'nav');
 
-        return nav;
+        this.main.appendChild(nav);
     }
 
     createDefaultProjects() {
@@ -18,7 +26,8 @@ class CreateHtml {
         defaultProjects.classList.add('default-projects');
         defaultProjects.setAttribute('id', 'default-projects');
 
-        return defaultProjects;
+        const nav = document.getElementById('nav');
+        nav.appendChild(defaultProjects);
     }
 
     createProjects() {
@@ -26,7 +35,8 @@ class CreateHtml {
         projects.classList.add('projects');
         projects.setAttribute('id', 'projects');
 
-        return projects;
+        const nav = document.getElementById('nav');
+        nav.appendChild(projects);
     }
 
     createDefaultProject(project) {
@@ -57,12 +67,13 @@ class CreateHtml {
         addProjectBtn.setAttribute('id', 'add-project-btn');
         addProjectBtn.textContent = '+ Add Project';
 
-        return addProjectBtn;
+        const nav = document.getElementById('nav');
+        nav.appendChild(addProjectBtn);
     }
 
     createAddProjectForm() {
         const addProjectForm = document.createElement('form');
-        addProjectForm.classList.add('project-form', 'hidden');
+        addProjectForm.classList.add('project-form');
         addProjectForm.setAttribute('id', 'add-project-form');
 
         const projectName = document.createElement('input');
@@ -70,7 +81,7 @@ class CreateHtml {
         projectName.setAttribute('id', 'add-project-input')
         projectName.setAttribute('type', 'text');
         projectName.setAttribute('placeholder', 'Project Name');
-        projectName.setAttribute('required');
+        projectName.setAttribute('required', '');
 
         const submitBtn = document.createElement('button');
         submitBtn.classList.add('submit-btn');
@@ -90,6 +101,7 @@ class CreateHtml {
         addProjectForm.appendChild(projectName);
         addProjectForm.appendChild(formBtns);
 
-        return addProjectForm;
+        const nav = document.getElementById('nav');
+        nav.appendChild(addProjectForm);
     }
 }

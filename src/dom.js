@@ -2,9 +2,11 @@ import Task from "./task";
 import Project from "./project";
 import TodoList from "./todolist";
 import Storage from "./storage";
+import CreateHtml from "./create-html";
 
 class DOMManager {
     constructor() {
+        this.html = new CreateHtml();
         this.storage = new Storage();
 
         // DOM elements
@@ -30,10 +32,10 @@ class DOMManager {
         this.currentProject = null;
 
         // Event listeners
-        this.addProjectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
-        this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
-        this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
-        document.addEventListener('click', this.handleDocumentClick.bind(this));
+        // this.addProjectForm.addEventListener('submit', this.handleProjectFormSubmit.bind(this));
+        // this.addProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
+        // this.cancelProjectButton.addEventListener('click', this.toggleProjectForm.bind(this));
+        // document.addEventListener('click', this.handleDocumentClick.bind(this));
     }
 
     initializeApp() {
@@ -42,9 +44,10 @@ class DOMManager {
     }
 
     initialize() {
-        this.renderDefaultProjects();
-        this.renderProjects();
-        this.displayInbox();
+        this.html.initializeHtml();
+        // this.renderDefaultProjects();
+        // this.renderProjects();
+        // this.displayInbox();
     }
 
     updateDefaultProjects() {
