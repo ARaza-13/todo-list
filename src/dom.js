@@ -45,9 +45,22 @@ class DOMManager {
 
     initialize() {
         this.html.initializeHtml();
+        this.loadProjects();
         // this.renderDefaultProjects();
         // this.renderProjects();
         // this.displayInbox();
+    }
+
+    // loading content 
+
+    loadProjects() {
+        this.storage.getTodoList().getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                this.html.createProject(project);
+            } else {
+                this.html.createDefaultProject(project);
+            }
+        });
     }
 
     updateDefaultProjects() {

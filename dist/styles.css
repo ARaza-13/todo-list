@@ -141,6 +141,10 @@ button:hover {
     padding: 20px;
 }
 
+.projects {
+    margin-top: 10px;
+}
+
 .projects-heading {
     border-bottom: solid 2px;
     padding-bottom: 5px;

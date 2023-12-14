@@ -35,6 +35,12 @@ export default class CreateHtml {
         projects.classList.add('projects');
         projects.setAttribute('id', 'projects');
 
+        const heading = document.createElement('h2');
+        heading.classList.add('projects-heading');
+        heading.textContent = 'Projects';
+
+        projects.appendChild(heading);
+
         const nav = document.getElementById('nav');
         nav.appendChild(projects);
     }
@@ -54,7 +60,7 @@ export default class CreateHtml {
         const projectContainer = document.createElement('button');
         projectContainer.classList.add('project');
         projectContainer.setAttribute('data-project', project.projectId);
-        projectContainer.setAttribute('data-project-button');
+        projectContainer.setAttribute('data-project-button', '');
         projectContainer.textContent = project.name;
 
         const projectsList = document.getElementById('projects');
