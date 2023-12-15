@@ -38,11 +38,6 @@ class DOMManager {
         // document.addEventListener('click', this.handleDocumentClick.bind(this));
     }
 
-    initializeApp() {
-        const savedData = this.storage.getTodoList();
-        console.log(savedData);
-    }
-
     initialize() {
         this.html.initializeHtml();
         this.loadProjects();

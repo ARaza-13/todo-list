@@ -2,15 +2,35 @@ import Storage from "./storage";
 
 export default class CreateHtml {
     constructor() {
-        this.main = document.querySelector('main');
+        this.body = document.querySelector('body');
+
+        this.header = document.createElement('header');
+        this.main = document.createElement('main');
+        this.footer = document.createElement('footer');
+
+        this.header.classList.add('header');
+        this.main.classList.add('main');
+        this.footer.classList.add('footer');
+
+        this.body.appendChild(this.header);
+        this.body.appendChild(this.main);
+        this.body.appendChild(this.footer);
     }
 
     initializeHtml() {
+        this.createHeader();
         this.createNav();
         this.createDefaultProjects();
         this.createProjects();
         this.createAddProjectBtn();
         this.createAddProjectForm();
+    }
+
+    createHeader() {
+        const heading = document.createElement('h1');
+        heading.textContent = 'ToDo List';
+
+        this.header.appendChild(heading);
     }
 
     createNav() {
@@ -79,7 +99,7 @@ export default class CreateHtml {
 
     createAddProjectForm() {
         const addProjectForm = document.createElement('form');
-        addProjectForm.classList.add('project-form');
+        addProjectForm.classList.add('project-form', 'hidden');
         addProjectForm.setAttribute('id', 'add-project-form');
 
         const projectName = document.createElement('input');
