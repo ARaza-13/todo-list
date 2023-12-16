@@ -3,11 +3,13 @@ import Project from "./project";
 import TodoList from "./todolist";
 import Storage from "./storage";
 import CreateHtml from "./create-html";
+import Controller from "./controller";
 
 class DOMManager {
     constructor() {
         this.html = new CreateHtml();
         this.storage = new Storage();
+        this.controller = new Controller();
 
         // DOM elements
         this.main = document.querySelector('main');
@@ -41,6 +43,7 @@ class DOMManager {
     initialize() {
         this.html.initializeHtml();
         this.loadProjects();
+        this.controller.initProjectButtons();
         // this.renderDefaultProjects();
         // this.renderProjects();
         // this.displayInbox();
