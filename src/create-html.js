@@ -1,5 +1,3 @@
-import Storage from "./storage";
-
 export default class CreateHtml {
     constructor() {
         this.body = document.querySelector('body');

@@ -1,37 +1,48 @@
 export default class Controller {
-    initProjectButtons() {
+    static initProjectButtons() {
         const inboxProjectButton = document.getElementById('inbox-project-button');
         const todayProjectButton = document.getElementById('today-project-button');
         const weekProjectButton = document.getElementById('week-project-button');
         const importantProjectButton = document.getElementById('important-project-button');
         const projectButtons = document.querySelectorAll('[data-project-button]');
 
-        inboxProjectButton.addEventListener('click', this.openInboxTasks);
-        todayProjectButton.addEventListener('click', this.openTodayTasks);
-        weekProjectButton.addEventListener('click', this.openWeekTasks);
-        importantProjectButton.addEventListener('click', this.openImportantTasks);
+        inboxProjectButton.addEventListener('click', Controller.openInboxTasks);
+        todayProjectButton.addEventListener('click', Controller.openTodayTasks);
+        weekProjectButton.addEventListener('click', Controller.openWeekTasks);
+        importantProjectButton.addEventListener('click', Controller.openImportantTasks);
         projectButtons.forEach((projectButton) => 
-            projectButton.addEventListener('click', this.handleProjectButton)
+            projectButton.addEventListener('click', Controller.handleProjectButton)
         );
     }
 
-    openInboxTasks() {
-        console.log('Inbox Opened');
+    static openInboxTasks() {
+        Controller.openProject('inbox', this);
     }
 
-    openTodayTasks() {
-        console.log('Today Opened');
+    static openTodayTasks() {
+        Controller.openProject('today', this);
     }
 
-    openWeekTasks() {
-        console.log('This Week Opened');
+    static openWeekTasks() {
+        Controller.openProject('week', this);
     }
 
-    openImportantTasks() {
-        console.log('Important Opened');
+    static openImportantTasks() {
+        Controller.openProject('important', this);
     }
 
-    handleProjectButton(e) {
-        console.log(this.textContent);
+    static handleProjectButton(e) {
+        const projectName = this.textContent;
+
+        Controller.openProject(projectName, this);
+    }
+
+    static openProject(projectName, projectButton) {
+        const buttons = document.querySelectorAll('.project');
+
+        buttons.forEach((button) => button.classList.remove('active'));
+        projectButton.classList.add('active');
+
+        console.log(projectName);
     }
 }
