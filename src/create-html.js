@@ -1,45 +1,66 @@
 export default class CreateHtml {
-    constructor() {
-        this.body = document.querySelector('body');
 
-        this.header = document.createElement('header');
-        this.main = document.createElement('main');
-        this.footer = document.createElement('footer');
-
-        this.header.classList.add('header');
-        this.main.classList.add('main');
-        this.footer.classList.add('footer');
-
-        this.body.appendChild(this.header);
-        this.body.appendChild(this.main);
-        this.body.appendChild(this.footer);
-    }
-
-    initializeHtml() {
+    static initializeHtml() {
+        this.createPageElements();
         this.createHeader();
         this.createNav();
+        this.createProjectPreview();
         this.createDefaultProjects();
         this.createProjects();
-        this.createAddProjectBtn();
+        this.createAddProjectButton();
         this.createAddProjectForm();
     }
 
-    createHeader() {
+    // create main webpage elements
+
+    static createPageElements() {
+        const header = document.createElement('header');
+        const main = document.createElement('main');
+        const footer = document.createElement('footer');
+
+        header.classList.add('header');
+        main.classList.add('main');
+        footer.classList.add('footer');
+
+        header.setAttribute('id', 'header');
+        main.setAttribute('id', 'main');
+        footer.setAttribute('id', 'footer');
+
+        const body = document.querySelector('body');
+        body.appendChild(header);
+        body.appendChild(main);
+        body.appendChild(footer);
+    }
+
+    static createHeader() {
         const heading = document.createElement('h1');
         heading.textContent = 'ToDo List';
 
-        this.header.appendChild(heading);
+        const header = document.getElementById('header')
+        header.appendChild(heading);
     }
 
-    createNav() {
+    static createNav() {
         const nav = document.createElement('div');
         nav.classList.add('nav');
         nav.setAttribute('id', 'nav');
 
-        this.main.appendChild(nav);
+        const main = document.getElementById('main');
+        main.appendChild(nav);
     }
 
-    createDefaultProjects() {
+    static createProjectPreview() {
+        const projectContent = document.createElement('div');
+        projectContent.classList.add('project-content');
+        projectContent.setAttribute('id', 'project-content');
+
+        const main = document.getElementById('main');
+        main.appendChild(projectContent);
+    }
+
+    // create nav project elements
+
+    static createDefaultProjects() {
         const defaultProjects = document.createElement('div');
         defaultProjects.classList.add('default-projects');
         defaultProjects.setAttribute('id', 'default-projects');
@@ -48,7 +69,7 @@ export default class CreateHtml {
         nav.appendChild(defaultProjects);
     }
 
-    createProjects() {
+    static createProjects() {
         const projects = document.createElement('div');
         projects.classList.add('projects');
         projects.setAttribute('id', 'projects');
@@ -63,7 +84,7 @@ export default class CreateHtml {
         nav.appendChild(projects);
     }
 
-    createDefaultProject(project) {
+    static createDefaultProject(project) {
         const defaultProjectContainer = document.createElement('button');
         defaultProjectContainer.classList.add('project');
         defaultProjectContainer.setAttribute('data-project', project.projectId);
@@ -74,7 +95,7 @@ export default class CreateHtml {
         defaultProjectsList.appendChild(defaultProjectContainer);
     }
 
-    createProject(project) {
+    static createProject(project) {
         const projectContainer = document.createElement('button');
         projectContainer.classList.add('project');
         projectContainer.setAttribute('data-project', project.projectId);
@@ -85,17 +106,17 @@ export default class CreateHtml {
         projectsList.appendChild(projectContainer);
     }
 
-    createAddProjectBtn() {
-        const addProjectBtn = document.createElement('button');
-        addProjectBtn.classList.add('add-project-btn');
-        addProjectBtn.setAttribute('id', 'add-project-btn');
-        addProjectBtn.textContent = '+ Add Project';
+    static createAddProjectButton() {
+        const addProjectButton = document.createElement('button');
+        addProjectButton.classList.add('add-project-button');
+        addProjectButton.setAttribute('id', 'add-project-button');
+        addProjectButton.textContent = '+ Add Project';
 
         const nav = document.getElementById('nav');
-        nav.appendChild(addProjectBtn);
+        nav.appendChild(addProjectButton);
     }
 
-    createAddProjectForm() {
+    static createAddProjectForm() {
         const addProjectForm = document.createElement('form');
         addProjectForm.classList.add('project-form', 'hidden');
         addProjectForm.setAttribute('id', 'add-project-form');
@@ -107,25 +128,101 @@ export default class CreateHtml {
         projectName.setAttribute('placeholder', 'Project Name');
         projectName.setAttribute('required', '');
 
-        const submitBtn = document.createElement('button');
-        submitBtn.classList.add('submit-btn');
-        submitBtn.setAttribute('type', 'submit');
-        submitBtn.textContent = 'Add';
+        const submitButton = document.createElement('button');
+        submitButton.classList.add('submit-button');
+        submitButton.setAttribute('type', 'submit');
+        submitButton.textContent = 'Add';
 
-        const cancelBtn = document.createElement('button');
-        cancelBtn.classList.add('cancel-btn');
-        cancelBtn.setAttribute('type', 'button');
-        cancelBtn.textContent = 'Cancel';
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('cancel-button');
+        cancelButton.setAttribute('type', 'button');
+        cancelButton.textContent = 'Cancel';
 
-        const formBtns = document.createElement('div');
-        formBtns.classList.add('form-btns');
-        formBtns.appendChild(submitBtn);
-        formBtns.appendChild(cancelBtn);
+        const formButtons = document.createElement('div');
+        formButtons.classList.add('form-buttons');
+        formButtons.appendChild(submitButton);
+        formButtons.appendChild(cancelButton);
 
         addProjectForm.appendChild(projectName);
-        addProjectForm.appendChild(formBtns);
+        addProjectForm.appendChild(formButtons);
 
         const nav = document.getElementById('nav');
         nav.appendChild(addProjectForm);
+    }
+
+    // create project preview elements
+
+    static createProjectHeader(projectName) {
+        const projectHeader = document.createElement('div');
+        projectHeader.classList.add('project-header');
+        projectHeader.setAttribute('id', 'project-header');
+        projectHeader.textContent = `${projectName}`; 
+
+        const projectContent = document.getElementById('project-content');
+        projectContent.appendChild(projectHeader);
+    }
+
+    static createAddTaskButton() {
+        const addTaskButton = document.createElement('button');
+        addTaskButton.classList.add('add-task-button');
+        addTaskButton.setAttribute('id', 'add-task-button');
+        addTaskButton.textContent = '+ Add Task';
+
+        const projectContent = document.getElementById('project-content');
+        projectContent.appendChild(addTaskButton);
+    }
+
+    static createAddTaskForm() {
+        const addTaskForm = document.createElement('form');
+        addTaskForm.classList.add('task-form', 'hidden');
+        addTaskForm.setAttribute('id', 'add-task-form');
+
+        const formHeader = document.createElement('h1');
+        formHeader.classList.add('form-header');
+        formHeader.textContent = 'Add Task';
+
+        const taskName = document.createElement('input');
+        taskName.classList.add('input-popup', 'task-name-input');
+        taskName.setAttribute('id', 'add-task-name');
+        taskName.setAttribute('type', 'text');
+        taskName.setAttribute('placeholder', 'Enter task name');
+        taskName.setAttribute('required', '');
+
+        const taskDescription = document.createElement('textarea');
+        taskDescription.classList.add('input-popup', 'task-description-input');
+        taskDescription.setAttribute('id','add-task-description');
+        taskDescription.setAttribute('type', 'text');
+        taskDescription.setAttribute('rows', '3');
+        taskDescription.setAttribute('placeholder', 'Enter task description');
+
+        const taskDate = document.createElement('input');
+        taskDate.classList.add('input-popup', 'task-date-input');
+        taskDate.setAttribute('id', 'add-task-date');
+        taskDate.setAttribute('type', 'date');
+        taskDate.setAttribute('placeholder', 'Enter task date');
+
+        const submitButton = document.createElement('button');
+        submitButton.classList.add('submit-button');
+        submitButton.setAttribute('type', 'submit');
+        submitButton.textContent = 'Add';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('cancel-button');
+        cancelButton.setAttribute('type', 'button');
+        cancelButton.textContent = 'Cancel';
+
+        const formButtons = document.createElement('div');
+        formButtons.classList.add('form-buttons');
+        formButtons.appendChild(submitButton);
+        formButtons.appendChild(cancelButton);
+
+        addTaskForm.appendChild(formHeader);
+        addTaskForm.appendChild(taskName);
+        addTaskForm.appendChild(taskDescription);
+        addTaskForm.appendChild(taskDate);
+        addTaskForm.appendChild(formButtons);
+
+        const projectContent = document.getElementById('project-content');
+        projectContent.appendChild(addTaskForm);
     }
 }

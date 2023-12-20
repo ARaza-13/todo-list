@@ -7,9 +7,6 @@ import Controller from "./controller";
 
 class DOMManager {
     constructor() {
-        this.html = new CreateHtml();
-        this.storage = new Storage();
-
         // DOM elements
         this.main = document.querySelector('main');
         this.defaultProjectsContainer = document.getElementById('default-projects');
@@ -39,9 +36,9 @@ class DOMManager {
         // document.addEventListener('click', this.handleDocumentClick.bind(this));
     }
 
-    initialize() {
-        this.html.initializeHtml();
-        this.loadProjects();
+    static initialize() {
+        CreateHtml.initializeHtml();
+        DOMManager.loadProjects();
         Controller.initProjectButtons();
         // this.renderDefaultProjects();
         // this.renderProjects();
@@ -50,14 +47,27 @@ class DOMManager {
 
     // loading content 
 
-    loadProjects() {
-        this.storage.getTodoList().getProjects().forEach((project) => {
+    static loadProjects() {
+        Storage.getTodoList().getProjects().forEach((project) => {
             if (!project.isDefault) {
-                this.html.createProject(project);
+                CreateHtml.createProject(project);
             } else {
-                this.html.createDefaultProject(project);
+                CreateHtml.createDefaultProject(project);
             }
         });
+    }
+
+    static loadProjectContent(projectId) {
+        const projectContent = document.getElementById('project-content');
+        projectContent.textContent = '';
+
+        const project = Storage.getTodoList().getProject(projectId);
+
+        CreateHtml.createProjectHeader(project.name);
+        if (!project.isDefault || project.projectId === 'inbox') {
+            CreateHtml.createAddTaskButton();
+            CreateHtml.createAddTaskForm();
+        }
     }
 
     updateDefaultProjects() {
@@ -365,72 +375,6 @@ class DOMManager {
         dropdownActions.appendChild(dropdownMenu);
 
         return dropdownActions;
-    }
-
-    createAddTaskForm() {
-        const addTaskForm = document.createElement('form');
-        addTaskForm.classList.add('task-form', 'hidden');
-        addTaskForm.setAttribute('id', 'add-task-form');
-
-        const formHeader = document.createElement('h1');
-        formHeader.classList.add('form-header');
-        formHeader.textContent = 'Add Task';
-
-        const taskName = document.createElement('input');
-        taskName.classList.add('input-popup', 'task-name-input');
-        taskName.setAttribute('id', 'add-task-name');
-        taskName.setAttribute('type', 'text');
-        taskName.setAttribute('placeholder', 'Enter task name');
-        taskName.setAttribute('required', '');
-
-        const taskDescription = document.createElement('textarea');
-        taskDescription.classList.add('input-popup', 'task-description-input');
-        taskDescription.setAttribute('id','add-task-description');
-        taskDescription.setAttribute('type', 'text');
-        taskDescription.setAttribute('rows', '3');
-        taskDescription.setAttribute('placeholder', 'Enter task description');
-
-        const taskDate = document.createElement('input');
-        taskDate.classList.add('input-popup', 'task-date-input');
-        taskDate.setAttribute('id', 'add-task-date');
-        taskDate.setAttribute('type', 'date');
-        taskDate.setAttribute('placeholder', 'Enter task date');
-
-        const buttonsContainer = document.createElement('div');
-        buttonsContainer.classList.add('popup-buttons');
-
-        const addBtn = document.createElement('button');
-        addBtn.classList.add('button-confirm-popup');
-        addBtn.setAttribute('type', 'submit');
-        addBtn.textContent = 'Add';
-        addBtn.onclick = (e) => this.handleAddTask(e);
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.classList.add('button-cancel-popup');
-        cancelBtn.setAttribute('type', 'button');
-        cancelBtn.textContent = 'Cancel';
-        cancelBtn.onclick = () => this.toggleAddTaskForm();
-
-        buttonsContainer.appendChild(addBtn);
-        buttonsContainer.appendChild(cancelBtn);
-
-        addTaskForm.appendChild(formHeader);
-        addTaskForm.appendChild(taskName);
-        addTaskForm.appendChild(taskDescription);
-        addTaskForm.appendChild(taskDate);
-        addTaskForm.appendChild(buttonsContainer);
-
-        return addTaskForm;
-    }
-
-    createAddTaskBtn() {
-        const addTaskBtn = document.createElement('button');
-        addTaskBtn.classList.add('button-task-add');
-        addTaskBtn.setAttribute('id', 'add-task-btn');
-        addTaskBtn.textContent = '+ Add Task';
-        addTaskBtn.onclick = () => this.toggleAddTaskForm();
-
-        return addTaskBtn;
     }
 
     renderDefaultProjects() {

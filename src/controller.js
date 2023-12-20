@@ -1,3 +1,5 @@
+import DOMManager from "./dom";
+
 export default class Controller {
     static initProjectButtons() {
         const inboxProjectButton = document.getElementById('inbox-project-button');
@@ -16,33 +18,41 @@ export default class Controller {
     }
 
     static openInboxTasks() {
-        Controller.openProject('inbox', this);
+        const projectId = this.getAttribute('data-project');
+
+        Controller.openProject(projectId, this);
     }
 
     static openTodayTasks() {
-        Controller.openProject('today', this);
+        const projectId = this.getAttribute('data-project');
+
+        Controller.openProject(projectId, this);
     }
 
     static openWeekTasks() {
-        Controller.openProject('week', this);
+        const projectId = this.getAttribute('data-project');
+
+        Controller.openProject(projectId, this);
     }
 
     static openImportantTasks() {
-        Controller.openProject('important', this);
+        const projectId = this.getAttribute('data-project');
+
+        Controller.openProject(projectId, this);
     }
 
     static handleProjectButton(e) {
-        const projectName = this.textContent;
+        const projectId = this.getAttribute('data-project');
 
-        Controller.openProject(projectName, this);
+        Controller.openProject(projectId, this);
     }
 
-    static openProject(projectName, projectButton) {
+    static openProject(projectId, projectButton) {
         const buttons = document.querySelectorAll('.project');
 
         buttons.forEach((button) => button.classList.remove('active'));
         projectButton.classList.add('active');
 
-        console.log(projectName);
+        DOMManager.loadProjectContent(projectId);
     }
 }

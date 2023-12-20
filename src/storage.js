@@ -3,16 +3,16 @@ import Project from "./project";
 import TodoList from "./todolist";
 import { format, isEqual } from "date-fns";
 
-class Storage {
+export default class Storage {
     constructor() {
         this.localStorageKey = 'todoList';
     }
 
-    saveTodoList(data) {
+    static saveTodoList(data) {
         localStorage.setItem(this.localStorageKey, JSON.stringify(data));
     }
 
-    getTodoList() {
+    static getTodoList() {
         const todoList = Object.assign(
             new TodoList(), 
             JSON.parse(localStorage.getItem(this.localStorageKey))
@@ -35,7 +35,7 @@ class Storage {
         return todoList;
     }
 
-    addProject(project) {
+    static addProject(project) {
         const todoList = this.getTodoList();
 
         todoList.setNextProjectId(project);
@@ -44,19 +44,19 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    deleteProject(projectId) {
+    static deleteProject(projectId) {
         const todoList = this.getTodoList();
         todoList.deleteProject(projectId);
         this.saveTodoList(todoList);
     }
 
-    editProject(projectId, newName) {
+    static editProject(projectId, newName) {
         const todoList = this.getTodoList();
         todoList.getProject(projectId).setName(newName);
         this.saveTodoList(todoList);
     }
 
-    addTask(projectId, task) {
+    static addTask(projectId, task) {
         const todoList = this.getTodoList();
 
         todoList.getProject(projectId).addTask(task);
@@ -65,31 +65,31 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    deleteTask(projectId, taskId) {
+    static deleteTask(projectId, taskId) {
         const todoList = this.getTodoList();
         todoList.getProject(projectId).deleteTask(taskId);
         this.saveTodoList(todoList);
     }
 
-    editTask(task, editedName, editedDescription, editedDueDate) {
+    static editTask(task, editedName, editedDescription, editedDueDate) {
         const todoList = this.getTodoList();
         todoList.getProject(task.projectId).getTask(task.taskId).editTask(editedName, editedDescription, editedDueDate);
         this.saveTodoList(todoList);
     }
 
-    toggleTaskCompleted(task) {
+    static toggleTaskCompleted(task) {
         const todoList = this.getTodoList();
         todoList.getProject(task.projectId).getTask(task.taskId).setComplete();
         this.saveTodoList(todoList);
     }
 
-    toggleTaskImportant(task) {
+    static toggleTaskImportant(task) {
         const todoList = this.getTodoList();
         todoList.getProject(task.projectId).getTask(task.taskId).setImportant();
         this.saveTodoList(todoList);
     }
 
-    displayInbox() {
+    static displayInbox() {
         const todoList = this.getTodoList();
         const inboxTasks = todoList.getProject('inbox').getTasksInbox();
         todoList.getProject('inbox').setTasks([]);
@@ -104,7 +104,7 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    displayToday() {
+    static displayToday() {
         const todoList = this.getTodoList();
         todoList.getProject('today').setTasks([]);
 
@@ -114,7 +114,7 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    displayThisWeek() {
+    static displayThisWeek() {
         const todoList = this.getTodoList();
         todoList.getProject('week').setTasks([])
 
@@ -124,7 +124,7 @@ class Storage {
         this.saveTodoList(todoList);
     }
 
-    displayImportant() {
+    static displayImportant() {
         const todoList = this.getTodoList();
         todoList.getProject('important').setTasks([]);
 
@@ -134,5 +134,3 @@ class Storage {
         this.saveTodoList(todoList);
     }
 }
-
-export default Storage;
