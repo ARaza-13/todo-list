@@ -55,6 +55,8 @@ class DOMManager {
                 CreateHtml.createDefaultProject(project);
             }
         });
+
+        Controller.initAddProjectButtons();
     }
 
     static loadProjectContent(projectId) {

@@ -117,7 +117,7 @@ export default class CreateHtml {
     }
 
     static createAddProjectForm() {
-        const addProjectForm = document.createElement('form');
+        const addProjectForm = document.createElement('div');
         addProjectForm.classList.add('project-form', 'hidden');
         addProjectForm.setAttribute('id', 'add-project-form');
 
@@ -130,12 +130,12 @@ export default class CreateHtml {
 
         const submitButton = document.createElement('button');
         submitButton.classList.add('submit-button');
-        submitButton.setAttribute('type', 'submit');
+        submitButton.setAttribute('id', 'submit-project-button');
         submitButton.textContent = 'Add';
 
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('cancel-button');
-        cancelButton.setAttribute('type', 'button');
+        cancelButton.setAttribute('id', 'cancel-project-button');
         cancelButton.textContent = 'Cancel';
 
         const formButtons = document.createElement('div');

@@ -1,6 +1,9 @@
 import DOMManager from "./dom";
 
 export default class Controller {
+
+    // project event listeners 
+
     static initProjectButtons() {
         const inboxProjectButton = document.getElementById('inbox-project-button');
         const todayProjectButton = document.getElementById('today-project-button');
@@ -54,5 +57,34 @@ export default class Controller {
         projectButton.classList.add('active');
 
         DOMManager.loadProjectContent(projectId);
+    }
+
+    // add project event listeners
+
+    static initAddProjectButtons() {
+        const addProjectButton = document.getElementById('add-project-button');
+        const submitProjectButton = document.getElementById('submit-project-button');
+        const cancelProjectButton = document.getElementById('cancel-project-button');
+
+        addProjectButton.addEventListener('click', Controller.openProjectForm);
+        cancelProjectButton.addEventListener('click', Controller.closeProjectForm);
+    }
+
+    static openProjectForm() {
+        const addProjectButton = document.getElementById('add-project-button');
+        const addProjectForm = document.getElementById('add-project-form');
+
+        addProjectButton.classList.add('hidden');
+        addProjectForm.classList.remove('hidden');
+    }
+
+    static closeProjectForm() {
+        const addProjectForm = document.getElementById('add-project-form');
+        const addProjectButton = document.getElementById('add-project-button');
+        const addProjectInput = document.getElementById('add-project-input');
+
+        addProjectForm.classList.add('hidden');
+        addProjectButton.classList.remove('hidden');
+        addProjectInput.value = '';
     }
 }
