@@ -225,4 +225,60 @@ export default class CreateHtml {
         const projectContent = document.getElementById('project-content');
         projectContent.appendChild(addTaskForm);
     }
+
+    // create task content 
+
+    static createTasksList() {
+        const tasksList = document.createElement('div');
+        tasksList.classList.add('tasks-list');
+        tasksList.setAttribute('id', 'tasks-list');
+
+        const projectContent = document.getElementById('project-content');
+        projectContent.appendChild(tasksList)
+    }
+
+    static createTask(task) {
+        const taskContainer = document.createElement('div');
+        taskContainer.classList.add('task');
+
+        taskContainer.setAttribute('data-task', task.taskId);
+
+        const checkBubble = document.createElement('div');
+        checkBubble.classList.add('unchecked');
+
+        const taskDetails = document.createElement('div');
+        taskDetails.classList.add('task-details');
+
+        const titleElement = document.createElement('div');
+        titleElement.classList.add('task-name');
+        titleElement.setAttribute('id', 'task-name');
+        titleElement.textContent = task.getName();
+
+        const descriptionElement = document.createElement('div');
+        descriptionElement.classList.add('task-description');
+        descriptionElement.textContent = task.getDescription();
+
+        taskDetails.appendChild(titleElement);
+        taskDetails.appendChild(descriptionElement);
+
+        const dueDateElement = document.createElement('div');
+        dueDateElement.textContent = `${task.getDate()}`;
+
+        const starIcon = document.createElement('span');
+        starIcon.classList.add('material-symbols-outlined');
+        starIcon.textContent = 'star';
+
+        const taskActions = document.createElement('div');
+        taskActions.classList.add('task-actions');
+        taskActions.appendChild(starIcon);
+        taskActions.appendChild(this.createDropdownActions(taskContainer));
+
+        taskContainer.appendChild(checkBubble);
+        taskContainer.appendChild(taskDetails);
+        taskContainer.appendChild(dueDateElement);
+        taskContainer.appendChild(taskActions);
+
+        const tasksList = document.getElementById('tasks-list');
+        tasksList.appendChild(taskContainer);
+    }
 }

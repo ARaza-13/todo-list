@@ -68,6 +68,15 @@ class DOMManager {
             CreateHtml.createAddTaskButton();
             CreateHtml.createAddTaskForm();
         }
+
+        CreateHtml.createTasksList();
+        DOMManager.loadTasks(projectId);
+    }
+
+    static loadTasks(projectId) {
+        Storage.getTodoList().getProject(projectId).getTasks().forEach((task) => {
+            CreateHtml.createTask(task);
+        });
     }
 
     updateDefaultProjects() {
