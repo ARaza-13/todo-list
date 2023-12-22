@@ -1,3 +1,5 @@
+import Controller from "./controller";
+
 export default class CreateHtml {
 
     static initializeHtml() {
@@ -104,6 +106,8 @@ export default class CreateHtml {
 
         const projectsList = document.getElementById('projects');
         projectsList.appendChild(projectContainer);
+
+        Controller.initProjectButtons();
     }
 
     static createAddProjectButton() {

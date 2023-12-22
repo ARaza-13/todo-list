@@ -1,4 +1,7 @@
 import DOMManager from "./dom";
+import Storage from "./storage";
+import CreateHtml from "./create-html";
+import Project from "./project";
 
 export default class Controller {
 
@@ -45,7 +48,7 @@ export default class Controller {
     }
 
     static handleProjectButton(e) {
-        const projectId = this.getAttribute('data-project');
+        const projectId = Number(this.getAttribute('data-project'));
 
         Controller.openProject(projectId, this);
     }
@@ -63,11 +66,12 @@ export default class Controller {
 
     static initAddProjectButtons() {
         const addProjectButton = document.getElementById('add-project-button');
-        const submitProjectButton = document.getElementById('submit-project-button');
         const cancelProjectButton = document.getElementById('cancel-project-button');
+        const submitProjectButton = document.getElementById('submit-project-button');
 
         addProjectButton.addEventListener('click', Controller.openProjectForm);
         cancelProjectButton.addEventListener('click', Controller.closeProjectForm);
+        submitProjectButton.addEventListener('click', Controller.addProject);
     }
 
     static openProjectForm() {
@@ -86,5 +90,21 @@ export default class Controller {
         addProjectForm.classList.add('hidden');
         addProjectButton.classList.remove('hidden');
         addProjectInput.value = '';
+    }
+
+    static addProject() {
+        const addProjectInput = document.getElementById('add-project-input');
+        const projectName = addProjectInput.value.trim();
+
+        if (projectName === '') {
+            alert('Please enter a valid Project name');
+            return;
+        }
+
+        const project = new Project(projectName)
+
+        Storage.addProject(project);
+        CreateHtml.createProject(project);
+        Controller.closeProjectForm();
     }
 }
