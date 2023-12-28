@@ -41,8 +41,18 @@ button:hover,
 }
 
 /* dropdown menu actions */
-.task-actions {
+.task-actions,
+.project-actions {
     display: flex;
+    gap: 8px;
+}
+
+.project-actions .material-symbols-outlined {
+    visibility: hidden;
+}
+
+.project:hover .material-symbols-outlined {
+    visibility: visible;
 }
 
 .material-symbols-outlined {

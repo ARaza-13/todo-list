@@ -104,6 +104,16 @@ export default class CreateHtml {
         projectContainer.setAttribute('data-project-button', '');
         projectContainer.textContent = project.name;
 
+        const deleteIcon = document.createElement('span');
+        deleteIcon.classList.add('material-symbols-outlined');
+        deleteIcon.textContent = 'delete';
+
+        const projectActions = document.createElement('div');
+        projectActions.classList.add('project-actions');
+        projectActions.appendChild(deleteIcon);
+
+        projectContainer.appendChild(projectActions);
+
         const projectsList = document.getElementById('projects');
         projectsList.appendChild(projectContainer);
 
@@ -273,9 +283,14 @@ export default class CreateHtml {
         starIcon.classList.add('material-symbols-outlined');
         starIcon.textContent = 'star';
 
+        const deleteIcon = document.createElement('span');
+        deleteIcon.classList.add('material-symbols-outlined');
+        deleteIcon.textContent = 'delete';
+
         const taskActions = document.createElement('div');
         taskActions.classList.add('task-actions');
         taskActions.appendChild(starIcon);
+        taskActions.appendChild(deleteIcon);
 
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);
