@@ -35,7 +35,8 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+.active {
     background-color: var(--add-project-task-color);
 }
 
