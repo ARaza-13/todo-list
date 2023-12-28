@@ -113,11 +113,11 @@ export default class Controller {
 
     static initAddTaskButtons() {
         const addTaskButton = document.getElementById('add-task-button');
-        // const addTaskForm = document.getElementById('add-task-form');
+        const addTaskForm = document.getElementById('add-task-form');
         const cancelTaskButton = document.getElementById('cancel-task-button');
 
         addTaskButton.addEventListener('click', Controller.openTaskForm);
-        // addTaskForm.addEventListener('submit', Controller.addTask);
+        addTaskForm.addEventListener('submit', Controller.addTask);
         cancelTaskButton.addEventListener('click', Controller.closeTaskForm);
     }
 
@@ -136,5 +136,38 @@ export default class Controller {
         addTaskForm.classList.add('hidden');
         addTaskForm.reset();
         addTaskButton.classList.remove('hidden');
+    }
+
+    static addTask(e) {
+        e.preventDefault();
+        
+        const newTask = Controller.getAddTaskInput();
+        const currentProjectId = Controller.getCurrentProjectId();
+        
+        Storage.addTask(currentProjectId, newTask);
+        CreateHtml.createTask(newTask);
+        Controller.closeTaskForm();
+    }
+
+    // project functions 
+    static getCurrentProjectId() {
+        const projectButton = document.querySelector('.active');
+        const projectId = projectButton.getAttribute('data-project');
+
+        if (!isNaN(projectId)) {
+            return Number(projectId);
+        }
+        return projectId;
+    }
+
+    // task functions 
+
+    static getAddTaskInput() {
+        const taskNameInput = document.getElementById('add-task-name').value.trim();
+        const taskDescriptionInput = document.getElementById('add-task-description').value.trim();
+        let taskDateInput = document.getElementById('add-task-date').value;
+        if (taskDateInput.trim() === '') taskDateInput = 'No date';
+
+        return new Task(taskNameInput, taskDescriptionInput, taskDateInput);
     }
 }
