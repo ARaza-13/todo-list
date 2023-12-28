@@ -79,6 +79,10 @@ class DOMManager {
         Storage.getTodoList().getProject(projectId).getTasks().forEach((task) => {
             CreateHtml.createTask(task);
         });
+
+        if (!isNaN(projectId) || projectId === 'inbox') {
+            Controller.initAddTaskButtons();
+        }
     }
 
     updateDefaultProjects() {

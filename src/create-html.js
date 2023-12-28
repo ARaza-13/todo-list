@@ -213,6 +213,7 @@ export default class CreateHtml {
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('cancel-button');
         cancelButton.setAttribute('type', 'button');
+        cancelButton.setAttribute('id', 'cancel-task-button');
         cancelButton.textContent = 'Cancel';
 
         const formButtons = document.createElement('div');
@@ -275,7 +276,6 @@ export default class CreateHtml {
         const taskActions = document.createElement('div');
         taskActions.classList.add('task-actions');
         taskActions.appendChild(starIcon);
-        taskActions.appendChild(this.createDropdownActions(taskContainer));
 
         taskContainer.appendChild(checkBubble);
         taskContainer.appendChild(taskDetails);

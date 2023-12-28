@@ -2,6 +2,7 @@ import DOMManager from "./dom";
 import Storage from "./storage";
 import CreateHtml from "./create-html";
 import Project from "./project";
+import Task from "./task";
 
 export default class Controller {
 
@@ -66,12 +67,12 @@ export default class Controller {
 
     static initAddProjectButtons() {
         const addProjectButton = document.getElementById('add-project-button');
-        const cancelProjectButton = document.getElementById('cancel-project-button');
         const submitProjectButton = document.getElementById('submit-project-button');
+        const cancelProjectButton = document.getElementById('cancel-project-button');
 
         addProjectButton.addEventListener('click', Controller.openProjectForm);
-        cancelProjectButton.addEventListener('click', Controller.closeProjectForm);
         submitProjectButton.addEventListener('click', Controller.addProject);
+        cancelProjectButton.addEventListener('click', Controller.closeProjectForm);
     }
 
     static openProjectForm() {
@@ -106,5 +107,34 @@ export default class Controller {
         Storage.addProject(project);
         CreateHtml.createProject(project);
         Controller.closeProjectForm();
+    }
+
+    // add task event listeners
+
+    static initAddTaskButtons() {
+        const addTaskButton = document.getElementById('add-task-button');
+        // const addTaskForm = document.getElementById('add-task-form');
+        const cancelTaskButton = document.getElementById('cancel-task-button');
+
+        addTaskButton.addEventListener('click', Controller.openTaskForm);
+        // addTaskForm.addEventListener('submit', Controller.addTask);
+        cancelTaskButton.addEventListener('click', Controller.closeTaskForm);
+    }
+
+    static openTaskForm() {
+        const addTaskButton = document.getElementById('add-task-button');
+        const addTaskForm = document.getElementById('add-task-form');
+
+        addTaskButton.classList.add('hidden');
+        addTaskForm.classList.remove('hidden');
+    }
+
+    static closeTaskForm() {
+        const addTaskForm = document.getElementById('add-task-form');
+        const addTaskButton = document.getElementById('add-task-button');
+
+        addTaskForm.classList.add('hidden');
+        addTaskForm.reset();
+        addTaskButton.classList.remove('hidden');
     }
 }
