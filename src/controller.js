@@ -124,6 +124,31 @@ export default class Controller {
         Controller.closeProjectForm();
     }
 
+    // task event listeners 
+
+    static initTaskButtons() {
+        const taskButtons = document.querySelectorAll('[data-task]');
+
+        taskButtons.forEach((taskButton) =>
+            taskButton.addEventListener('click', Controller.handleTaskButton)
+        );
+    }
+
+    static handleTaskButton(e) {
+        const taskId = Number(this.getAttribute('data-task'));
+        const projectId = Controller.getCurrentProjectId();
+
+        if (e.target.classList.contains('delete')) {
+            Controller.deleteTask(projectId, taskId);
+        }
+    }
+
+    static deleteTask(projectId, taskId) {
+        Storage.deleteTask(projectId, taskId);
+        DOMManager.clearTasks();
+        DOMManager.loadTasks(projectId);
+    }
+
     // add task event listeners
 
     static initAddTaskButtons() {
@@ -158,6 +183,8 @@ export default class Controller {
         
         const newTask = Controller.getAddTaskInput();
         const currentProjectId = Controller.getCurrentProjectId();
+
+        newTask.projectId = currentProjectId;
         
         Storage.addTask(currentProjectId, newTask);
         CreateHtml.createTask(newTask);

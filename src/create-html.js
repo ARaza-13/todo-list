@@ -308,5 +308,7 @@ export default class CreateHtml {
 
         const tasksList = document.getElementById('tasks-list');
         tasksList.appendChild(taskContainer);
+
+        Controller.initTaskButtons();
     }
 }

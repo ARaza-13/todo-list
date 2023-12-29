@@ -102,6 +102,11 @@ class DOMManager {
         projectContent.textContent = '';
     }
 
+    static clearTasks() {
+        const tasksList = document.getElementById('tasks-list');
+        tasksList.textContent = '';
+    }
+
     updateDefaultProjects() {
         this.storage.displayInbox();
         this.storage.displayToday();
