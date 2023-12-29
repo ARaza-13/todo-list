@@ -38,7 +38,9 @@ class DOMManager {
 
     static initialize() {
         CreateHtml.initializeHtml();
+        DOMManager.loadDefaultProjects();
         DOMManager.loadProjects();
+        Controller.initAddProjectButtons();
         Controller.initProjectButtons();
         // this.renderDefaultProjects();
         // this.renderProjects();
@@ -47,21 +49,24 @@ class DOMManager {
 
     // loading content 
 
+    static loadDefaultProjects() {
+        Storage.getTodoList().getProjects().forEach((project) => {
+            if (project.isDefault) {
+                CreateHtml.createDefaultProject(project);
+            }
+        });
+    }
+
     static loadProjects() {
         Storage.getTodoList().getProjects().forEach((project) => {
             if (!project.isDefault) {
                 CreateHtml.createProject(project);
-            } else {
-                CreateHtml.createDefaultProject(project);
             }
         });
-
-        Controller.initAddProjectButtons();
     }
 
     static loadProjectContent(projectId) {
-        const projectContent = document.getElementById('project-content');
-        projectContent.textContent = '';
+        DOMManager.clearProjectContent();
 
         const project = Storage.getTodoList().getProject(projectId);
 
@@ -83,6 +88,18 @@ class DOMManager {
         if (!isNaN(projectId) || projectId === 'inbox') {
             Controller.initAddTaskButtons();
         }
+    }
+
+    // clearing content 
+
+    static clearProjects() {
+        const projects = document.getElementById('projects');
+        projects.textContent = '';
+    }
+
+    static clearProjectContent() {
+        const projectContent = document.getElementById('project-content');
+        projectContent.textContent = '';
     }
 
     updateDefaultProjects() {

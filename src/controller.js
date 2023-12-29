@@ -51,6 +51,11 @@ export default class Controller {
     static handleProjectButton(e) {
         const projectId = Number(this.getAttribute('data-project'));
 
+        if (e.target.classList.contains('delete')) {
+            Controller.deleteProject(projectId, this);
+            return;
+        }
+
         Controller.openProject(projectId, this);
     }
 
@@ -61,6 +66,16 @@ export default class Controller {
         projectButton.classList.add('active');
 
         DOMManager.loadProjectContent(projectId);
+    }
+
+    static deleteProject(projectId, projectButton) {
+        if (projectButton.classList.contains('active')) {
+            DOMManager.clearProjectContent();
+        }
+
+        Storage.deleteProject(projectId);
+        DOMManager.clearProjects();
+        DOMManager.loadProjects();
     }
 
     // add project event listeners

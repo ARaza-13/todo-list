@@ -76,13 +76,12 @@ export default class CreateHtml {
         projects.classList.add('projects');
         projects.setAttribute('id', 'projects');
 
-        const heading = document.createElement('h2');
+        const heading = document.createElement('div');
         heading.classList.add('projects-heading');
         heading.textContent = 'Projects';
 
-        projects.appendChild(heading);
-
         const nav = document.getElementById('nav');
+        nav.appendChild(heading);
         nav.appendChild(projects);
     }
 
@@ -105,11 +104,11 @@ export default class CreateHtml {
         projectContainer.textContent = project.name;
 
         const editIcon = document.createElement('span');
-        editIcon.classList.add('material-symbols-outlined');
+        editIcon.classList.add('material-symbols-outlined', 'edit');
         editIcon.textContent = 'edit';
 
         const deleteIcon = document.createElement('span');
-        deleteIcon.classList.add('material-symbols-outlined');
+        deleteIcon.classList.add('material-symbols-outlined', 'delete');
         deleteIcon.textContent = 'delete';
 
         const projectActions = document.createElement('div');
@@ -289,11 +288,11 @@ export default class CreateHtml {
         starIcon.textContent = 'star';
 
         const editIcon = document.createElement('span');
-        editIcon.classList.add('material-symbols-outlined');
+        editIcon.classList.add('material-symbols-outlined', 'edit');
         editIcon.textContent = 'edit';
 
         const deleteIcon = document.createElement('span');
-        deleteIcon.classList.add('material-symbols-outlined');
+        deleteIcon.classList.add('material-symbols-outlined', 'delete');
         deleteIcon.textContent = 'delete';
 
         const taskActions = document.createElement('div');
