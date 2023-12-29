@@ -152,13 +152,12 @@ button:hover,
     padding: 20px;
 }
 
-.projects {
-    margin-top: 10px;
-}
-
 .projects-heading {
+    font-size: 1.75rem;
+    font-weight: bold;
     border-bottom: solid 2px;
     padding-bottom: 5px;
+    margin-top: 10px;
 }
 
 .project {
@@ -190,6 +189,7 @@ button:hover,
 .project-header {
     font-size: 2rem;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
 .task-form {
