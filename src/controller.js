@@ -57,6 +57,7 @@ export default class Controller {
         }
         if (e.target.classList.contains('edit')) {
             Controller.openEditProjectForm(this);
+            Controller.initEditProjectButtons();
             return;
         }
 
@@ -90,12 +91,53 @@ export default class Controller {
         DOMManager.loadProjects();
     }
 
+    // edit project event listeners
+
+    static initEditProjectButtons() {
+        const editProjectButton = document.getElementById('edit-project-button');
+        const cancelProjectButton = document.getElementById('cancel-edit-project-button');
+
+        editProjectButton.addEventListener('click', Controller.editProject);
+        cancelProjectButton.addEventListener('click', Controller.closeEditProjectForm);
+    }
+
+    static editProject() {
+        const editProjectInput = document.getElementById('edit-project-input');
+        const projectName = editProjectInput.value.trim();
+
+        if (projectName === '') {
+            alert('Please enter a valid Project name');
+            return;
+        }
+
+        const editProjectForm = document.getElementById('edit-project-form');
+        const projectButton = editProjectForm.previousSibling;
+        let projectId = projectButton.getAttribute('data-project');
+
+        if (!isNaN(projectId)) {
+            projectId = Number(projectId);
+        }
+        
+        Storage.editProject(projectId, projectName);
+        Controller.closeEditProjectForm();
+        DOMManager.clearProjects();
+        DOMManager.loadProjects();
+    }
+
+    static closeEditProjectForm() {
+        const editProjectForm = document.getElementById('edit-project-form');
+        const projectButton = editProjectForm.previousSibling;
+        
+        editProjectForm.remove();
+        projectButton.classList.remove('hidden');
+    }
+
     // add project event listeners
 
     static initAddProjectButtons() {
         const addProjectButton = document.getElementById('add-project-button');
         const submitProjectButton = document.getElementById('submit-project-button');
-        const cancelProjectButton = document.getElementById('cancel-project-button');
+        const cancelProjectButton = document.getElementById('cancel-add-project-button');
 
         addProjectButton.addEventListener('click', Controller.openProjectForm);
         submitProjectButton.addEventListener('click', Controller.addProject);

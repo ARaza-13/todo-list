@@ -141,7 +141,7 @@ export default class CreateHtml {
 
         const projectName = document.createElement('input');
         projectName.classList.add('input-popup');
-        projectName.setAttribute('id', 'add-project-input')
+        projectName.setAttribute('id', 'add-project-input');
         projectName.setAttribute('type', 'text');
         projectName.setAttribute('placeholder', 'Project Name');
         projectName.setAttribute('required', '');
@@ -153,7 +153,7 @@ export default class CreateHtml {
 
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('cancel-button');
-        cancelButton.setAttribute('id', 'cancel-project-button');
+        cancelButton.setAttribute('id', 'cancel-add-project-button');
         cancelButton.textContent = 'Cancel';
 
         const formButtons = document.createElement('div');
@@ -175,22 +175,24 @@ export default class CreateHtml {
 
         const input = document.createElement('input');
         input.classList.add('input-popup');
+        input.setAttribute('id', 'edit-project-input')
         input.setAttribute('type', 'text');
         input.setAttribute('placeholder', 'Enter new project name');
+        input.setAttribute('required', '');
 
-        const submitButton = document.createElement('button');
-        submitButton.classList.add('submit-button');
-        submitButton.setAttribute('id', 'submit-project-button');
-        submitButton.textContent = 'Edit';
+        const editButton = document.createElement('button');
+        editButton.classList.add('submit-button');
+        editButton.setAttribute('id', 'edit-project-button');
+        editButton.textContent = 'Edit';
 
         const cancelButton = document.createElement('button');
         cancelButton.classList.add('cancel-button');
-        cancelButton.setAttribute('id', 'cancel-project-button');
+        cancelButton.setAttribute('id', 'cancel-edit-project-button');
         cancelButton.textContent = 'Cancel';
 
         const buttonsContainer = document.createElement('div');
         buttonsContainer.classList.add('form-buttons');
-        buttonsContainer.appendChild(submitButton);
+        buttonsContainer.appendChild(editButton);
         buttonsContainer.appendChild(cancelButton);
 
         editProjectForm.appendChild(input);
