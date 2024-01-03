@@ -288,40 +288,6 @@ class DOMManager {
         return message;
     }
 
-    createEditProjectForm() {
-        const editProjectForm = document.createElement('form');
-        editProjectForm.classList.add('project-form', 'hidden');
-        editProjectForm.setAttribute('id', 'edit-project-form');
-
-        const input = document.createElement('input');
-        input.classList.add('input-popup');
-        input.setAttribute('type', 'text');
-        input.setAttribute('placeholder', 'Enter new project name');
-
-        const buttonsContainer = document.createElement('div');
-        buttonsContainer.classList.add('popup-buttons');
-
-        const submitBtn = document.createElement('button');
-        submitBtn.classList.add('button-confirm-popup');
-        submitBtn.setAttribute('type', 'submit');
-        submitBtn.textContent = 'Edit';
-        submitBtn.onclick = (e) => this.handleEditProjectForm(e);
-
-        const cancelBtn = document.createElement('button');
-        cancelBtn.classList.add('button-cancel-popup');
-        cancelBtn.setAttribute('type', 'button');
-        cancelBtn.textContent = 'Cancel';
-        cancelBtn.onclick = () => this.hideEditProjectForm();
-
-        buttonsContainer.appendChild(submitBtn);
-        buttonsContainer.appendChild(cancelBtn);
-
-        editProjectForm.appendChild(input);
-        editProjectForm.appendChild(buttonsContainer);
-
-        return editProjectForm;
-    }
-
     createEditTaskForm() {
         const editTaskForm = document.createElement('form');
         editTaskForm.classList.add('task-form', 'hidden');

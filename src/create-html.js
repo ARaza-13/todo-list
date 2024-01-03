@@ -168,6 +168,37 @@ export default class CreateHtml {
         nav.appendChild(addProjectForm);
     }
 
+    static createEditProjectForm() {
+        const editProjectForm = document.createElement('div');
+        editProjectForm.classList.add('project-form', 'hidden');
+        editProjectForm.setAttribute('id', 'edit-project-form');
+
+        const input = document.createElement('input');
+        input.classList.add('input-popup');
+        input.setAttribute('type', 'text');
+        input.setAttribute('placeholder', 'Enter new project name');
+
+        const submitButton = document.createElement('button');
+        submitButton.classList.add('submit-button');
+        submitButton.setAttribute('id', 'submit-project-button');
+        submitButton.textContent = 'Edit';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('cancel-button');
+        cancelButton.setAttribute('id', 'cancel-project-button');
+        cancelButton.textContent = 'Cancel';
+
+        const buttonsContainer = document.createElement('div');
+        buttonsContainer.classList.add('form-buttons');
+        buttonsContainer.appendChild(submitButton);
+        buttonsContainer.appendChild(cancelButton);
+
+        editProjectForm.appendChild(input);
+        editProjectForm.appendChild(buttonsContainer);
+
+        return editProjectForm;
+    }
+
     // create project preview elements
 
     static createProjectHeader(projectName) {

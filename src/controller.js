@@ -55,6 +55,10 @@ export default class Controller {
             Controller.deleteProject(projectId, this);
             return;
         }
+        if (e.target.classList.contains('edit')) {
+            Controller.openEditProjectForm(this);
+            return;
+        }
 
         Controller.openProject(projectId, this);
     }
@@ -66,6 +70,14 @@ export default class Controller {
         projectButton.classList.add('active');
 
         DOMManager.loadProjectContent(projectId);
+    }
+
+    static openEditProjectForm(projectButton) {
+        const editProjectForm = CreateHtml.createEditProjectForm();
+        projectButton.after(editProjectForm);
+
+        projectButton.classList.add('hidden');
+        editProjectForm.classList.remove('hidden');
     }
 
     static deleteProject(projectId, projectButton) {
@@ -140,6 +152,7 @@ export default class Controller {
 
         if (e.target.classList.contains('delete')) {
             Controller.deleteTask(projectId, taskId);
+            return;
         }
     }
 
@@ -187,7 +200,9 @@ export default class Controller {
         newTask.projectId = currentProjectId;
         
         Storage.addTask(currentProjectId, newTask);
-        CreateHtml.createTask(newTask);
+        // CreateHtml.createTask(newTask);
+        DOMManager.clearTasks();
+        DOMManager.loadTasks(currentProjectId);
         Controller.closeTaskForm();
     }
 
