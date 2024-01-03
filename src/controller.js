@@ -74,6 +74,10 @@ export default class Controller {
     }
 
     static openEditProjectForm(projectButton) {
+        if (document.getElementById('edit-project-form')) {
+            Controller.closeEditProjectForm();
+        }
+
         const editProjectForm = CreateHtml.createEditProjectForm();
         projectButton.after(editProjectForm);
 
@@ -117,10 +121,11 @@ export default class Controller {
         if (!isNaN(projectId)) {
             projectId = Number(projectId);
         }
-        
+
         Storage.editProject(projectId, projectName);
         Controller.closeEditProjectForm();
         DOMManager.clearProjects();
+        DOMManager.clearProjectContent();
         DOMManager.loadProjects();
     }
 
