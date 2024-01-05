@@ -92,6 +92,7 @@ export default class Controller {
 
         Storage.deleteProject(projectId);
         DOMManager.clearProjects();
+        DOMManager.clearProjectContent();
         DOMManager.loadProjects();
     }
 
@@ -116,6 +117,7 @@ export default class Controller {
 
         const editProjectForm = document.getElementById('edit-project-form');
         const projectButton = editProjectForm.previousSibling;
+        const oldProjectName = projectButton.firstChild;
         let projectId = projectButton.getAttribute('data-project');
 
         if (!isNaN(projectId)) {
@@ -123,10 +125,14 @@ export default class Controller {
         }
 
         Storage.editProject(projectId, projectName);
+        oldProjectName.textContent = projectName;
+
+        if (projectButton.classList.contains('active')) {
+            const projectHeader = document.getElementById('project-header');
+            projectHeader.textContent = projectName;
+        }
+
         Controller.closeEditProjectForm();
-        DOMManager.clearProjects();
-        DOMManager.clearProjectContent();
-        DOMManager.loadProjects();
     }
 
     static closeEditProjectForm() {
