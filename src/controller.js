@@ -225,6 +225,7 @@ export default class Controller {
 
         const editTaskForm = CreateHtml.createEditTaskForm();
         taskCard.after(editTaskForm);
+        Controller.populateEditTaskForm(taskCard);
 
         taskCard.classList.add('hidden');
         editTaskForm.classList.remove('hidden');
@@ -309,6 +310,13 @@ export default class Controller {
 
     // task functions 
 
+    static getCurrentTask(taskCard) {
+        const projectId = Controller.getCurrentProjectId();
+        const taskId = Number(taskCard.getAttribute('data-task'));
+
+        return Storage.getTodoList().getProject(projectId).getTask(taskId);
+    }
+
     static getAddTaskInput() {
         const taskNameInput = document.getElementById('add-task-name').value.trim();
         const taskDescriptionInput = document.getElementById('add-task-description').value.trim();
@@ -316,5 +324,22 @@ export default class Controller {
         if (taskDateInput.trim() === '') taskDateInput = 'No date';
 
         return new Task(taskNameInput, taskDescriptionInput, taskDateInput);
+    }
+
+    static getEditTaskInputs() {
+        return {
+            nameInput: document.getElementById('edit-task-name'),
+            descriptionInput: document.getElementById('edit-task-description'),
+            dateInput: document.getElementById('edit-task-date')
+        };
+    }
+
+    static populateEditTaskForm(taskCard) {
+        const task = Controller.getCurrentTask(taskCard);
+        const editInputs = Controller.getEditTaskInputs();
+
+        editInputs.nameInput.value = task.name;
+        editInputs.descriptionInput.value = task.description;
+        editInputs.dateInput.value = task.dueDate;
     }
 }
