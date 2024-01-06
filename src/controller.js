@@ -203,15 +203,53 @@ export default class Controller {
         const projectId = Controller.getCurrentProjectId();
 
         if (e.target.classList.contains('delete')) {
-            Controller.deleteTask(projectId, taskId);
+            Controller.deleteTask(projectId, taskId, this);
+            return;
+        }
+        if (e.target.classList.contains('edit')) {
+            Controller.openEditTaskForm(this);
+            Controller.initEditTaskButtons();
             return;
         }
     }
 
-    static deleteTask(projectId, taskId) {
-        const taskCard = document.querySelector(`[data-task='${taskId}']`);
+    static deleteTask(projectId, taskId, taskCard) {
         Storage.deleteTask(projectId, taskId);
         taskCard.remove();
+    }
+
+    static openEditTaskForm(taskCard) {
+        if (document.getElementById('edit-task-form')) {
+            Controller.closeEditTaskForm();
+        }
+
+        const editTaskForm = CreateHtml.createEditTaskForm();
+        taskCard.after(editTaskForm);
+
+        taskCard.classList.add('hidden');
+        editTaskForm.classList.remove('hidden');
+    }
+
+    // edit task event listeners 
+
+    static initEditTaskButtons() {
+        const editTaskButton = document.getElementById('edit-task-button');
+        const cancelEditButton = document.getElementById('cancel-edit-task-button')
+
+        editTaskButton.addEventListener('click', Controller.editTask);
+        cancelEditButton.addEventListener('click', Controller.closeEditTaskForm);
+    }
+
+    static editTask() {
+        console.log('TASK EDITED');
+    }
+
+    static closeEditTaskForm() {
+        const editTaskForm = document.getElementById('edit-task-form');
+        const taskCard = editTaskForm.previousSibling;
+        
+        editTaskForm.remove();
+        taskCard.classList.remove('hidden');
     }
 
     // add task event listeners
@@ -245,7 +283,7 @@ export default class Controller {
 
     static addTask(e) {
         e.preventDefault();
-        
+
         const newTask = Controller.getAddTaskInput();
         const currentProjectId = Controller.getCurrentProjectId();
 

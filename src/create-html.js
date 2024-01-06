@@ -278,6 +278,59 @@ export default class CreateHtml {
         projectContent.appendChild(addTaskForm);
     }
 
+    static createEditTaskForm() {
+        const editTaskForm = document.createElement('div');
+        editTaskForm.classList.add('task-form', 'hidden');
+        editTaskForm.setAttribute('id', 'edit-task-form');
+
+        const formHeader = document.createElement('h1');
+        formHeader.classList.add('form-header');
+        formHeader.textContent = 'Edit Task';
+
+        const taskName = document.createElement('input');
+        taskName.classList.add('input-popup', 'task-name-input');
+        taskName.setAttribute('id', 'edit-task-name');
+        taskName.setAttribute('type', 'text');
+        taskName.setAttribute('placeholder', 'Enter task name');
+        taskName.setAttribute('required', '');
+
+        const taskDescription = document.createElement('textarea');
+        taskDescription.classList.add('input-popup', 'task-description-input');
+        taskDescription.setAttribute('id','edit-task-description');
+        taskDescription.setAttribute('type', 'text');
+        taskDescription.setAttribute('rows', '3');
+        taskDescription.setAttribute('placeholder', 'Enter task description');
+
+        const taskDate = document.createElement('input');
+        taskDate.classList.add('input-popup', 'task-date-input');
+        taskDate.setAttribute('id', 'edit-task-date');
+        taskDate.setAttribute('type', 'date');
+        taskDate.setAttribute('placeholder', 'Enter task date');
+
+        const editButton = document.createElement('button');
+        editButton.classList.add('submit-button');
+        editButton.setAttribute('id', 'edit-task-button');
+        editButton.textContent = 'Edit';
+
+        const cancelButton = document.createElement('button');
+        cancelButton.classList.add('cancel-button');
+        cancelButton.setAttribute('id', 'cancel-edit-task-button');
+        cancelButton.textContent = 'Cancel';
+
+        const formButtons = document.createElement('div');
+        formButtons.classList.add('form-buttons');
+        formButtons.appendChild(editButton);
+        formButtons.appendChild(cancelButton);
+
+        editTaskForm.appendChild(formHeader);
+        editTaskForm.appendChild(taskName);
+        editTaskForm.appendChild(taskDescription);
+        editTaskForm.appendChild(taskDate);
+        editTaskForm.appendChild(formButtons);
+
+        return editTaskForm;
+    }
+
     // create task content 
 
     static createTasksList() {
