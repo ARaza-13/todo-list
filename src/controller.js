@@ -86,14 +86,13 @@ export default class Controller {
     }
 
     static deleteProject(projectId, projectButton) {
+        Storage.deleteProject(projectId);
+
         if (projectButton.classList.contains('active')) {
             DOMManager.clearProjectContent();
         }
 
-        Storage.deleteProject(projectId);
-        DOMManager.clearProjects();
-        DOMManager.clearProjectContent();
-        DOMManager.loadProjects();
+        projectButton.remove();
     }
 
     // edit project event listeners
@@ -210,9 +209,9 @@ export default class Controller {
     }
 
     static deleteTask(projectId, taskId) {
+        const taskCard = document.querySelector(`[data-task='${taskId}']`);
         Storage.deleteTask(projectId, taskId);
-        DOMManager.clearTasks();
-        DOMManager.loadTasks(projectId);
+        taskCard.remove();
     }
 
     // add task event listeners
