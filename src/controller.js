@@ -242,7 +242,29 @@ export default class Controller {
     }
 
     static editTask() {
-        console.log('TASK EDITED');
+        const editInputs = Controller.getEditTaskInputs();
+        const editedName = editInputs.nameInput.value.trim();
+        const editedDescription = editInputs.descriptionInput.value.trim();
+        let editedDueDate = editInputs.dateInput.value;
+        if (editInputs.dateInput.value.trim() === '') editedDueDate = 'No date';
+
+        const editTaskForm = document.getElementById('edit-task-form');
+        const taskCard = editTaskForm.previousSibling;
+        const currentTask = Controller.getCurrentTask(taskCard);
+
+        Storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
+        Controller.editTaskCard(taskCard, editedName, editedDescription, editedDueDate);
+        Controller.closeEditTaskForm();
+    }
+
+    static editTaskCard(taskCard, editedName, editedDescription, editedDueDate) {
+        const taskName = taskCard.querySelector('.task-name');
+        const taskDescription = taskCard.querySelector('.task-description');
+        const taskDate = taskCard.querySelector('.task-date');
+
+        taskName.textContent = editedName;
+        taskDescription.textContent = editedDescription;
+        taskDate.textContent = editedDueDate;
     }
 
     static closeEditTaskForm() {

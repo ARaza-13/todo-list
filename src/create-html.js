@@ -361,13 +361,16 @@ export default class CreateHtml {
 
         const descriptionElement = document.createElement('div');
         descriptionElement.classList.add('task-description');
+        descriptionElement.setAttribute('id', 'task-description');
         descriptionElement.textContent = task.getDescription();
 
         taskDetails.appendChild(titleElement);
         taskDetails.appendChild(descriptionElement);
 
         const dueDateElement = document.createElement('div');
-        dueDateElement.textContent = `${task.getDate()}`;
+        dueDateElement.classList.add('task-date');
+        dueDateElement.setAttribute('id', 'task-date');
+        dueDateElement.textContent = task.getDate();
 
         const starIcon = document.createElement('span');
         starIcon.classList.add('material-symbols-outlined');
