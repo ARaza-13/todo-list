@@ -209,7 +209,7 @@ button:hover,
 }
 
 /* task info */
-.unchecked {
+.task-bubble {
     width: 13px;
     height: 13px;
     border: solid 2px;
@@ -217,7 +217,7 @@ button:hover,
     cursor: pointer;
 }
 
-.checked {
+.completed {
     background: green;
 }
 
