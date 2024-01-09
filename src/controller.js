@@ -202,6 +202,10 @@ export default class Controller {
         const taskId = Number(this.getAttribute('data-task'));
         const projectId = Controller.getCurrentProjectId();
 
+        if (e.target.classList.contains('task-bubble')) {
+            Controller.toggleTaskComplete(this);
+            return;
+        }
         if (e.target.classList.contains('delete')) {
             Controller.deleteTask(projectId, taskId, this);
             return;
@@ -211,6 +215,18 @@ export default class Controller {
             Controller.initEditTaskButtons();
             return;
         }
+    }
+
+    static toggleTaskComplete(taskCard) {
+        const task = Controller.getCurrentTask(taskCard);
+        const taskBubble = taskCard.querySelector('.task-bubble');
+        const taskDetails = taskCard.querySelector('.task-details');
+
+        Storage.toggleTaskComplete(task);
+        
+        taskBubble.classList.toggle('completed');
+        taskDetails.classList.toggle('line-through');
+        taskDetails.classList.toggle('faded');
     }
 
     static deleteTask(projectId, taskId, taskCard) {

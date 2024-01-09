@@ -77,7 +77,7 @@ export default class Storage {
         this.saveTodoList(todoList);
     }
 
-    static toggleTaskCompleted(task) {
+    static toggleTaskComplete(task) {
         const todoList = this.getTodoList();
         todoList.getProject(task.projectId).getTask(task.taskId).setComplete();
         this.saveTodoList(todoList);

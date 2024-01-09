@@ -348,11 +348,17 @@ export default class CreateHtml {
 
         taskContainer.setAttribute('data-task', task.taskId);
 
-        const checkBubble = document.createElement('div');
-        checkBubble.classList.add('unchecked');
+        const taskBubble = document.createElement('div');
+        taskBubble.classList.add('task-bubble');
 
         const taskDetails = document.createElement('div');
         taskDetails.classList.add('task-details');
+
+        if (task.completed) {
+            taskBubble.classList.toggle('completed');
+            taskDetails.classList.toggle('line-through');
+            taskDetails.classList.toggle('faded');
+        }
 
         const titleElement = document.createElement('div');
         titleElement.classList.add('task-name');
@@ -390,7 +396,7 @@ export default class CreateHtml {
         taskActions.appendChild(editIcon);
         taskActions.appendChild(deleteIcon);
 
-        taskContainer.appendChild(checkBubble);
+        taskContainer.appendChild(taskBubble);
         taskContainer.appendChild(taskDetails);
         taskContainer.appendChild(dueDateElement);
         taskContainer.appendChild(taskActions);
