@@ -347,6 +347,7 @@ export default class CreateHtml {
         taskContainer.classList.add('task');
 
         taskContainer.setAttribute('data-task', task.taskId);
+        taskContainer.setAttribute('data-project', task.projectId);
 
         const taskBubble = document.createElement('div');
         taskBubble.classList.add('task-bubble');
@@ -379,8 +380,10 @@ export default class CreateHtml {
         dueDateElement.textContent = task.getDate();
 
         const starIcon = document.createElement('span');
-        starIcon.classList.add('material-symbols-outlined');
+        starIcon.classList.add('material-symbols-outlined', 'star-icon');
         starIcon.textContent = 'star';
+
+        if (task.important) starIcon.classList.add('important');
 
         const editIcon = document.createElement('span');
         editIcon.classList.add('material-symbols-outlined', 'edit');

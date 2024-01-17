@@ -27,6 +27,7 @@ export default class Controller {
     static openInboxTasks() {
         const projectId = this.getAttribute('data-project');
 
+        Storage.initTasksToInbox();
         Controller.openProject(projectId, this);
     }
 
@@ -45,6 +46,7 @@ export default class Controller {
     static openImportantTasks() {
         const projectId = this.getAttribute('data-project');
 
+        Storage.initTasksImportant();
         Controller.openProject(projectId, this);
     }
 
@@ -199,20 +201,21 @@ export default class Controller {
     }
 
     static handleTaskButton(e) {
-        const taskId = Number(this.getAttribute('data-task'));
-        const projectId = Controller.getCurrentProjectId();
-
         if (e.target.classList.contains('task-bubble')) {
             Controller.toggleTaskComplete(this);
             return;
         }
-        if (e.target.classList.contains('delete')) {
-            Controller.deleteTask(projectId, taskId, this);
+        if (e.target.classList.contains('star-icon')) {
+            Controller.toggleTaskImportant(this);
             return;
         }
         if (e.target.classList.contains('edit')) {
             Controller.openEditTaskForm(this);
             Controller.initEditTaskButtons();
+            return;
+        }
+        if (e.target.classList.contains('delete')) {
+            Controller.deleteTask(this);
             return;
         }
     }
@@ -229,7 +232,23 @@ export default class Controller {
         taskDetails.classList.toggle('faded');
     }
 
-    static deleteTask(projectId, taskId, taskCard) {
+    static toggleTaskImportant(taskCard) {
+        const task = Controller.getCurrentTask(taskCard);
+        const starIcon = taskCard.querySelector('.star-icon');
+        
+        Storage.toggleTaskImportant(task);
+        starIcon.classList.toggle('important');
+
+        const currentProject = document.querySelector('.active').getAttribute('data-project');
+        if (currentProject === 'important') {
+            taskCard.remove();
+        }
+    }
+
+    static deleteTask(taskCard) {
+        const taskId = Number(taskCard.getAttribute('data-task'));
+        const projectId = Controller.getProjectId(taskCard);
+
         Storage.deleteTask(projectId, taskId);
         taskCard.remove();
     }
@@ -251,7 +270,7 @@ export default class Controller {
 
     static initEditTaskButtons() {
         const editTaskButton = document.getElementById('edit-task-button');
-        const cancelEditButton = document.getElementById('cancel-edit-task-button')
+        const cancelEditButton = document.getElementById('cancel-edit-task-button');
 
         editTaskButton.addEventListener('click', Controller.editTask);
         cancelEditButton.addEventListener('click', Controller.closeEditTaskForm);
@@ -324,7 +343,12 @@ export default class Controller {
         e.preventDefault();
 
         const newTask = Controller.getAddTaskInput();
-        const currentProjectId = Controller.getCurrentProjectId();
+        // const currentProjectId = Controller.getCurrentProjectId();
+        let currentProjectId = document.querySelector('.active').getAttribute('data-project');
+
+        if (!isNaN(currentProjectId)) {
+            currentProjectId = Number(currentProjectId);
+        }
 
         newTask.projectId = currentProjectId;
         
@@ -336,9 +360,8 @@ export default class Controller {
     }
 
     // project functions 
-    static getCurrentProjectId() {
-        const projectButton = document.querySelector('.active');
-        const projectId = projectButton.getAttribute('data-project');
+    static getProjectId(taskCard) {
+        const projectId = (taskCard.getAttribute('data-project'));
 
         if (!isNaN(projectId)) {
             return Number(projectId);
@@ -349,7 +372,7 @@ export default class Controller {
     // task functions 
 
     static getCurrentTask(taskCard) {
-        const projectId = Controller.getCurrentProjectId();
+        const projectId = Controller.getProjectId(taskCard);
         const taskId = Number(taskCard.getAttribute('data-task'));
 
         return Storage.getTodoList().getProject(projectId).getTask(taskId);
