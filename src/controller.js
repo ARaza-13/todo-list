@@ -293,6 +293,21 @@ export default class Controller {
 
         Storage.editTask(currentTask, editedName, editedDescription, editedDueDate);
         Controller.editTaskCard(taskCard, editedName, editedDescription, editedDueDate);
+
+        const currentProject = document.querySelector('.active').getAttribute('data-project');;
+        if (currentProject === 'today') {
+            Storage.initTasksToday();
+            DOMManager.clearProjectContent();
+            DOMManager.loadProjectContent(currentProject);
+            return;
+        }
+        if (currentProject === 'week') {
+            Storage.initTasksThisWeek();
+            DOMManager.clearProjectContent();
+            DOMManager.loadProjectContent(currentProject);
+            return;
+        }
+
         Controller.closeEditTaskForm();
     }
 
