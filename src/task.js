@@ -51,7 +51,7 @@ class Task {
 
         // calculate the difference between the two dates (in milliseconds)
         // divide the result by total milliseconds in a day to get the difference converted in days
-        let days = Math.floor(((taskDate - startDate) / (24 * 60 * 60 * 1000))); 
+        let days = Math.floor(((taskDate - startDate) / (24 * 60 * 60 * 1000)) + 1); // +1 at the end to account being a day behind
 
         // divide the number of days by 7 to get the task week number
         let taskWeek = Math.ceil(days / 7);

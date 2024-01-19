@@ -108,9 +108,14 @@ export default class Storage {
         const todoList = this.getTodoList();
         todoList.getProject('today').setTasks([]);
 
-        todoList.getProject('inbox').getTasksToday().forEach((task) => {
-            todoList.getProject('today').addTask(task);
-        }); 
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                project.getTasksToday().forEach((task) => {
+                    todoList.getProject('today').addTask(task);
+                });
+            }
+        });
+
         this.saveTodoList(todoList);
     }
 
@@ -118,9 +123,14 @@ export default class Storage {
         const todoList = this.getTodoList();
         todoList.getProject('week').setTasks([])
 
-        todoList.getProject('inbox').getTasksThisWeek().forEach((task) => {
-            todoList.getProject('week').addTask(task);
-        }); 
+        todoList.getProjects().forEach((project) => {
+            if (!project.isDefault) {
+                project.getTasksThisWeek().forEach((task) => {
+                    todoList.getProject('week').addTask(task);
+                });
+            }
+        });
+
         this.saveTodoList(todoList);
     }
 

@@ -34,12 +34,14 @@ export default class Controller {
     static openTodayTasks() {
         const projectId = this.getAttribute('data-project');
 
+        Storage.initTasksToday();
         Controller.openProject(projectId, this);
     }
 
     static openWeekTasks() {
         const projectId = this.getAttribute('data-project');
 
+        Storage.initTasksThisWeek();
         Controller.openProject(projectId, this);
     }
 
