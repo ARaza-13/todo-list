@@ -87,7 +87,7 @@ export default class CreateHtml {
 
     static createDefaultProject(project) {
         const defaultProjectContainer = document.createElement('button');
-        defaultProjectContainer.classList.add('project');
+        defaultProjectContainer.classList.add('project', 'default');
         defaultProjectContainer.setAttribute('data-project', project.projectId);
         defaultProjectContainer.setAttribute('id', `${project.projectId}-project-button`);
         defaultProjectContainer.textContent = project.name;
