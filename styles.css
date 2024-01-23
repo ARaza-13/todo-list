@@ -8,8 +8,6 @@
     --important-color: #fec810;
     --edit-color: #16a34a;
     --delete-color: #dc2626;
-    --message-outline: 0 2px 5px rgba(0, 0, 0, 0.4);
-    --overlay-bg: rgba(0, 0, 0, 0.3); 
 }
 
 * {
@@ -19,7 +17,7 @@
     font-family: 'Alata', sans-serif;
 }
 
-/* Start of general */
+/* general */
 body {
     display: flex;
     flex-direction: column;
@@ -28,113 +26,6 @@ body {
 
 .hidden {
     display: none !important;
-}
-
-button {
-    width: 100%;
-    padding: 10px 20px;
-    border-radius: 5px;
-    border: 1px solid transparent;
-    cursor: pointer;
-}
-
-button:hover,
-.active {
-    background-color: var(--add-project-task-color);
-}
-
-/* dropdown menu actions */
-.task-actions,
-.project-actions {
-    display: flex;
-    gap: 8px;
-}
-
-.project-actions .material-symbols-outlined {
-    visibility: hidden;
-}
-
-.project:hover .material-symbols-outlined {
-    visibility: visible;
-}
-
-.material-symbols-outlined {
-    cursor: pointer;
-}
-
-.dropdown-menu {
-    position: absolute;
-    z-index: 2;
-    transform: translate(-85px, -75px);
-    box-shadow: var(--message-outline);
-}
-
-.edit-dropdown,
-.delete-dropdown {
-    padding: 5px;
-    border-radius: 0px;
-}
-
-.popup {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 20px;
-    background: white;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 8px;
-    box-shadow: var(--message-outline);
-    z-index: 2;
-}
-
-.input-popup,
-.select-popup {
-    border: 1px solid #aaa;
-    width: 100%;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-}
-
-.form-buttons {
-    display: flex;
-    gap: 20px;
-    width: 100%;
-}
-
-.submit-button {
-    border: 1px solid transparent;
-    background-color: var(--add-button-color);
-    font-weight: bold;
-}
-
-.submit-button:hover {
-    background-color: var(--add-button-color-dark);
-}
-
-.cancel-button {
-    border: 1px solid transparent;
-    background-color: var(--cancel-button-color);
-    font-weight: bold;
-}
-
-.cancel-button:hover {
-    background-color: var(--cancel-button-color-dark);
-}
-
-.overlay {
-    display: block;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: var(--overlay-bg);
-    z-index: 1;
 }
 
 /* heading */
@@ -172,17 +63,6 @@ button:hover,
     cursor: pointer;
 }
 
-/* add project form */
-.project-form {
-    padding: 10px;
-}
-
-.delete-message-popup {
-    width: 350px;
-    height: 150px;
-    padding: 30px 50px;
-}
-
 /* project content */
 .project-content {
     flex: 1;
@@ -193,11 +73,6 @@ button:hover,
     font-size: 2rem;
     margin-bottom: 10px;
     font-weight: bold;
-}
-
-.task-form {
-    text-align: center;
-    padding: 8px;
 }
 
 /* task card */
@@ -251,7 +126,26 @@ button:hover,
     text-decoration: line-through;
 }
 
-/* task and project hover actions */
+/* project and task actions */
+.task-actions,
+.project-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.project-actions .material-symbols-outlined {
+    visibility: hidden;
+}
+
+.project:hover .material-symbols-outlined {
+    visibility: visible;
+}
+
+.material-symbols-outlined {
+    cursor: pointer;
+}
+
+/* project and task actions (hovering) */
 .star-icon:hover {
     color: var(--important-color);
 }
@@ -266,4 +160,63 @@ button:hover,
 
 .delete:hover {
     color: var(--delete-color);
+}
+
+/* project and task form */
+.project-form {
+    padding: 10px;
+}
+
+.task-form {
+    text-align: center;
+    padding: 8px;
+}
+
+.input-popup {
+    border: 1px solid #aaa;
+    width: 100%;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+/* project and task buttons */
+button {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+}
+
+.submit-button {
+    border: 1px solid transparent;
+    background-color: var(--add-button-color);
+    font-weight: bold;
+}
+
+.cancel-button {
+    border: 1px solid transparent;
+    background-color: var(--cancel-button-color);
+    font-weight: bold;
+}
+
+/* project and task buttons (hovering) */
+button:hover,
+.active {
+    background-color: var(--add-project-task-color);
+}
+
+.submit-button:hover {
+    background-color: var(--add-button-color-dark);
+}
+
+.cancel-button:hover {
+    background-color: var(--cancel-button-color-dark);
 }
