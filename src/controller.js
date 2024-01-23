@@ -372,7 +372,6 @@ export default class Controller {
         newTask.projectId = currentProjectId;
         
         Storage.addTask(currentProjectId, newTask);
-        // CreateHtml.createTask(newTask);
         DOMManager.clearTasks();
         DOMManager.loadTasks(currentProjectId);
         Controller.closeTaskForm();

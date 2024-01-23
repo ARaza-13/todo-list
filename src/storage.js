@@ -1,7 +1,6 @@
 import Task from "./task";
 import Project from "./project";
 import TodoList from "./todolist";
-import { format, isEqual } from "date-fns";
 
 export default class Storage {
     constructor() {
