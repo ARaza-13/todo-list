@@ -1,13 +1,14 @@
 :root {
-    --add-button-color: #86efac;
-    --add-button-color-dark: #4ade80;
-    --cancel-button-color: #fca5a5;
-    --cancel-button-color-dark: #f87171;
-    --add-project-task-color: #d6d3d1;
-    --completed-color: #166534;
-    --important-color: #fec810;
-    --edit-color: #16a34a;
-    --delete-color: #dc2626;
+    --bg-dark-1: #12151c;
+    --bg-dark-2: #191d26;
+    --bg-dark-3: #1b222c;
+    --accent: #2abd67;
+    --accent-dark: #1f8d4d;
+    --text-light: #eaebec;
+    --text-dark: #09090b;
+    --cancel: #f87171;
+    --cancel-dark: #cd2f2f;
+    --important: #fec810;
 }
 
 * {
@@ -24,6 +25,11 @@ body {
     height: 100vh;
 }
 
+.active {
+    background-color: var(--accent);
+    font-weight: bold;
+}
+
 .hidden {
     display: none !important;
 }
@@ -32,6 +38,9 @@ body {
 .header {
     text-align: center;
     padding: 10px 20px;
+    background-color: var(--bg-dark-2);
+    color: var(--text-light);
+    border-bottom: solid 2px var(--accent-dark);
 }
 
 /* content */
@@ -42,15 +51,21 @@ body {
 
 /* nav projects */
 .nav {
+    background-color: var(--bg-dark-1);
     width: 350px;
     padding: 20px;
 }
 
 .projects-heading {
+    color: var(--text-light);
     font-size: 1.75rem;
     font-weight: bold;
     border-bottom: solid 2px;
     padding-bottom: 5px;
+    margin-top: 10px;
+}
+
+.projects {
     margin-top: 10px;
 }
 
@@ -61,18 +76,25 @@ body {
     text-align: left;
     padding: 10px 20px;
     cursor: pointer;
+    word-break: break-word;
 }
 
 /* project content */
 .project-content {
     flex: 1;
+    background-color: var(--bg-dark-3);
     padding: 25px 45px;
 }
 
 .project-header {
+    background-color: var(--accent-dark);
     font-size: 2rem;
+    padding: 20px;
     margin-bottom: 10px;
+    border-radius: 3px;
+    color: var(--text-light);
     font-weight: bold;
+    word-break: break-word;
 }
 
 /* task card */
@@ -84,6 +106,7 @@ body {
     padding: 5px;
     margin: 5px 0;
     border-radius: 4px;
+    color: var(--text-light);
 }
 
 .task-bubble {
@@ -95,7 +118,7 @@ body {
 }
 
 .important {
-    color: var(--important-color);
+    color: var(--important);
 }
 
 /* task info */
@@ -105,17 +128,20 @@ body {
 
 .task-name {
     font-size: 1.25rem;
+    word-break: break-word;
 }
 
 .task-description {
     font-size: 0.875rem;
     white-space: pre-wrap;
     overflow-wrap: normal;
+    word-break: break-word;
 }
 
 /* task completed */
 .completed {
-    background: var(--completed-color);
+    background: var(--accent);
+    border: none;
 }
 
 .faded {
@@ -147,19 +173,19 @@ body {
 
 /* project and task actions (hovering) */
 .star-icon:hover {
-    color: var(--important-color);
+    color: var(--important);
 }
 
 .important:hover {
-    color: initial;
+    color: var(--text-light);
 }
 
 .edit:hover {
-    color: var(--edit-color);
+    color: var(--accent);
 }
 
 .delete:hover {
-    color: var(--delete-color);
+    color: var(--cancel-dark);
 }
 
 /* project and task form */
@@ -170,6 +196,10 @@ body {
 .task-form {
     text-align: center;
     padding: 8px;
+}
+
+.form-header {
+    color: var(--text-light);
 }
 
 .input-popup {
@@ -186,6 +216,8 @@ button {
     padding: 10px 20px;
     border-radius: 5px;
     border: 1px solid transparent;
+    background-color: var(--bg-dark-1);
+    color: var(--text-light);
     cursor: pointer;
 }
 
@@ -195,28 +227,41 @@ button {
     width: 100%;
 }
 
+.add-project-button {
+    margin-top: 10px;
+}
+
+.add-task-button {
+    background-color: var(--bg-dark-3);
+}
+
 .submit-button {
     border: 1px solid transparent;
-    background-color: var(--add-button-color);
+    background-color: var(--accent);
+    color: var(--text-dark);
     font-weight: bold;
 }
 
 .cancel-button {
     border: 1px solid transparent;
-    background-color: var(--cancel-button-color);
+    background-color: var(--cancel);
+    color: var(--text-dark);
     font-weight: bold;
 }
 
 /* project and task buttons (hovering) */
-button:hover,
-.active {
-    background-color: var(--add-project-task-color);
+button:hover {
+    background-color: var(--bg-dark-2);
+}
+
+.active:hover {
+    background-color: var(--accent-dark);
 }
 
 .submit-button:hover {
-    background-color: var(--add-button-color-dark);
+    background-color: var(--accent-dark);
 }
 
 .cancel-button:hover {
-    background-color: var(--cancel-button-color-dark);
+    background-color: var(--cancel-dark);
 }

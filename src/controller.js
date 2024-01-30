@@ -93,7 +93,7 @@ export default class Controller {
         Storage.deleteProject(projectId);
 
         const currentProject = document.querySelector('.active');
-        if (projectButton.classList.contains('active') || currentProject.classList.contains('default')) {
+        if (projectButton.classList.contains('active') || (currentProject && currentProject.classList.contains('default'))) {
             DOMManager.clearProjectContent();
             currentProject.classList.remove('active');
         }
